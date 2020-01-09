@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-01-09T12:32:55.232Z</updated>
+  <updated>2020-01-09T12:43:32.049Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2020/01/09/test2/"/>
     <id>http://yoursite.com/2020/01/09/test2/</id>
     <published>2020-01-09T12:26:38.000Z</published>
-    <updated>2020-01-09T12:32:55.232Z</updated>
+    <updated>2020-01-09T12:43:32.049Z</updated>
     
     <content type="html"><![CDATA[<p>Contributions are welcome!</p><p>Fork it.<br>Create your feature branch: git checkout -b my-new-feature<br>Commit your changes: git commit -am ‘Add some feature’<br>Push to the branch: git push origin my-new-feature<br>Submit a pull request :D</p><a id="more"></a>]]></content>
     
@@ -41,14 +41,15 @@
     <link href="http://yoursite.com/2020/01/09/2010-01-01-test/"/>
     <id>http://yoursite.com/2020/01/09/2010-01-01-test/</id>
     <published>2020-01-09T10:34:25.000Z</published>
-    <updated>2020-01-09T12:32:55.232Z</updated>
+    <updated>2020-01-09T12:43:32.049Z</updated>
     
-    <content type="html"><![CDATA[<p>Contributions are welcome!</p><p>Fork it.<br>Create your feature branch: git checkout -b my-new-feature<br>Commit your changes: git commit -am ‘Add some feature’<br>Push to the branch: git push origin my-new-feature<br>Submit a pull request :D</p><a id="more"></a>]]></content>
+    <content type="html"><![CDATA[<p>Contributions are welcome!</p><p>Fork it.<br>Create your feature branch: git checkout -b my-new-feature<br>Commit your changes: git commit -am ‘Add some feature’<br>Push to the branch: git push origin my-new-feature<br>Submit a pull request :D</p><img src="/blog/2020/01/09/2010-01-01-test/test_image_1.png" class="" title="This is an example image"><a id="more"></a><p><img src="test_image_1.png" alt="this is image"></p>]]></content>
     
     <summary type="html">
     
       &lt;p&gt;Contributions are welcome!&lt;/p&gt;
 &lt;p&gt;Fork it.&lt;br&gt;Create your feature branch: git checkout -b my-new-feature&lt;br&gt;Commit your changes: git commit -am ‘Add some feature’&lt;br&gt;Push to the branch: git push origin my-new-feature&lt;br&gt;Submit a pull request :D&lt;/p&gt;
+&lt;img src=&quot;/blog/2020/01/09/2010-01-01-test/test_image_1.png&quot; class=&quot;&quot; title=&quot;This is an example image&quot;&gt;
     
     </summary>
     
