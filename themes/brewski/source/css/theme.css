@@ -121,8 +121,9 @@ header {
 
 header .branding {
   display: inline-block;
-  margin: .6em 0 0 0;
+  margin: .6em 0;
   position: relative;
+  font-size: 2em;
 }
 
 .logo-image:hover {
@@ -166,7 +167,6 @@ header .nav-list-item a {
 }
 
 .home.post-list {
-  margin: 2em 0;
   list-style: none;
 }
 .home.post-list .post-list-item {
@@ -264,8 +264,7 @@ header .nav-list-item a {
 
 .post-content h1,
 .post-block .post-title {
-  margin-top: 2em;
-  font-size: 3em;
+  font-size: 1.5em;
 }
 
 .post-content h2 {
@@ -391,7 +390,7 @@ header .nav-list-item a {
 }
 
 main.container {
-  margin: 2em .7em;
+  margin: 0em .7em;
   min-height: 30vh;
 }
 
