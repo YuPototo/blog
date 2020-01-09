@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-01-09T12:00:40.443Z</updated>
+  <updated>2020-01-09T12:14:16.324Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2020/01/09/2010-01-01-test/"/>
     <id>http://yoursite.com/2020/01/09/2010-01-01-test/</id>
     <published>2020-01-09T10:34:25.000Z</published>
-    <updated>2020-01-09T12:00:40.443Z</updated>
+    <updated>2020-01-09T12:14:16.324Z</updated>
     
     <content type="html"><![CDATA[<p>Contributions are welcome!</p><p>Fork it.<br>Create your feature branch: git checkout -b my-new-feature<br>Commit your changes: git commit -am ‘Add some feature’<br>Push to the branch: git push origin my-new-feature<br>Submit a pull request :D</p><a id="more"></a>]]></content>
     
