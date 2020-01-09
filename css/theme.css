@@ -264,26 +264,26 @@ header .nav-list-item a {
 
 .post-content h1,
 .post-block .post-title {
-  font-size: 1.5em;
+  font-size: 2em;
 }
 
 .post-content h2 {
-  margin-top: 1.8em;
-  font-size: 2.8em;
+  margin-top: 2em;
+  font-size: 1.5em;
 }
 
 .post-content h3 {
-  margin-top: 1.6em;
-  font-size: 2.6em;
+  margin-top: 1.9em;
+  font-size: 1.4em;
 }
 
 .post-content h4 {
-  margin-top: 1.4em;
-  font-size: 2.4em;
+  margin-top: 1.7em;
+  font-size: 1.3em;
 }
 
 .post-content h5 {
-  margin-top: 1.2em;
+  margin-top: 1.5em;
   font-size: 2.2em;
 }
 

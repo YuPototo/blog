@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-01-09T12:43:32.049Z</updated>
+  <updated>2020-01-09T15:59:13.943Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,39 +17,21 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>test2</title>
-    <link href="http://yoursite.com/2020/01/09/test2/"/>
-    <id>http://yoursite.com/2020/01/09/test2/</id>
-    <published>2020-01-09T12:26:38.000Z</published>
-    <updated>2020-01-09T12:43:32.049Z</updated>
+    <title>ggplot系列之一：散点图</title>
+    <link href="http://yoursite.com/2016/01/05/2016-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/"/>
+    <id>http://yoursite.com/2016/01/05/2016-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/</id>
+    <published>2016-01-05T13:52:50.000Z</published>
+    <updated>2020-01-09T15:59:13.943Z</updated>
     
-    <content type="html"><![CDATA[<p>Contributions are welcome!</p><p>Fork it.<br>Create your feature branch: git checkout -b my-new-feature<br>Commit your changes: git commit -am ‘Add some feature’<br>Push to the branch: git push origin my-new-feature<br>Submit a pull request :D</p><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Contributions are welcome!&lt;/p&gt;
-&lt;p&gt;Fork it.&lt;br&gt;Create your feature branch: git checkout -b my-new-feature&lt;br&gt;Commit your changes: git commit -am ‘Add some feature’&lt;br&gt;Push to the branch: git push origin my-new-feature&lt;br&gt;Submit a pull request :D&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>testTw</title>
-    <link href="http://yoursite.com/2020/01/09/2010-01-01-test/"/>
-    <id>http://yoursite.com/2020/01/09/2010-01-01-test/</id>
-    <published>2020-01-09T10:34:25.000Z</published>
-    <updated>2020-01-09T12:43:32.049Z</updated>
-    
-    <content type="html"><![CDATA[<p>Contributions are welcome!</p><p>Fork it.<br>Create your feature branch: git checkout -b my-new-feature<br>Commit your changes: git commit -am ‘Add some feature’<br>Push to the branch: git push origin my-new-feature<br>Submit a pull request :D</p><img src="/blog/2020/01/09/2010-01-01-test/test_image_1.png" class="" title="This is an example image"><a id="more"></a><p><img src="test_image_1.png" alt="this is image"></p>]]></content>
+    <content type="html"><![CDATA[<img src="/blog/2016/01/05/2016-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/plot_0.png" class="" title="一个散点图"><p>ggplot2 是 R 语言大神 Hardly Wickham 开发的数据可视化工具。Wickham 为数据可视化抽象出了一套“语法”，掌握这套语法后就可以系统性地生成可视化数据。</p><p>这个系列文章会介绍如何使用 ggplot2 做图。</p><p>本篇介绍最常见的散点图。</p><a id="more"></a><h2 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h2><p>每次我拿到数据的第一件事情，就是看看不同变量的散点图长啥样，看到散点图之后，就能对变量之间的关系做一定猜测了。</p><p>我们先准备一份用来画图的数据。</p><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">955</span>)</span><br><span class="line">obs_num &lt;- <span class="number">40</span></span><br><span class="line">dat &lt;- data.frame(cond = rep(c(<span class="string">"A"</span>, <span class="string">"B"</span>), each = obs_num / <span class="number">2</span>),</span><br><span class="line">                  x = <span class="number">1</span>:obs_num + rnorm(obs_num, sd = <span class="number">3</span>),</span><br><span class="line">                  y = <span class="number">1</span>:obs_num + rnorm(obs_num, sd = <span class="number">3</span>))</span><br></pre></td></tr></table></figure><p>我们的模拟数据有3个变量，x 和 y 是数字，cond 是一个 categorical 变量。</p><h2 id="最简单的散点图"><a href="#最简单的散点图" class="headerlink" title="最简单的散点图"></a>最简单的散点图</h2><p>下面画一个最简单的散点图。</p><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  labs(title = <span class="string">'这是一个最简单的散点图'</span>)</span><br></pre></td></tr></table></figure><p>结果如下图：<br><img src="plot_1.png" alt="最简单的散点图"></p><h2 id="添加拟合曲线"><a href="#添加拟合曲线" class="headerlink" title="添加拟合曲线"></a>添加拟合曲线</h2><p>有时我们想更清晰地看到数据趋势，ggplot 可以帮我们快速添加一条拟合曲线。</p><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  geom_smooth() +</span><br><span class="line">  labs(title = <span class="string">'带拟合曲线的散点图'</span>)</span><br></pre></td></tr></table></figure><p>结果如下图：</p><p><img src="plot_2.png" alt="添加拟合曲线的散点图"></p><h2 id="给不同组的点上色"><a href="#给不同组的点上色" class="headerlink" title="给不同组的点上色"></a>给不同组的点上色</h2><p>如果数据中有不同的分组，我们会想在散点图中看到不同组的情况。</p><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y, color = cond)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  labs(title = <span class="string">'需要用颜色分组的散点图'</span>,</span><br><span class="line">       color = <span class="string">'分组'</span>)</span><br></pre></td></tr></table></figure><p>结果如下图：</p><p><img src="plot_3.png" alt="带颜色的散点图"></p><h2 id="使用-facets"><a href="#使用-facets" class="headerlink" title="使用 facets"></a>使用 facets</h2><p>如果组别太多，上色可能会让人眼花缭乱，这时我们可以使用 facets。</p><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  facet_wrap(~ cond) +</span><br><span class="line">  labs(title = <span class="string">'使用 facets 的散点图'</span>)</span><br></pre></td></tr></table></figure><p>结果如下图：</p><p><img src="plot_4.png" alt="使用facet的散点图"></p><p>当然，我们也可以把颜色和 cond 结合，生成本文最开始的那张图片。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;Contributions are welcome!&lt;/p&gt;
-&lt;p&gt;Fork it.&lt;br&gt;Create your feature branch: git checkout -b my-new-feature&lt;br&gt;Commit your changes: git commit -am ‘Add some feature’&lt;br&gt;Push to the branch: git push origin my-new-feature&lt;br&gt;Submit a pull request :D&lt;/p&gt;
-&lt;img src=&quot;/blog/2020/01/09/2010-01-01-test/test_image_1.png&quot; class=&quot;&quot; title=&quot;This is an example image&quot;&gt;
+      &lt;img src=&quot;/blog/2016/01/05/2016-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/plot_0.png&quot; class=&quot;&quot; title=&quot;一个散点图&quot;&gt;
+
+&lt;p&gt;ggplot2 是 R 语言大神 Hardly Wickham 开发的数据可视化工具。Wickham 为数据可视化抽象出了一套“语法”，掌握这套语法后就可以系统性地生成可视化数据。&lt;/p&gt;
+&lt;p&gt;这个系列文章会介绍如何使用 ggplot2 做图。&lt;/p&gt;
+&lt;p&gt;本篇介绍最常见的散点图。&lt;/p&gt;
     
     </summary>
     
