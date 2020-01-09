@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>商业与数据</title>
+  
+  
+  <link href="/blog/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2020-01-09T11:41:40.983Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Yu Qin</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>testTw</title>
+    <link href="http://yoursite.com/2020/01/09/2010-01-01-test/"/>
+    <id>http://yoursite.com/2020/01/09/2010-01-01-test/</id>
+    <published>2020-01-09T10:34:25.000Z</published>
+    <updated>2020-01-09T11:41:40.983Z</updated>
+    
+    <content type="html"><![CDATA[<p>Contributions are welcome!</p><p>Fork it.<br>Create your feature branch: git checkout -b my-new-feature<br>Commit your changes: git commit -am ‘Add some feature’<br>Push to the branch: git push origin my-new-feature<br>Submit a pull request :D</p><p><img src="test_image_1.png" alt="测试图片"></p><p><img src="/2020/01/09/2010-01-01-test/test_image_1.png" alt="测试图片2"></p><a id="more"></a><p><img src="test_image_1.png" alt="测试图片3"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Contributions are welcome!&lt;/p&gt;
+&lt;p&gt;Fork it.&lt;br&gt;Create your feature branch: git checkout -b my-new-feature&lt;br&gt;Commit your changes: git commit -am ‘Add some feature’&lt;br&gt;Push to the branch: git push origin my-new-feature&lt;br&gt;Submit a pull request :D&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;test_image_1.png&quot; alt=&quot;测试图片&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2020/01/09/2010-01-01-test/test_image_1.png&quot; alt=&quot;测试图片2&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
