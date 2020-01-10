@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index, follow"><title>ggplot系列之：boxplot • 商业与数据</title><meta name="description" content="ggplot系列之：boxplot - Yu Qin"><link rel="icon" href="/blog/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset@3.0.1/nanoreset.min.css"><link rel="stylesheet" href="/blog/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/blog/atom.xml" title="商业与数据"><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml">
+</head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/blog/" title="商业与数据">商业与数据</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="https://github.com/YuPototo" target="_blank">GITHUB</a></li></ul></header><div class="barba-container"><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">ggplot系列之：boxplot</h1><div class="post-info"><a></a>2019-04-15</div><div class="post-content"><img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png" class="" title="各大俱乐部的工资结构">
+
+<p>数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。</p>
+<p>这时我们可以使用 boxplot。</p>
+<p>这里使用了 <a href="https://www.kaggle.com/karangadiya/fifa19/data" target="_blank" rel="noopener">Fifa 的球员数据集</a>。</p>
+<a id="more"></a>
+
+<h2 id="大球队的工资状况如何？"><a href="#大球队的工资状况如何？" class="headerlink" title="大球队的工资状况如何？"></a>大球队的工资状况如何？</h2><p>我们想展示几个大球队的工资状况，涉及两个变量：</p>
+<ul>
+<li>球队：categorical variable</li>
+<li>每个球员的工资：numerical variable</li>
+</ul>
+<p>我们先提取几个大俱乐部的数据，并把周薪修改为万欧：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要俱乐部</span></span><br><span class="line">clubs &lt;- c(<span class="string">'Real Madrid'</span>, <span class="string">'FC Barcelona'</span>, </span><br><span class="line">           <span class="string">'Manchester United'</span>, <span class="string">'Manchester City'</span>, <span class="string">'Liverpool'</span>, <span class="string">'Chelsea'</span>, <span class="string">'Arsenal'</span>,</span><br><span class="line">           <span class="string">'Borussia Dortmund'</span>, <span class="string">'FC Bayern München'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">wage_to_number &lt;- <span class="keyword">function</span>(wage) {</span><br><span class="line">  <span class="comment"># 把周薪转换成万欧</span></span><br><span class="line">  number_in_string &lt;- str_extract(wage, <span class="string">'\\d+'</span>)</span><br><span class="line">  number_in_1000 &lt;- as.numeric(number_in_string)</span><br><span class="line">  number_in_1000 * <span class="number">1000</span> / <span class="number">10000</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">sub_dat &lt;- dat %&gt;%</span><br><span class="line">  filter(Club %<span class="keyword">in</span>% clubs) %&gt;%</span><br><span class="line">  mutate(Wage = wage_to_number(Wage))</span><br></pre></td></tr></tbody></table></figure>
+
+<p>下面制作 boxplot：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ggplot(sub_dat) +</span><br><span class="line">  geom_boxplot(aes(x = Club, y = Wage)) +</span><br><span class="line">  labs(x = <span class="literal">NULL</span>,</span><br><span class="line">       y = <span class="string">'工资（周薪：万欧）'</span>,</span><br><span class="line">       title = <span class="string">'各大俱乐部的工资结构'</span>) +</span><br><span class="line">  coord_flip() </span><br></pre></td></tr></tbody></table></figure>
+
+<p>结果如图：</p>
+<img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_0.png" class="" title="各大俱乐部的工资结构">
+
+<p>从这个图可以看到：</p>
+<ul>
+<li>西超双雄、曼城和尤文图斯的工资中位数最高</li>
+<li>多特蒙德的工资水平最低，确实是这几个队里经济实力最低的</li>
+<li>利物浦、切尔西、阿森纳、拜仁在维持相对均衡的收入的同时，还允许超级巨星有高收入</li>
+<li>巴塞罗那有一个收入最高的家伙，不用想，当然是梅西啦</li>
+</ul>
+<h2 id="我们想标注出几个离群值"><a href="#我们想标注出几个离群值" class="headerlink" title="我们想标注出几个离群值"></a>我们想标注出几个离群值</h2><p>有几个球队有收入远远高于队友的球员，我们想看看他们究竟是谁（虽然猜也能猜到了 <span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f60a.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f60a.png?v8">😊</span>)，并把他们的名字标注在图片上。</p>
+<p>先清理数据：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">outliner_club &lt;- c(<span class="string">'FC Barcelona'</span>, <span class="string">'Liverpool'</span>, <span class="string">'Chelsea'</span>, <span class="string">'Arsenal'</span>, <span class="string">'FC Bayern München'</span>)</span><br><span class="line">outliner_player &lt;- sub_dat %&gt;% </span><br><span class="line">  filter(Club %<span class="keyword">in</span>% outliner_club) %&gt;%</span><br><span class="line">  group_by(Club) %&gt;%</span><br><span class="line">  filter(Wage == max(Wage))</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们提取出了几个有离群值的俱乐部收入最高的球员。</p>
+<p>然后，我们在图片上添加 label：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ggplot(sub_dat, aes(x = Club, y = Wage)) +</span><br><span class="line">  geom_boxplot() +</span><br><span class="line">  geom_label(data = outliner_player,</span><br><span class="line">             aes(label = Name),</span><br><span class="line">             nudge_x = <span class="number">0.25</span>,</span><br><span class="line">             nudge_y = <span class="number">0.25</span>, </span><br><span class="line">             label.size = <span class="number">0.1</span>) +</span><br><span class="line">  labs(x = <span class="literal">NULL</span>,</span><br><span class="line">       y = <span class="string">'工资（周薪：万欧）'</span>,</span><br><span class="line">       title = <span class="string">'各大俱乐部的工资结构'</span>) +</span><br><span class="line">  coord_flip() </span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>结果如下：</p>
+<img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_1.png" class="" title="各大俱乐部的工资结构+离群值">
+
+<p>各个全队的异常高收入球员如下：</p>
+<ul>
+<li>巴萨：梅西</li>
+<li>切尔西：C罗</li>
+<li>拜仁：J罗</li>
+<li>利物浦：萨拉赫</li>
+<li>切尔西：阿扎尔</li>
+<li>阿森纳：奥巴梅杨</li>
+</ul>
+<p>有意思的是，利物浦的最高薪球员萨拉赫，薪资水平在皇马也只属于前1/4，在巴萨甚至不到梅西的一半。可见西超双雄的购买力了。</p>
+<h2 id="给曼联上色"><a href="#给曼联上色" class="headerlink" title="给曼联上色"></a>给曼联上色</h2><p>作为一个曼联球迷，我想给曼联的 box 涂上曼联红色，然后给死敌利物浦涂上他们死敌埃弗顿的蓝色 <span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8">😃</span>，我该怎么办呢？</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sub_dat &lt;- sub_dat %&gt;%</span><br><span class="line">  mutate(isManU = case_when(</span><br><span class="line">    Club == <span class="string">'Manchester United'</span> ~ <span class="string">'ManU'</span>,</span><br><span class="line">    Club == <span class="string">'Liverpool'</span> ~ <span class="string">'Liv'</span>,</span><br><span class="line">    <span class="literal">TRUE</span> ~ <span class="string">'rest'</span></span><br><span class="line">    ))</span><br><span class="line"></span><br><span class="line">ggplot(sub_dat) +</span><br><span class="line">  geom_boxplot(aes(x = Club, y = Wage, fill=isManU)) +</span><br><span class="line">  scale_fill_manual(breaks = c(<span class="string">"Liv"</span>, <span class="string">"ManU"</span>, <span class="string">"rest"</span>), </span><br><span class="line">                    values=c(<span class="string">"#003399"</span>, <span class="string">"#DA291C"</span>, <span class="string">"white"</span>)) +</span><br><span class="line">  labs(x = <span class="literal">NULL</span>,</span><br><span class="line">       y = <span class="string">'工资（周薪：万欧）'</span>,</span><br><span class="line">       title = <span class="string">'各大俱乐部的工资结构'</span>) +</span><br><span class="line">  coord_flip()  +</span><br><span class="line">  theme(legend.position = <span class="string">"none"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>结果如下图：</p>
+<img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png" class="" title="各大俱乐部的工资结构">
+
+
+<p>希望利物浦球迷看到了不要打我 <span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4a3.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a3.png?v8">💣</span></p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div></article></div></main><footer><div class="paginator"><a class="next" href="/blog/2018/05/06/2018-05-07-%E6%95%B0%E6%8D%AE%E5%9B%A2%E9%98%9F/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
+    Barba.Pjax.start()
+})</script></body></html>

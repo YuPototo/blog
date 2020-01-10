@@ -8,30 +8,48 @@
 
 <h2 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h2><p>每次我拿到数据的第一件事情，就是看看不同变量的散点图长啥样，看到散点图之后，就能对变量之间的关系做一定猜测了。</p>
 <p>我们先准备一份用来画图的数据。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">955</span>)</span><br><span class="line">obs_num &lt;- <span class="number">40</span></span><br><span class="line">dat &lt;- data.frame(cond = rep(c(<span class="string">"A"</span>, <span class="string">"B"</span>), each = obs_num / <span class="number">2</span>),</span><br><span class="line">                  x = <span class="number">1</span>:obs_num + rnorm(obs_num, sd = <span class="number">3</span>),</span><br><span class="line">                  y = <span class="number">1</span>:obs_num + rnorm(obs_num, sd = <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">955</span>)</span><br><span class="line">obs_num &lt;- <span class="number">40</span></span><br><span class="line">dat &lt;- data.frame(cond = rep(c(<span class="string">"A"</span>, <span class="string">"B"</span>), each = obs_num / <span class="number">2</span>),</span><br><span class="line">                  x = <span class="number">1</span>:obs_num + rnorm(obs_num, sd = <span class="number">3</span>),</span><br><span class="line">                  y = <span class="number">1</span>:obs_num + rnorm(obs_num, sd = <span class="number">3</span>))</span><br></pre></td></tr></tbody></table></figure>
 
 <p>我们的模拟数据有3个变量，x 和 y 是数字，cond 是一个 categorical 变量。</p>
 <h2 id="最简单的散点图"><a href="#最简单的散点图" class="headerlink" title="最简单的散点图"></a>最简单的散点图</h2><p>下面画一个最简单的散点图。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  labs(title = <span class="string">'这是一个最简单的散点图'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  labs(title = <span class="string">'这是一个最简单的散点图'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>结果如下图：<br><img src="plot_1.png" alt="最简单的散点图"></p>
 <h2 id="添加拟合曲线"><a href="#添加拟合曲线" class="headerlink" title="添加拟合曲线"></a>添加拟合曲线</h2><p>有时我们想更清晰地看到数据趋势，ggplot 可以帮我们快速添加一条拟合曲线。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  geom_smooth() +</span><br><span class="line">  labs(title = <span class="string">'带拟合曲线的散点图'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  geom_smooth() +</span><br><span class="line">  labs(title = <span class="string">'带拟合曲线的散点图'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>结果如下图：</p>
 <p><img src="plot_2.png" alt="添加拟合曲线的散点图"></p>
 <h2 id="给不同组的点上色"><a href="#给不同组的点上色" class="headerlink" title="给不同组的点上色"></a>给不同组的点上色</h2><p>如果数据中有不同的分组，我们会想在散点图中看到不同组的情况。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y, color = cond)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  labs(title = <span class="string">'需要用颜色分组的散点图'</span>,</span><br><span class="line">       color = <span class="string">'分组'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y, color = cond)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  labs(title = <span class="string">'需要用颜色分组的散点图'</span>,</span><br><span class="line">       color = <span class="string">'分组'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>结果如下图：</p>
 <p><img src="plot_3.png" alt="带颜色的散点图"></p>
 <h2 id="使用-facets"><a href="#使用-facets" class="headerlink" title="使用 facets"></a>使用 facets</h2><p>如果组别太多，上色可能会让人眼花缭乱，这时我们可以使用 facets。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  facet_wrap(~ cond) +</span><br><span class="line">  labs(title = <span class="string">'使用 facets 的散点图'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  facet_wrap(~ cond) +</span><br><span class="line">  labs(title = <span class="string">'使用 facets 的散点图'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>结果如下图：</p>
 <p><img src="plot_4.png" alt="使用facet的散点图"></p>
 <p>当然，我们也可以把颜色和 cond 结合起来，生成本文最开始那张图片。代码如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y, color = cond)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  facet_wrap(~ cond)</span><br></pre></td></tr></table></figure>
-</div></article></div></main><footer><div class="paginator"><a class="prev" href="/blog/2017/02/03/2017-02-03-ggplot-mosaic/">prev</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ggplot(dat, aes(x = x, y = y, color = cond)) + </span><br><span class="line">  geom_point() + </span><br><span class="line">  facet_wrap(~ cond)</span><br></pre></td></tr></tbody></table></figure>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div></article></div></main><footer><div class="paginator"><a class="prev" href="/blog/2017/02/03/2017-02-03-ggplot-mosaic/">prev</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
     Barba.Pjax.start()
 })</script></body></html>

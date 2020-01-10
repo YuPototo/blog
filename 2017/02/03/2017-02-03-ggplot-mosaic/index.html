@@ -11,7 +11,7 @@
 <p>ggplot2 可以用柱状图（geom_bar）的方法生成 mosaic 图，需要对参数做一些调整。</p>
 <p>但聪明的开发者们早已经基于 ggplot 封装了一个包：ggmosaic。我们可以像调用 geom_bar 一样调用 geom_mosaic。</p>
 <p>我们先安装 ggmosaic 包：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">'ggmosaic'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">'ggmosaic'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>这里使用的是 ggmosaic 包里的 <a href="https://www.rdocumentation.org/packages/ggmosaic/versions/0.2.0/topics/fly" target="_blank" rel="noopener">fly 数据集</a>。</p>
 <p>Fly 数据集调查了乘飞机的礼貌问题，比如：</p>
@@ -24,7 +24,7 @@
 <h2 id="问题1：态度和行为的关系"><a href="#问题1：态度和行为的关系" class="headerlink" title="问题1：态度和行为的关系"></a>问题1：态度和行为的关系</h2><p>我想了解的问题是：觉得倾斜座椅很粗鲁都人，自己会倾斜座椅吗？换句话说，大家言行合一吗？</p>
 <p>我的猜测是：觉得倾斜椅子粗鲁的人，自己应该也不怎么会倾斜椅子。</p>
 <p>代码如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ggplot(data = fly) + </span><br><span class="line">  geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline)) +</span><br><span class="line">  labs(title = <span class="string">'倾斜座椅的态度 vs 行为'</span>,</span><br><span class="line">       x = <span class="string">'你觉得倾斜座椅粗鲁吗'</span>, </span><br><span class="line">       y = <span class="string">'你倾斜座椅吗'</span>,</span><br><span class="line">       fill = <span class="string">'你倾斜座椅吗'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ggplot(data = fly) + </span><br><span class="line">  geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline)) +</span><br><span class="line">  labs(title = <span class="string">'倾斜座椅的态度 vs 行为'</span>,</span><br><span class="line">       x = <span class="string">'你觉得倾斜座椅粗鲁吗'</span>, </span><br><span class="line">       y = <span class="string">'你倾斜座椅吗'</span>,</span><br><span class="line">       fill = <span class="string">'你倾斜座椅吗'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>图片如下（为了 x 轴坐标的展示，图片拉长了）：</p>
 <img src="/blog/2017/02/03/2017-02-03-ggplot-mosaic/plot_1.png" class="" title="态度和行为">
@@ -38,7 +38,7 @@
 <p>这让我产生了一个猜想：有小孩的人会更能容忍别人带小宝宝。</p>
 <p>为了验证这个假设，我们对上面两个变量做个 mosaic 图。</p>
 <p>代码如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ggplot(data = fly) + </span><br><span class="line">  geom_mosaic(aes(x = product(Child18), fill=RudeToBringBaby)) +</span><br><span class="line">  labs(title = <span class="string">'“有小孩"和"觉得带小宝宝乘飞机粗鲁吗"的关系'</span>,</span><br><span class="line">       x = <span class="string">'你有18岁以下的小孩吗'</span>, </span><br><span class="line">       y = <span class="string">'带小宝宝乘飞机粗鲁吗'</span>,</span><br><span class="line">       fill = <span class="string">'带小宝宝乘飞机粗鲁吗'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ggplot(data = fly) + </span><br><span class="line">  geom_mosaic(aes(x = product(Child18), fill=RudeToBringBaby)) +</span><br><span class="line">  labs(title = <span class="string">'“有小孩"和"觉得带小宝宝乘飞机粗鲁吗"的关系'</span>,</span><br><span class="line">       x = <span class="string">'你有18岁以下的小孩吗'</span>, </span><br><span class="line">       y = <span class="string">'带小宝宝乘飞机粗鲁吗'</span>,</span><br><span class="line">       fill = <span class="string">'带小宝宝乘飞机粗鲁吗'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>图片结果如下：</p>
 <img src="/blog/2017/02/03/2017-02-03-ggplot-mosaic/plot_2.png" class="" title="带宝宝乘飞机">
@@ -47,10 +47,10 @@
 <h2 id="问题3：年纪越大是否越能忍受小孩呢？"><a href="#问题3：年纪越大是否越能忍受小孩呢？" class="headerlink" title="问题3：年纪越大是否越能忍受小孩呢？"></a>问题3：年纪越大是否越能忍受小孩呢？</h2><p>我想到一个新问题，是否年纪越大的人越能忍受小孩呢？</p>
 <p>这个问题需要两个变量：</p>
 <ul>
-<li>年龄，在这里也是 categorical data</li>
+<li>年龄，在这里也是 categorical data （严格得说是 ordinal data，这里的变量都是，但这里不做区分）</li>
 <li>你觉得带小宝宝坐飞机粗鲁吗</li>
 </ul>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ggplot(data = fly) + </span><br><span class="line">  geom_mosaic(aes(x = product(Age), fill=RudeToBringBaby)) +</span><br><span class="line">  labs(title = <span class="string">'"年龄"和“觉得带小宝宝乘飞机粗鲁吗”的关系'</span>,</span><br><span class="line">       x = <span class="string">'你的年龄'</span>, </span><br><span class="line">       y = <span class="string">'带小宝宝乘飞机粗鲁吗'</span>,</span><br><span class="line">       fill = <span class="string">'带小宝宝乘飞机粗鲁吗'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ggplot(data = fly) + </span><br><span class="line">  geom_mosaic(aes(x = product(Age), fill=RudeToBringBaby)) +</span><br><span class="line">  labs(title = <span class="string">'"年龄"和“觉得带小宝宝乘飞机粗鲁吗”的关系'</span>,</span><br><span class="line">       x = <span class="string">'你的年龄'</span>, </span><br><span class="line">       y = <span class="string">'带小宝宝乘飞机粗鲁吗'</span>,</span><br><span class="line">       fill = <span class="string">'带小宝宝乘飞机粗鲁吗'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
 <p>图片结果如下：</p>
@@ -62,6 +62,24 @@
 <li>Mosaic 图适合用在两个 categorical variable 的展示上</li>
 <li>ggmosaic 是个基于 ggplot 的 package，能方便地制作 mosaic 图</li>
 </ul>
-</div></article></div></main><footer><div class="paginator"><a class="prev" href="/blog/2017/03/04/2017-03-05-closure/">prev</a><a class="next" href="/blog/2017/01/05/2017-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div></article></div></main><footer><div class="paginator"><a class="prev" href="/blog/2017/03/04/2017-03-05-closure/">prev</a><a class="next" href="/blog/2017/01/05/2017-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
     Barba.Pjax.start()
 })</script></body></html>
