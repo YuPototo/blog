@@ -89,7 +89,7 @@ ggplot(data = fly) +
 我想到一个新问题，是否年纪越大的人越能忍受小孩呢？
 
 这个问题需要两个变量：
-- 年龄，在这里也是 categorical data
+- 年龄，在这里也是 categorical data （严格得说是 ordinal data，这里的变量都是，但这里不做区分）
 - 你觉得带小宝宝坐飞机粗鲁吗
 
 {% codeblock lang:r %}
