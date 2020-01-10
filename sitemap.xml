@@ -2,23 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2017/01/05/2017-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/</loc>
-    
-    <lastmod>2020-01-10T19:40:23.499Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2017/03/04/2017-03-05-closure/</loc>
     
-    <lastmod>2020-01-10T19:40:23.499Z</lastmod>
+    <lastmod>2020-01-10T20:48:27.848Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2018/05/06/2018-05-07-%E6%95%B0%E6%8D%AE%E5%9B%A2%E9%98%9F/</loc>
     
-    <lastmod>2020-01-10T19:40:23.499Z</lastmod>
+    <lastmod>2020-01-10T20:48:27.848Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/01/05/2017-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/</loc>
+    
+    <lastmod>2020-01-10T20:48:27.844Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/02/03/2017-02-03-ggplot-mosaic/</loc>
+    
+    <lastmod>2020-01-10T20:48:27.844Z</lastmod>
     
   </url>
   
