@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index, follow"><title>增长黑客之数学模型：第1篇 - 纯裂变模型 • 商业与数据</title><meta name="description" content="增长黑客之数学模型：第1篇 - 纯裂变模型 - Yu Qin"><link rel="icon" href="/blog/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset@3.0.1/nanoreset.min.css"><link rel="stylesheet" href="/blog/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/blog/atom.xml" title="商业与数据"><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/blog/" title="商业与数据">商业与数据</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="https://github.com/YuPototo" target="_blank">GITHUB</a></li></ul></header><div class="barba-container"><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">增长黑客之数学模型：第1篇 - 纯裂变模型</h1><div class="post-info"><a></a>2019-10-03</div><div class="post-content"><img src="/blog/2019/10/03/2019-10-03-userGrow-1/plot_0.png" class="" title="病毒系数的影响">
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>增长黑客是近几年非常火爆的概念，指利用各种技术手段和产品手段帮助产品实现快速增长的人。其实在这个概念出现之前，增长就已经是一个技术和产品的混合领域了。</p>
+<p>按照增长黑客的理念，用户增长的起点不是从市场营销阶段开始，而是从产品的设计阶段就做了规划。比如，当今的所有产品都会考虑用户的自发推广。</p>
+<p>这个系列文章会建立一套增长黑客的数学模型，帮助我们更好地理解增长。</p>
+<p>我们先从最简单的世界开始。</p>
+<p><strong>在这个“创世篇”里，所有产品都只能在发布时做一次市场营销，之后的新用户都必须来自老用户的推荐。</strong> 这个世界的增长故事会长成什么样呢？</p>
+<p><a id="more"></a></p>
+<h2 id="建立模型"><a href="#建立模型" class="headerlink" title="建立模型"></a>建立模型</h2><p>我们的模型有几个变量：</p>
+<ul>
+<li>第0期的用户数 C_0：最开始的用户数</li>
+<li>人均邀请数 i：每个<strong>新</strong>用户发出去的邀请人数</li>
+<li>感染率 Conv%：一个百分数，指每次邀请的成功率</li>
+</ul>
+<p>这里有个重要假设：每个周期只有新用户会发出邀请。相比于所有用户会在每个周期都发出邀请，这是个更合理的假设。</p>
+<p>场景：每一个周期，每个新用户会邀请 i 个用户，这些用户有 Conv% 的概率会成功变成我们的用户。问题：到了第 t 期，我们的总用户会有多少个呢？</p>
+<p>进一步计算前，我们就需要提到一个著名的概念<strong>病毒因子</strong>，病毒因子的公式是：<strong>人均邀请数 * 感染率%</strong>。</p>
+<p>比如，如果人均邀请数是 10，感染率是 20%，那么第 t 期的每个新用户在第 t + 1 期会给我们带来 2 个新用户，这时病毒因子是 2。</p>
+<p>理解了这个定义后，我们就能定义一个数学模型了。</p>
+<ul>
+<li>第 t 期的新用户数 = 第 t - 1 期的新用户数 * 病毒系数</li>
+<li>第 t 期的总用户数 = 第 t - 1 期的总用户数 + 第 t 期的新用户数</li>
+</ul>
+<h2 id="R-代码"><a href="#R-代码" class="headerlink" title="R 代码"></a>R 代码</h2><p>我们可以用 R 写一套函数，根据不同参数计算总的裂变结果：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">get_new_customer &lt;- <span class="keyword">function</span>(new_customer_last, i, conv) {</span><br><span class="line">  viral_coef &lt;- i * conv</span><br><span class="line">  <span class="keyword">return</span>(new_customer_last * viral_coef)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">get_cycle_data &lt;- <span class="keyword">function</span>(customer_0, i, conv, t) {</span><br><span class="line">  df &lt;- data.frame(matrix(ncol = <span class="number">3</span>, nrow = t))</span><br><span class="line">  colnames(df) &lt;- c(<span class="string">'cycle'</span>, <span class="string">'new_user'</span>, <span class="string">'total_user'</span>)</span><br><span class="line">  </span><br><span class="line">  customer_total &lt;- customer_0</span><br><span class="line">  new_customer_last &lt;- customer_0</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span> ( t_i <span class="keyword">in</span> <span class="number">1</span>:t) {</span><br><span class="line">    customer_new &lt;- get_new_customer(new_customer_last, i, conv)</span><br><span class="line">    customer_total &lt;- customer_total + customer_new</span><br><span class="line">    new_customer_last &lt;- customer_new</span><br><span class="line">    df[t_i, ] &lt;- list(t_i, customer_new, customer_total)</span><br><span class="line">  }</span><br><span class="line">  <span class="keyword">return</span>(df)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我在这里写了两个函数。</p>
+<ul>
+<li>第一个函数会根据上一期的用户数、人均邀请数、感染率计算当期新用户</li>
+<li>第二个函数会完整返回整个周期的新用户数、总用户数</li>
+</ul>
+<h2 id="病毒系数-1-时"><a href="#病毒系数-1-时" class="headerlink" title="病毒系数 = 1 时"></a>病毒系数 = 1 时</h2><p>我们先用第一组参数测试：</p>
+<ul>
+<li>t = 0 时，新用户有10个人</li>
+<li>人均邀请数 = 10</li>
+<li>感染率 = 10%</li>
+</ul>
+<p>此时病毒系数为 1，经过12个周期后，用户数据长什么样呢？</p>
+<table>
+<thead>
+<tr>
+<th align="center">周期</th>
+<th align="center">新用户</th>
+<th align="center">总用户</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">10</td>
+<td align="center">20</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">10</td>
+<td align="center">30</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">10</td>
+<td align="center">40</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">10</td>
+<td align="center">50</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">10</td>
+<td align="center">60</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">10</td>
+<td align="center">70</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">10</td>
+<td align="center">80</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">10</td>
+<td align="center">90</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">10</td>
+<td align="center">100</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">10</td>
+<td align="center">110</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">10</td>
+<td align="center">120</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">10</td>
+<td align="center">130</td>
+</tr>
+</tbody></table>
+<p>可以看到，每个周期的新用户数只有10个，12个周期后，用户只有130个。</p>
+<p>从数学上来说，病毒系数等于1意味着：</p>
+<ul>
+<li>用户会有自然增长</li>
+<li>用户每期的增长速度平缓，是线性的</li>
+<li>从产品上来所，这不是个令人兴奋的场景</li>
+</ul>
+<h2 id="病毒系数-0-5-时"><a href="#病毒系数-0-5-时" class="headerlink" title="病毒系数 = 0.5 时"></a>病毒系数 = 0.5 时</h2><p>上一个产品的数据太差，我们换了个新产品。但因为产品设计问题，这个产品的用户没有那么强的分享欲望，人均分享减半了。</p>
+<p>参数如下：</p>
+<ul>
+<li>t = 0 时，新用户有10个人</li>
+<li>人均邀请数 = 5</li>
+<li>感染率 = 10%</li>
+</ul>
+<p>结果如下（因为是数学模型，所以不用在乎0.5个人的问题）：</p>
+<table>
+<thead>
+<tr>
+<th align="center">周期</th>
+<th align="center">新用户</th>
+<th align="center">总用户</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">5.00</td>
+<td align="center">15.00</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">2.50</td>
+<td align="center">17.50</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">1.25</td>
+<td align="center">18.75</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">0.62</td>
+<td align="center">19.38</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">0.31</td>
+<td align="center">19.69</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">0.16</td>
+<td align="center">19.84</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">0.08</td>
+<td align="center">19.92</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">0.04</td>
+<td align="center">19.96</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">0.02</td>
+<td align="center">19.98</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">0.01</td>
+<td align="center">19.99</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">0.00</td>
+<td align="center">20.00</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">0.00</td>
+<td align="center">20.00</td>
+</tr>
+</tbody></table>
+<p>在病毒系数等于0.5时，产品的用户数很快会停止增长，理论上的最大值是20个人，仅仅是初期用户数的两倍。谁都不希望开发这样的产品。</p>
+<h2 id="病毒系数-2-时"><a href="#病毒系数-2-时" class="headerlink" title="病毒系数 = 2 时"></a>病毒系数 = 2 时</h2><p>上一个产品的数据让老板无法忍受，也是我们开发了一个新产品。我们优化了邀请的截图和文案，让邀请的感染率上升到了15%。</p>
+<p>参数如下：</p>
+<ul>
+<li>t = 0 时，新用户有10个人</li>
+<li>人均邀请数 = 10</li>
+<li>感染率 = 20%</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">周期</th>
+<th align="center">新用户</th>
+<th align="center">总用户</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">20</td>
+<td align="center">30</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">40</td>
+<td align="center">70</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">80</td>
+<td align="center">150</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">160</td>
+<td align="center">310</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">320</td>
+<td align="center">630</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">640</td>
+<td align="center">1270</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">1280</td>
+<td align="center">2550</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">2560</td>
+<td align="center">5110</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">5120</td>
+<td align="center">10230</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">10240</td>
+<td align="center">20470</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">20480</td>
+<td align="center">40950</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">40960</td>
+<td align="center">81910</td>
+</tr>
+</tbody></table>
+<p>病毒系数等于2时，12个周期后，产品的总用户数会达到8.1万。最神奇的是，用户数在某个周期几乎是翻倍增长。如果你碰到这样的产品，恭喜你，你离财富自由已经不远了。</p>
+<h2 id="用图片病毒系数的差距的影响"><a href="#用图片病毒系数的差距的影响" class="headerlink" title="用图片病毒系数的差距的影响"></a>用图片病毒系数的差距的影响</h2><p>病毒系数不大于1，理论上我们实现不了自然增长和裂变。我们直到病毒系数越大越好，可是当病毒系数的大于1时，每增加0.2，究竟会有多大影响呢？</p>
+<p>我们把这个数据用图片表示出来。</p>
+<img src="/blog/2019/10/03/2019-10-03-userGrow-1/plot_1.png" class="" title="病毒系数的影响">
+
+<p>虽然只是0.2的差异，但12个周期之后，不同病毒系数的表现是天壤之别。如果你对指数增长有所了解，应该会发现病毒系数较高时，用户增长是指数形式的。在指数模型下，每1个点的增长，都会是长期来看巨大的增长。</p>
+<h2 id="模型的实践意义"><a href="#模型的实践意义" class="headerlink" title="模型的实践意义"></a>模型的实践意义</h2><p>这个简单的模型告诉我们：</p>
+<ul>
+<li><strong>病毒系数是裂变模型里最重要的因素</strong></li>
+<li>要<strong>统计</strong>产品的人均邀请数和的感染率</li>
+<li>不断<strong>优化</strong>人均邀请数和感染率</li>
+</ul>
+<p>不要小看这个实践意义，很多产品是完全没有统计邀请用户邀请数和邀请成功率的，如果连基本的“测量”都不做，又怎么谈得上基于数据的优化呢？</p>
+<blockquote>
+<p>If you can’t measure it, you can’t improve it.</p>
+</blockquote>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div></article></div></main><footer><div class="paginator"><a class="next" href="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
+    Barba.Pjax.start()
+})</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
