@@ -92,6 +92,8 @@ ignore:
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
+plugins: hexo-renderer-mathjax
+
 ## Themes: https://hexo.io/themes/
 theme: brewski
 theme_config:
@@ -113,3 +115,4 @@ githubEmojis:
   inject: true
   styles:
   customEmojis:
+
