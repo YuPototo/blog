@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index, follow"><title>常用概率分布模型 • 商业与数据</title><meta name="description" content="常用概率分布模型 - Yu Qin"><link rel="icon" href="/blog/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset@3.0.1/nanoreset.min.css"><link rel="stylesheet" href="/blog/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/blog/atom.xml" title="商业与数据"><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/blog/" title="商业与数据">商业与数据</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="https://github.com/YuPototo" target="_blank">GITHUB</a></li></ul></header><div class="barba-container"><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">常用概率分布模型</h1><div class="post-info"><a></a>2017-09-13</div><div class="post-content"><p>最近复习统计学，最大的感触是，没有实践场景的理论知识是没有意义的。在学校上学的时候，我们会去“记忆”每个分布的公式、期望、方差，然后考试的时候解答出来。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>我们用这个方式去学习，是因为考试只能这么考，记忆好需要的东西后，考试就能通过了。但这些概率分布对社会的真正价值，其实是它们能够“解决”的问题。</p>
+<p>分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。</p>
+<p>这篇文章里，我会小结常用分布及其能描述的问题。</p>
+<p><a id="more"></a></p>
+<h2 id="伯努利分布-Bernoulli-Distribution"><a href="#伯努利分布-Bernoulli-Distribution" class="headerlink" title="伯努利分布 Bernoulli Distribution"></a>伯努利分布 Bernoulli Distribution</h2><p>符合伯努利分布的随机试验只有两种结果：1 或 0。最典型的伯努利分布是抛硬币，结果要么正面要么反面。</p>
+<p>设 1 是成功，成功率 p 就是伯努利分布的期望。</p>
+<p>游戏里的伯努利分布：</p>
+<ul>
+<li>Moba 游戏里里玩家进行一场比赛的结果，如果一名玩家是大神，可以预期他的胜率超过50%。这是胜率期望。</li>
+<li>Free to Play 游戏里玩家是否是付费用户，我们可以据此计算玩法的付费率</li>
+</ul>
+<p>伯努利分布是一个基础分布，之后的几个分布都基于伯努利试验推导出。</p>
+<h2 id="几何分布-Geometric-Distribution"><a href="#几何分布-Geometric-Distribution" class="headerlink" title="几何分布 Geometric Distribution"></a>几何分布 Geometric Distribution</h2><p>几何分布用来描述这个问题：设计一系列试验，试验只有两种结果，需要多少次试验才能观察到一个成功的试验。</p>
+<p>几何分布的例子：假设某男生追求女生的概率是10%，男生追求第5个女生时获得成功的概率是多少呢？</p>
+<p>公式：p(5） = 0.9 ^ 4 * 0.1 = 6.6%</p>
+<p>当然，这不是一个那么有趣的例子，除了菠菜行业，其他互联网产品用到这个分布的机会应该不大。</p>
+<h2 id="二项分布-Binomial-Distribution"><a href="#二项分布-Binomial-Distribution" class="headerlink" title="二项分布 Binomial Distribution"></a>二项分布 Binomial Distribution</h2><p>二项分布应该是最实用的分布之一，它描述的问题是：每次试验有两个结果，成功或失败，n 次试验后成功 k 次的概率有多少？</p>
+<p>我们继续用之前的场景：男生追求女生5次，成功1次的概率有多少？</p>
+<figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbinom(<span class="number">1</span>, size=<span class="number">5</span>, prob=<span class="number">0.1</span>) </span><br></pre></td></tr></tbody></table></figure>
+
+<p>答案：32.8%。还是蛮高的。</p>
+<p>当然，如果我们把问题修改为“至少成功1次的概率有多少？”，公式变为：</p>
+<figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> - dbinom(<span class="number">0</span>, size=<span class="number">5</span>, prob=<span class="number">0.1</span>) </span><br></pre></td></tr></tbody></table></figure>
+
+<p>结果：41%。似乎花心的男性更有可能解决单身问题，即使这个男生的吸引力有限。</p>
+<h2 id="负二项分布-Negative-Binomial-Distribution"><a href="#负二项分布-Negative-Binomial-Distribution" class="headerlink" title="负二项分布 Negative Binomial Distribution"></a>负二项分布 Negative Binomial Distribution</h2><p>负二项分布描述的是：在第 x 次失败后获得第 k 次成功的概率。</p>
+<p>举个新例子，篮球运动员小明被教练要求做罚球训练，罚进3个球后就能回家。小明的罚球命中率是30%，请问小明在第3-8次罚球时刚好完成任务的概率有多高呢？这个问题可以翻译成：小明在失败0-5次后完成任务的概率有多高。</p>
+<figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnbinom(<span class="number">0</span>:<span class="number">5</span>, <span class="number">3</span>, <span class="number">0.5</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">罚球次数</th>
+<th align="center">任务完成率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">3</td>
+<td align="center">12.5%</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">18.75%</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">18.75%</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">15.6%</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">11.7%</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">8.2%</td>
+</tr>
+</tbody></table>
+<h2 id="泊松分布-Poisson-distribution"><a href="#泊松分布-Poisson-distribution" class="headerlink" title="泊松分布 Poisson distribution"></a>泊松分布 Poisson distribution</h2><p>当我们知道某个相互独立事件在一段时间内的发生频率时，泊松分布可以用来描述这段时间内该事件发生次数的概率分布。</p>
+<p>例子：已知平均每分钟有12量车经过一座桥，请问一分钟内有至少17量车经过这座桥的概率是多少？</p>
+<figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ppois(<span class="number">16</span>, lambda=<span class="number">12</span>, lower=<span class="literal">FALSE</span>) </span><br></pre></td></tr></tbody></table></figure>
+
+<p>答案：10.1%</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div></article></div></main><footer><div class="paginator"><a class="prev" href="/blog/2018/05/06/2018-05-07-%E6%95%B0%E6%8D%AE%E5%9B%A2%E9%98%9F/">prev</a><a class="next" href="/blog/2017/04/25/2017-04-25-ggplot%E6%9F%A5%E7%9C%8B%E5%88%86%E5%B8%83/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
+    Barba.Pjax.start()
+})</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
