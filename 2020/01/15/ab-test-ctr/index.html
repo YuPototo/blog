@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index, follow"><title>AB测试的例子：转化率 • 商业与数据</title><meta name="description" content="AB测试的例子：转化率 - Yu Qin"><link rel="icon" href="/blog/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset@3.0.1/nanoreset.min.css"><link rel="stylesheet" href="/blog/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/blog/atom.xml" title="商业与数据"><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/blog/" title="商业与数据">商业与数据</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="https://github.com/YuPototo" target="_blank">GITHUB</a></li></ul></header><div class="barba-container"><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">AB测试的例子：转化率</h1><div class="post-info"><a></a>2020-01-15</div><div class="post-content"><img src="/blog/2020/01/15/ab-test-ctr/abtest.jpeg" class="" title="题图">
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>AB 测试是互联网产品优化的科学方法，甚至可能是唯一科学的方法。在这篇文章里，我用 R 语言模拟 AB 测试的流程。</p>
+<p><a id="more"></a></p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>假设我们有一个购物 APP，我们重新设计了商品页面，现在我们要回答的问题是：新设计方案对用户的购买率有提高吗？令原方案为 A，新方案为 B。</p>
+<p>我们的原假设和备择假设是：</p>
+<ul>
+<li>原假设：新方案的转化率 &lt;= 老方案的转化率</li>
+<li>备择假设：新方案的转化率 &gt; 老方案的转化率</li>
+</ul>
+<p>因为我们只关心 B 方案是否会比 A 方案好，所以我们使用 one-sided test。原假设是我们想要通过数据去“证伪”的假设，所以原假设是“新方案是没有用处的”，即新方案的转化率低于或等于老方案。</p>
+<p>因为需要判断的是转化率，我们可以使用 <a href="https://www.statisticshowto.datasciencecentral.com/z-test/" target="_blank" rel="noopener">Z-test</a>。</p>
+<h2 id="参数设定和样本数量估计"><a href="#参数设定和样本数量估计" class="headerlink" title="参数设定和样本数量估计"></a>参数设定和样本数量估计</h2><p>在开始搜集数据前，我们需要设定几个参数。</p>
+<ul>
+<li>显著性水平 significance level：我们愿意接受的犯第1类错误的概率是多少？</li>
+<li>统计功效 power：我们希望的统计功效是多少？</li>
+<li>给定当前的转化率（10%），我们希望 B 方案的转化率提高到多少？</li>
+</ul>
+<p>我们依次设定参数如下：</p>
+<ul>
+<li>显著性水平 5%</li>
+<li>统计功效 80%</li>
+<li>转化率提高到 12%</li>
+</ul>
+<p>我们假设样本会平均分配到两个方案中。</p>
+<p>我们使用 <code>pwr</code> packag 来计算需要的样本量</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pwr.2p.test(h=ES.h(p1 = <span class="number">0.10</span>, p2 = <span class="number">0.12</span>), </span><br><span class="line">            sig.level = <span class="number">0.05</span>, </span><br><span class="line">            power=<span class="number">0.8</span>, </span><br><span class="line">            alternative = <span class="string">'less'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个计算告诉我们，每组大概需要 3021 个样本，一共需要大约6100个样本。</p>
+<p>根据 app 流量，我们预计1天的时间可以搜集完所有的数据。于是我们使用现成的工具（或者让工程师开发），并开始测试。</p>
+<h2 id="检查数据"><a href="#检查数据" class="headerlink" title="检查数据"></a>检查数据</h2><p>一天之后，我们搜集够了6100个样本，我们开始检查数据。</p>
+<p>我们发现两个组的数据如下：</p>
+<ul>
+<li>原始方案：3500个样本中，有360个用户发生了转化</li>
+<li>新方案：3500个样本中，有400个用户发生了转化</li>
+</ul>
+<p>看上去是新方案“获胜”了，可是，这个差异在统计学上显著吗？</p>
+<p>我们做一个 z-test：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prop.test(x = c(<span class="number">360</span>, <span class="number">400</span>), n = c(<span class="number">3500</span>, <span class="number">3500</span>), alternative = <span class="string">'less'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>结果：p 值 = 0.067，比预先设定的显著性水平高，我们不能拒绝原假设。换句话说，我们没有理由认为新方案更好。</p>
+<p>想象再另一个平行宇宙，新方案有410个用户发生了转化，我们的 p 值会是多少呢？</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prop.test(x = c(<span class="number">360</span>, <span class="number">410</span>), n = c(<span class="number">3500</span>, <span class="number">3500</span>), alternative = <span class="string">'less'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>结果：p 值 = 0.031，我们可以拒绝原假设了。这个时候，我们认为新方案的转化率更高。</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div></article></div></main><footer><div class="paginator"><a class="next" href="/blog/2020/01/15/type-one-error/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
+    Barba.Pjax.start()
+})</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
