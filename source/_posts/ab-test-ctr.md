@@ -57,13 +57,15 @@ pwr.2p.test(h=ES.h(p1 = 0.10, p2 = 0.12),
 
 看上去是新方案“获胜”了，可是，这个差异在统计学上显著吗？
 
-我们做一个 z-test：
+我们做一个使用 r 的 `prop.test` 函数：
 
 {% codeblock lang:r %}
 prop.test(x = c(360, 400), n = c(3500, 3500), alternative = 'less')
 {% endcodeblock %}
 
-结果：p 值 = 0.067，比预先设定的显著性水平高，我们不能拒绝原假设。换句话说，我们没有理由认为新方案更好。
+结果：p 值 = 0.067，比预先设定的显著性水平高，我们不能拒绝原假设。
+
+结论：我们没有理由认为新方案更好。
 
 想象再另一个平行宇宙，新方案有410个用户发生了转化，我们的 p 值会是多少呢？
 
@@ -73,4 +75,21 @@ prop.test(x = c(360, 410), n = c(3500, 3500), alternative = 'less')
 {% endcodeblock %}
 
 
-结果：p 值 = 0.031，我们可以拒绝原假设了。这个时候，我们认为新方案的转化率更高。
+结果：p 值 = 0.031，我们可以拒绝原假设了。
+
+结论：新方案的转化率更高。
+
+## 为什么是 80% 和 5%？
+
+在上面的例子中，我们选择了 80% 的 power 和 5% 的 significane level。为什么呢？Stackoverflow 的数据科学家给了[一个非常好的解释](https://stackoverflow.blog/2017/10/17/power-calculations-p-values-ab-testing-stack-overflow/)。
+
+如果选择95%的 power 和1%的 significance level，我们的结论准确度会有极大提高，但测试会消耗更多的时间，导致影响商业决策的效率。
+
+如果我们在刚才的例子追求这样的准确度，我们需要的样本量会翻倍，也就是说，时间成本翻倍。
+
+如果只看单个测试，翻倍似乎是可以接受的，但一个成熟的互联网产品可能在同时进行几十个优化测试，如果每个测试都追求极端准确性，产品的迭代速度会减少50%。对于“天下武功，唯快不破”的互联网产品，这样的效率损失是绝对不可接受的。
+
+## 参考：
+
+- [为什么使用单侧检验](https://www.invespcro.com/blog/one-tailed-vs-two-tailed-a-b-testing-everything-you-possibly-need-to-know/)
+- [pwr package](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html)
