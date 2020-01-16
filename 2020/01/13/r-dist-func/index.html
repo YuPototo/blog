@@ -48,7 +48,7 @@
 <figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnorm(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>) - pnorm(-<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>结果：0.2857874</p>
-<h3 id="qnorm"><a href="#qnorm" class="headerlink" title="qnorm"></a>qnorm</h3><p><code>qnorm</code> 是 <code>pnorm</code> 的逆函数。<br>因为 pnorm(0)等于0.5，所以 qnorm(0.5)肯定等于0，不信你试试 <span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f60f.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f60f.png?v8">😏</span></p>
+<h3 id="qnorm"><a href="#qnorm" class="headerlink" title="qnorm"></a>qnorm</h3><p><code>qnorm</code> 是 <code>pnorm</code> 的逆函数。<br>因为 pnorm(0)等于0.5，所以 qnorm(0.5)肯定等于0，不信你试试 :) 。</p>
 <h3 id="rnorm"><a href="#rnorm" class="headerlink" title="rnorm"></a>rnorm</h3><p><code>rnorm</code> 生成一组符合正态分布的随机数。</p>
 <p>我们可以生成1000个数据，然后画图看看效果。</p>
 <figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n1000 &lt;- rnorm(<span class="number">1000</span>, mean = <span class="number">70</span>, sd = <span class="number">5</span>)</span><br><span class="line">hist(n1000, breaks = <span class="number">20</span>)</span><br></pre></td></tr></tbody></table></figure>
