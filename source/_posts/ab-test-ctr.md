@@ -36,6 +36,7 @@ AB 测试是互联网产品优化的科学方法，甚至可能是唯一科学�
 我们假设样本会平均分配到两个方案中。
 
 我们使用 `pwr` packag 来计算需要的样本量
+
 {% codeblock lang:r %}
 pwr.2p.test(h=ES.h(p1 = 0.10, p2 = 0.12), 
             sig.level = 0.05, 

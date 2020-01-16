@@ -111,7 +111,7 @@ pnorm(0, 1, 2) - pnorm(-3, 1, 2)
 ### qnorm
 
 `qnorm` 是 `pnorm` 的逆函数。
-因为 pnorm(0)等于0.5，所以 qnorm(0.5)肯定等于0，不信你试试 :smirk:
+因为 pnorm(0)等于0.5，所以 qnorm(0.5)肯定等于0，不信你试试 :) 。
 
 ### rnorm
 
