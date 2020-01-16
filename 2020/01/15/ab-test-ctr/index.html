@@ -36,15 +36,25 @@
 <li>新方案：3500个样本中，有400个用户发生了转化</li>
 </ul>
 <p>看上去是新方案“获胜”了，可是，这个差异在统计学上显著吗？</p>
-<p>我们做一个 z-test：</p>
+<p>我们做一个使用 r 的 <code>prop.test</code> 函数：</p>
 <figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prop.test(x = c(<span class="number">360</span>, <span class="number">400</span>), n = c(<span class="number">3500</span>, <span class="number">3500</span>), alternative = <span class="string">'less'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
-<p>结果：p 值 = 0.067，比预先设定的显著性水平高，我们不能拒绝原假设。换句话说，我们没有理由认为新方案更好。</p>
+<p>结果：p 值 = 0.067，比预先设定的显著性水平高，我们不能拒绝原假设。</p>
+<p>结论：我们没有理由认为新方案更好。</p>
 <p>想象再另一个平行宇宙，新方案有410个用户发生了转化，我们的 p 值会是多少呢？</p>
 <figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prop.test(x = c(<span class="number">360</span>, <span class="number">410</span>), n = c(<span class="number">3500</span>, <span class="number">3500</span>), alternative = <span class="string">'less'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 
-<p>结果：p 值 = 0.031，我们可以拒绝原假设了。这个时候，我们认为新方案的转化率更高。</p>
+<p>结果：p 值 = 0.031，我们可以拒绝原假设了。</p>
+<p>结论：新方案的转化率更高。</p>
+<h2 id="为什么是-80-和-5-？"><a href="#为什么是-80-和-5-？" class="headerlink" title="为什么是 80% 和 5%？"></a>为什么是 80% 和 5%？</h2><p>在上面的例子中，我们选择了 80% 的 power 和 5% 的 significane level。为什么呢？Stackoverflow 的数据科学家给了<a href="https://stackoverflow.blog/2017/10/17/power-calculations-p-values-ab-testing-stack-overflow/" target="_blank" rel="noopener">一个非常好的解释</a>。</p>
+<p>如果选择95%的 power 和1%的 significance level，我们的结论准确度会有极大提高，但测试会消耗更多的时间，导致影响商业决策的效率。</p>
+<p>如果我们在刚才的例子追求这样的准确度，我们需要的样本量会翻倍，也就是说，时间成本翻倍。</p>
+<p>如果只看单个测试，翻倍似乎是可以接受的，但一个成熟的互联网产品可能在同时进行几十个优化测试，如果每个测试都追求极端准确性，产品的迭代速度会减少50%。对于“天下武功，唯快不破”的互联网产品，这样的效率损失是绝对不可接受的。</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><ul>
+<li><a href="https://www.invespcro.com/blog/one-tailed-vs-two-tailed-a-b-testing-everything-you-possibly-need-to-know/" target="_blank" rel="noopener">为什么使用单侧检验</a></li>
+<li><a href="https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html" target="_blank" rel="noopener">pwr package</a></li>
+</ul>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -63,6 +73,6 @@
             });
             document.body.appendChild(img);
           });
-      </script></div></article></div></main><footer><div class="paginator"><a class="next" href="/blog/2020/01/15/type-one-error/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
+      </script></div></article></div></main><footer><div class="paginator"><a class="prev" href="/blog/2020/01/16/ab-test-length/">prev</a><a class="next" href="/blog/2020/01/15/type-one-error/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
     Barba.Pjax.start()
 })</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
