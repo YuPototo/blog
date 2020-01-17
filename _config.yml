@@ -112,6 +112,3 @@ githubEmojis:
   styles:
   customEmojis:
 
-# math
-mathjax:
-  enable: true

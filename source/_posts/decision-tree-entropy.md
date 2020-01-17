@@ -1,7 +1,6 @@
 ---
 title: 决策树模型里的 Entropy
 date: 2020-01-17 15:06:33
-mathjax: true
 ---
 
 机器学习的决策树模型里有个核心概念，叫 entropy。模型的最优化函数基于 entropy 给出。用一个诗意的说法，entropy 描述了这个世界的混乱程度。如果一个 split 能够把不可知程度降低到足够低的水平，我们就在模型里采用这个 split。
@@ -10,16 +9,12 @@ mathjax: true
 
 <!-- more -->
 
-## 公式
 
+## 公式
 
 给定数据集中有 C 个分组，entropy 的公式如下：
 
-$$
-E(S) = \sum_{i=1}^{c} - p_{i} log_2 p_{i}
-$$
-
- {% asset_img entropy.png "entropy公式" %}
+{% asset_img entropy.png "entropy公式" %}
 
 公式中的 pi 是第 c 类元素的出现概率。
 
