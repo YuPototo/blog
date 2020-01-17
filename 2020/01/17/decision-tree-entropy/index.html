@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index, follow"><title>决策树模型里的 Entropy • 商业与数据</title><meta name="description" content="决策树模型里的 Entropy - Yu Qin"><link rel="icon" href="/blog/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset@3.0.1/nanoreset.min.css"><link rel="stylesheet" href="/blog/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/blog/atom.xml" title="商业与数据"><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/blog/" title="商业与数据">商业与数据</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="https://github.com/YuPototo" target="_blank">GITHUB</a></li></ul></header><div class="barba-container"><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">决策树模型里的 Entropy</h1><div class="post-info"><a></a>2020-01-17</div><div class="post-content"><p>机器学习的决策树模型里有个核心概念，叫 entropy。模型的最优化函数基于 entropy 给出。用一个诗意的说法，entropy 描述了这个世界的混乱程度。如果一个 split 能够把不可知程度降低到足够低的水平，我们就在模型里采用这个 split。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>如果理解了 entropy 的概念，决策树模型会非常符合直觉。</p>
+<p><a id="more"></a></p>
+<h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><p>给定数据集中有 C 个分组，entropy 的公式如下：</p>
+<img src="/blog/2020/01/17/decision-tree-entropy/entropy.png" class="" title="entropy公式">
+
+<p>公式中的 pi 是第 c 类元素的出现概率。</p>
+<h2 id="不可知与可知"><a href="#不可知与可知" class="headerlink" title="不可知与可知"></a>不可知与可知</h2><p>想象一个世界上只有“好人”，那么好人的概率是1。因为 log_2(1) = 0，此时的 entropy = 0。</p>
+<p>想象另一个世界，只有坏人，那么好人的概率是0，这时 entropy = -1 * 0 * log_2(1) = 0。</p>
+<p>上面两种情况，如果以 entropy 来描述，都是“可知”的，不存在任何混乱，这是个稳定的世界。</p>
+<p>想象第3个世界：好人和坏人各占一半，那么 entropy = (0.5 * log_2(0.5)) + (0.5 * log_2(0.5)) = 1。</p>
+<p>这是个极端“混乱”的世界，路上随便碰到一个人，你完全不知道他是好人还是坏人。在这里，不确定性达到最大值。</p>
+<h2 id="引入解释变量"><a href="#引入解释变量" class="headerlink" title="引入解释变量"></a>引入解释变量</h2><p>我们还在第3个世界里，作为数据科学家，我们无法接受活在这么混乱的世界里，于是我们决定建立一个模型，找到识别坏人和好人的规律。</p>
+<p>我们去警察局获取了100个人的档案，其中有50个好人、50个坏人。档案里还有另一个数据：是否染发。</p>
+<p>根据上面的档案，我们绘制表格如下：</p>
+<img src="/blog/2020/01/17/decision-tree-entropy/table.png" class="" title="好人坏人以及染发">
+
+<p>我们似乎可以用染发与否判断一个人是好人还是坏人。</p>
+<p>如果使用上面的判断方式，我们的 entropy 会减少多少呢？</p>
+<p>E(染发) =  10/45 * log_2(10/45) + 35/45 * log_2(35/45) = 0.76<br>E(不染发) =  40/55 *log_2(40/55) + 15/55 * log_2(15/55) = 0.85</p>
+<p>然后我们就按染发与否的加权平均，得到以染发预测好人的 entropy：<br>E(是否好人｜是否染发) = 45/100 * 0.76  + 55/100 * 0.85 = 0.81</p>
+<p>虽然染发与否不能很好地预测一个人是不是好人，但比起之前 entropy = 1 的情况，现在已经有了进步。</p>
+<p>我们用原先的 entropy 减去基于某个因素做判断的 entropy，得到这个因素的 <strong>information gain</strong>：<br>IG= = E(是否好人) - E(是否好人|是否染发) = 1 - 0.81 = 0.19</p>
+<p>我们获得了 0.19 的进步。</p>
+<p>如果我们有更多变量，我们就可以依次计算每个变量的 IG，并选择 IG 效果最好的变量作为解释变量。当我们依次选择出了若干个解释变量，所谓的决策树<span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f332.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f332.png?v8">🌲</span>就出现了。</p>
+<h2 id="一个引申"><a href="#一个引申" class="headerlink" title="一个引申"></a>一个引申</h2><p>如果公司对 A 方案有5成把握，在 entropy 函数里，混乱程度是最严重的。</p>
+<p>另外一个方案 B，公司只有2成把握，这时的 entropy 值反而比较低。</p>
+<p>这是一个非常有意思的发现，我们希望 entropy 越低越好，所以站在公司角度，我们会更“喜欢”那个只有2成把握的 B 方案，因为我们非常清楚地知道它有可能失败，所以可以明确地拒绝它（假设两个方案的预期回报相等）。</p>
+<p>再看一个（半搞笑的）场景，假设有两个同事：</p>
+<ul>
+<li>A 员工的判断准确度是50%</li>
+<li>B 员工的判断准确度是20%</li>
+</ul>
+<p>我会更希望自己的手下是哪个呢？当然是 B 员工，这样我只要做出跟他的判断相反的选择，就大概率正确了。而 A 员工呢，价值还不如一枚硬币，毕竟通过抛硬币做选择我也能达到50%的准确度。</p>
+<p>现实生活里有没有类似 B 员工的人呢？可能没有这样的人，但在某一类问题上，有的人开能会习惯性犯错。比如我曾经有个同事喜欢追求完美，总是没有办法按期完成任务，ta 经常会说“我觉得这个版本还不够好/我还没准备好，要不再等一等”，这个时候我的脑子里总会出现一个似曾相识的惊叹号，然后我会立刻提醒 ta：一定不能等了，必须立刻交付。在按期交付问题上，ta 的判断力总像是只有 20% 的准确度 <span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f602.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f602.png?v8">😂</span>。</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></div></article></div></main><footer><div class="paginator"><a class="next" href="/blog/2020/01/16/lm-assumptions/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
+    Barba.Pjax.start()
+})</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
