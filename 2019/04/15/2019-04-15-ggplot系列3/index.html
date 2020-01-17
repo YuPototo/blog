@@ -1,11 +1,162 @@
-<!DOCTYPE html><html lang="cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index, follow"><title>ggplot系列之：boxplot • 商业与数据</title><meta name="description" content="ggplot系列之：boxplot - Yu Qin"><link rel="icon" href="/blog/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset@3.0.1/nanoreset.min.css"><link rel="stylesheet" href="/blog/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/blog/atom.xml" title="商业与数据"><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml">
-<!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/blog/" title="商业与数据">商业与数据</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="https://github.com/YuPototo" target="_blank">GITHUB</a></li></ul></header><div class="barba-container"><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">ggplot系列之：boxplot</h1><div class="post-info"><a></a>2019-04-15</div><div class="post-content"><img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png" class="" title="各大俱乐部的工资结构">
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。 这时我们可以使用 boxplot。 这里使用了 FIFA 的球员数据集。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ggplot系列之：boxplot">
+<meta property="og:url" content="http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/index.html">
+<meta property="og:site_name" content="商业与数据">
+<meta property="og:description" content="数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。 这时我们可以使用 boxplot。 这里使用了 FIFA 的球员数据集。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png">
+<meta property="og:image" content="http://yoursite.com/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_0.png">
+<meta property="og:image" content="http://yoursite.com/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_1.png">
+<meta property="og:image" content="http://yoursite.com/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png">
+<meta property="article:published_time" content="2019-04-15T01:07:33.000Z">
+<meta property="article:modified_time" content="2020-01-17T10:14:59.961Z">
+<meta property="article:author" content="Yu Qin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/blog/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/blog/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>ggplot系列之：boxplot</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/blog/css/style.css">
 
-<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。</p>
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/blog/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/blog/">首页</a></li>
+         
+          <li><a href="/blog/about/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/blog/2019/05/01/2019-05-01-userGrow-2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/blog/2019/04/05/2019-04-05-RorPython/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&text=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&is_video=false&description=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ggplot系列之：boxplot&body=Check out this article: http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&name=ggplot系列之：boxplot&description=&lt;img src=&#34;/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png&#34; class=&#34;&#34; title=&#34;各大俱乐部的工资结构&#34;&gt;
+&lt;p&gt;数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。&lt;/p&gt;
+&lt;p&gt;这时我们可以使用 boxplot。&lt;/p&gt;
+&lt;p&gt;这里使用了 &lt;a href=&#34;https://www.kaggle.com/karangadiya/fifa19/data&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FIFA 的球员数据集&lt;/a&gt;。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&t=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#大球队的工资状况如何？"><span class="toc-number">1.</span> <span class="toc-text">大球队的工资状况如何？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我们想标注出几个离群值"><span class="toc-number">2.</span> <span class="toc-text">我们想标注出几个离群值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给曼联上色"><span class="toc-number">3.</span> <span class="toc-text">给曼联上色</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ggplot系列之：boxplot
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">商业与数据</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-04-15T01:07:33.000Z" itemprop="datePublished">2019-04-15</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png" class="" title="各大俱乐部的工资结构">
+<p>数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。</p>
 <p>这时我们可以使用 boxplot。</p>
 <p>这里使用了 <a href="https://www.kaggle.com/karangadiya/fifa19/data" target="_blank" rel="noopener">FIFA 的球员数据集</a>。</p>
 <a id="more"></a>
-
 <h2 id="大球队的工资状况如何？"><a href="#大球队的工资状况如何？" class="headerlink" title="大球队的工资状况如何？"></a>大球队的工资状况如何？</h2><p>我们想展示几个大球队的工资状况，涉及两个变量：</p>
 <ul>
 <li>球队：categorical variable</li>
@@ -13,13 +164,10 @@
 </ul>
 <p>我们先提取几个大俱乐部的数据，并把周薪修改为万欧：</p>
 <figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要俱乐部</span></span><br><span class="line">clubs &lt;- c(<span class="string">'Real Madrid'</span>, <span class="string">'FC Barcelona'</span>, </span><br><span class="line">           <span class="string">'Manchester United'</span>, <span class="string">'Manchester City'</span>, <span class="string">'Liverpool'</span>, <span class="string">'Chelsea'</span>, <span class="string">'Arsenal'</span>,</span><br><span class="line">           <span class="string">'Borussia Dortmund'</span>, <span class="string">'FC Bayern München'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">wage_to_number &lt;- <span class="keyword">function</span>(wage) {</span><br><span class="line">  <span class="comment"># 把周薪转换成万欧</span></span><br><span class="line">  number_in_string &lt;- str_extract(wage, <span class="string">'\\d+'</span>)</span><br><span class="line">  number_in_1000 &lt;- as.numeric(number_in_string)</span><br><span class="line">  number_in_1000 * <span class="number">1000</span> / <span class="number">10000</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">sub_dat &lt;- dat %&gt;%</span><br><span class="line">  filter(Club %<span class="keyword">in</span>% clubs) %&gt;%</span><br><span class="line">  mutate(Wage = wage_to_number(Wage))</span><br></pre></td></tr></tbody></table></figure>
-
 <p>下面制作 boxplot：</p>
 <figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ggplot(sub_dat) +</span><br><span class="line">  geom_boxplot(aes(x = Club, y = Wage)) +</span><br><span class="line">  labs(x = <span class="literal">NULL</span>,</span><br><span class="line">       y = <span class="string">'工资（周薪：万欧）'</span>,</span><br><span class="line">       title = <span class="string">'各大俱乐部的工资结构'</span>) +</span><br><span class="line">  coord_flip() </span><br></pre></td></tr></tbody></table></figure>
-
 <p>结果如图：</p>
 <img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_0.png" class="" title="各大俱乐部的工资结构">
-
 <p>从这个图可以看到：</p>
 <ul>
 <li>西超双雄、曼城和尤文图斯的工资中位数最高</li>
@@ -30,15 +178,10 @@
 <h2 id="我们想标注出几个离群值"><a href="#我们想标注出几个离群值" class="headerlink" title="我们想标注出几个离群值"></a>我们想标注出几个离群值</h2><p>有几个球队有收入远远高于队友的球员，我们想看看他们究竟是谁（虽然猜也能猜到了 <span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f60a.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f60a.png?v8">😊</span>)，并把他们的名字标注在图片上。</p>
 <p>先清理数据：</p>
 <figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">outliner_club &lt;- c(<span class="string">'FC Barcelona'</span>, <span class="string">'Liverpool'</span>, <span class="string">'Chelsea'</span>, <span class="string">'Arsenal'</span>, <span class="string">'FC Bayern München'</span>)</span><br><span class="line">outliner_player &lt;- sub_dat %&gt;% </span><br><span class="line">  filter(Club %<span class="keyword">in</span>% outliner_club) %&gt;%</span><br><span class="line">  group_by(Club) %&gt;%</span><br><span class="line">  filter(Wage == max(Wage))</span><br></pre></td></tr></tbody></table></figure>
-
 <p>我们提取出了几个有离群值的俱乐部收入最高的球员。</p>
 <p>然后，我们在图片上添加 label：</p>
 <figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ggplot(sub_dat, aes(x = Club, y = Wage)) +</span><br><span class="line">  geom_boxplot() +</span><br><span class="line">  geom_label(data = outliner_player,</span><br><span class="line">             aes(label = Name),</span><br><span class="line">             nudge_x = <span class="number">0.25</span>,</span><br><span class="line">             nudge_y = <span class="number">0.25</span>, </span><br><span class="line">             label.size = <span class="number">0.1</span>) +</span><br><span class="line">  labs(x = <span class="literal">NULL</span>,</span><br><span class="line">       y = <span class="string">'工资（周薪：万欧）'</span>,</span><br><span class="line">       title = <span class="string">'各大俱乐部的工资结构'</span>) +</span><br><span class="line">  coord_flip() </span><br></pre></td></tr></tbody></table></figure>
-
-
-<p>结果如下：</p>
-<img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_1.png" class="" title="各大俱乐部的工资结构+离群值">
-
+<p>结果如下：<br><img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_1.png" class="" title="各大俱乐部的工资结构+离群值"></p>
 <p>各个全队的异常高收入球员如下：</p>
 <ul>
 <li>巴萨：梅西</li>
@@ -51,11 +194,7 @@
 <p>有意思的是，利物浦的最高薪球员萨拉赫，薪资水平在皇马也只属于前1/4，在巴萨甚至不到梅西的一半。可见西超双雄的购买力了。</p>
 <h2 id="给曼联上色"><a href="#给曼联上色" class="headerlink" title="给曼联上色"></a>给曼联上色</h2><p>作为一个曼联球迷，我想给曼联的 box 涂上曼联红色，然后给死敌利物浦涂上他们死敌埃弗顿的蓝色 <span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8">😃</span>，我该怎么办呢？</p>
 <figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sub_dat &lt;- sub_dat %&gt;%</span><br><span class="line">  mutate(isManU = case_when(</span><br><span class="line">    Club == <span class="string">'Manchester United'</span> ~ <span class="string">'ManU'</span>,</span><br><span class="line">    Club == <span class="string">'Liverpool'</span> ~ <span class="string">'Liv'</span>,</span><br><span class="line">    <span class="literal">TRUE</span> ~ <span class="string">'rest'</span></span><br><span class="line">    ))</span><br><span class="line"></span><br><span class="line">ggplot(sub_dat) +</span><br><span class="line">  geom_boxplot(aes(x = Club, y = Wage, fill=isManU)) +</span><br><span class="line">  scale_fill_manual(breaks = c(<span class="string">"Liv"</span>, <span class="string">"ManU"</span>, <span class="string">"rest"</span>), </span><br><span class="line">                    values=c(<span class="string">"#003399"</span>, <span class="string">"#DA291C"</span>, <span class="string">"white"</span>)) +</span><br><span class="line">  labs(x = <span class="literal">NULL</span>,</span><br><span class="line">       y = <span class="string">'工资（周薪：万欧）'</span>,</span><br><span class="line">       title = <span class="string">'各大俱乐部的工资结构'</span>) +</span><br><span class="line">  coord_flip()  +</span><br><span class="line">  theme(legend.position = <span class="string">"none"</span>)</span><br></pre></td></tr></tbody></table></figure>
-
-<p>结果如下图：</p>
-<img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png" class="" title="各大俱乐部的工资结构">
-
-
+<p>结果如下图：<br><img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png" class="" title="各大俱乐部的工资结构"></p>
 <p>希望利物浦球迷看到了不要打我 <span class="github-emoji" style="color: transparent;background:no-repeat url(https://github.githubassets.com/images/icons/emoji/unicode/1f4a3.png?v8) center/contain" data-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a3.png?v8">💣</span></p>
 <script>
         document.querySelectorAll('.github-emoji')
@@ -75,6 +214,149 @@
             });
             document.body.appendChild(img);
           });
-      </script></div></article></div></main><footer><div class="paginator"><a class="prev" href="/blog/2019/05/01/2019-05-01-userGrow-2/">prev</a><a class="next" href="/blog/2019/04/05/2019-04-05-RorPython/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
-    Barba.Pjax.start()
-})</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
+      </script>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/">首页</a></li>
+         
+          <li><a href="/blog/about/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#大球队的工资状况如何？"><span class="toc-number">1.</span> <span class="toc-text">大球队的工资状况如何？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我们想标注出几个离群值"><span class="toc-number">2.</span> <span class="toc-text">我们想标注出几个离群值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给曼联上色"><span class="toc-number">3.</span> <span class="toc-text">给曼联上色</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&text=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&is_video=false&description=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ggplot系列之：boxplot&body=Check out this article: http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&title=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&name=ggplot系列之：boxplot&description=&lt;img src=&#34;/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png&#34; class=&#34;&#34; title=&#34;各大俱乐部的工资结构&#34;&gt;
+&lt;p&gt;数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。&lt;/p&gt;
+&lt;p&gt;这时我们可以使用 boxplot。&lt;/p&gt;
+&lt;p&gt;这里使用了 &lt;a href=&#34;https://www.kaggle.com/karangadiya/fifa19/data&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FIFA 的球员数据集&lt;/a&gt;。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/&t=ggplot系列之：boxplot" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Yu Qin
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/blog/">首页</a></li>
+         
+          <li><a href="/blog/about/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/blog/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/blog/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/blog/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/blog/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

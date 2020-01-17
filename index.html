@@ -1,59 +1,396 @@
-<!DOCTYPE html><html lang="cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index, follow"><title>商业与数据</title><meta name="description" content="A Blog Powered By Hexo"><link rel="icon" href="/blog/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset@3.0.1/nanoreset.min.css"><link rel="stylesheet" href="/blog/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/blog/atom.xml" title="商业与数据"><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml">
-<!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/blog/" title="商业与数据">商业与数据</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="https://github.com/YuPototo" target="_blank">GITHUB</a></li></ul></header><div class="barba-container"><main class="container"><ul class="home post-list"><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2020/01/17/decision-tree-entropy/">决策树模型里的 Entropy</a></h2><div class="post-info"><a></a>2020-01-17</div><div class="post-content"><p>机器学习的决策树模型里有个核心概念，叫 entropy。模型的最优化函数基于 entropy 给出。用一个诗意的说法，entropy 描述了这个世界的混乱程度。如果一个 split 能够把不可知程度降低到足够低的水平，我们就在模型里采用这个 split。</p>
-<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>如果理解了 entropy 的概念，决策树模型会非常符合直觉。</p>
-<p></p></div><a class="read-more" href="/blog/2020/01/17/decision-tree-entropy/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2020/01/16/lm-assumptions/">线性回归的假设</a></h2><div class="post-info"><a></a>2020-01-16</div><div class="post-content"><p>工作以后经常发现理论与实践的巨大落差，具体表现在：最应该尊重理论的数据工作者，竟然表现得像是完全不了解统计学的基本理论。我印象最深的例子是，一份使用了 linear regression 的报告完全没有对回归分析的假设做任何诊断。</p>
-<p>这样的报告在大学作业里会被判断为不及格，但却成为了一个上市公司现金牛产品的决策依据。也难怪这个产品日后的收入逐渐减少了。</p>
-<p>这篇文章小结一下 linear regression 的几个核心假设，就当是大学知识的一次复习了。</p>
-<p></p></div><a class="read-more" href="/blog/2020/01/16/lm-assumptions/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2020/01/16/ab-test-length/">AB测试的例子：访问时长</a></h2><div class="post-info"><a></a>2020-01-16</div><div class="post-content"><p>上一篇关于AB测试的文章里，我们模拟了一个常见的 ab 测试场景：转化率。这个场景适用于计算百分比数据的场景。</p>
-<p>还有一种场景，数据不是百分比，而是连续数值。例如：</p>
-<ul>
-<li>访问时长</li>
-<li>人均消费</li>
-<li>人均阅读数量</li>
-<li>…</li>
-</ul>
-<p>这个问题场景下，不适合使用 r 的 <code>prop.test</code> 函数。我们可以使用 z-test。</p>
-<p></p></div><a class="read-more" href="/blog/2020/01/16/ab-test-length/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2020/01/15/ab-test-ctr/">AB测试的例子：转化率</a></h2><div class="post-info"><a></a>2020-01-15</div><div class="post-content"><img src="/blog/2020/01/15/ab-test-ctr/abtest.jpeg" class="" title="题图">
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="website">
+<meta property="og:title" content="商业与数据">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="商业与数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Yu Qin">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/blog/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/blog/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>商业与数据</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/blog/css/style.css">
 
-<p>AB 测试是互联网产品优化的科学方法，甚至可能是唯一科学的方法。在这篇文章里，我用 R 语言模拟 AB 测试的流程。</p>
-<p></p></div><a class="read-more" href="/blog/2020/01/15/ab-test-ctr/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2020/01/15/type-one-error/">1类错误和2类错误</a></h2><div class="post-info"><a></a>2020-01-15</div><div class="post-content"><img src="/blog/2020/01/15/type-one-error/plot_0.jpg" class="" title="题图">
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/blog/css/rtl.css">
 
-<p>统计学里有个非常“迷人”的概念：一类错误和二类错误。这个概念的迷人之初在于，当我们理解它之后，我们不只会对假设检验有更好的了解，这个概念还能帮助我们更好地做出决策。</p>
-<p></p></div><a class="read-more" href="/blog/2020/01/15/type-one-error/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2020/01/13/r-dist-func/">R 语言里常用的分布函数</a></h2><div class="post-info"><a></a>2020-01-14</div><div class="post-content"><p>这篇博文小结 R 语言里涉及概率分布的几个函数。</p>
-<p>每个概率分布函数在 R 里都有4个对应的函数，分别以1个字母开头：</p>
-<ul>
-<li>d：表示 density，指概率密度函数 probability density function (pdf)</li>
-<li>p：表示 probability，指累计分布函数 cumulative density function (cdf)</li>
-<li>q: 表示 quantile，是 cdf 的逆函数</li>
-<li>r：表示 random，符合该概率分布的随机数</li>
-</ul>
-<p>如果你像我一样已经不记得概率论的老师长啥样，上个的一些名词应该会让你一头雾水。没关系，我们接下来就用 R 代码一一测试。</p>
-<p></p></div><a class="read-more" href="/blog/2020/01/13/r-dist-func/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2019/05/06/2019-05-07-userGrow-3/">增长黑客系列之3：增长的三驾马车</a></h2><div class="post-info"><a></a>2019-05-07</div><div class="post-content"><img src="/blog/2019/05/06/2019-05-07-userGrow-3/plot_0.png" class="" title="growth">
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
-<p>我在本系列的前两篇文章里讨论了“裂变模型”，在裂变模型里，目标是“总用户数”。其实真正的增长目标，应该是日活跃用户数，也叫 DAU（Daily Active User）。</p>
-<p>驱动产品的 DAU 的要素可以分为3个：</p>
-<ul>
-<li>新增</li>
-<li>留存/流失</li>
-<li>裂变</li>
-</ul>
-<p>成熟的增长团队，应该从上面3个维度着手来实现增长目标。</p>
-<p></p></div><a class="read-more" href="/blog/2019/05/06/2019-05-07-userGrow-3/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2019/05/01/2019-05-01-userGrow-2/">增长黑客系列之2：升级版裂变模型</a></h2><div class="post-info"><a></a>2019-05-01</div><div class="post-content"><img src="/blog/2019/05/01/2019-05-01-userGrow-2/zombie.jpg" class="" title="僵尸">
+<body class="max-width mx-auto px3 ltr">    
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="content index py4">
+        
+          <header id="header">
+  <a href="/blog/">
+  
+    
+      <div id="logo" style="background-image: url(/blog/images/logo.png);"></div>
+    
+  
+    <div id="title">
+      <h1>商业与数据</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/blog/">首页</a></li>
+       
+        <li><a href="/blog/about/">关于</a></li>
+       
+        <li><a href="/blog/archives/">归档</a></li>
+      
+    </ul>
+  </div>
+</header>
 
-<a href="/blog/2019/03/05/2019-03-05-userGrow-1/" title="本系列的上一篇文章">本系列的上一篇文章</a> 介绍了一个纯裂变模型。
+        
+        <section id="about">
+  
+  
+    <p>
+      在这里找到我：
+      
+      
+      
+        
+          <a class="icon" target="_blank" rel="noopener" href="mailto:sirius.qinyu@gmail.com">
+            <i class="fas fa-envelope"></i><!--
+      ---></a><!--
+      ---><!--
+    --->.
+        
+      
+    </p>
+  
+</section>
 
-<p>我们在本篇加入一个新的变量：裂变周期的时长。直觉告诉我们，裂变周期越短，裂变强度越大。但是，这个强度究竟有多大呢？</p>
-<p>我让这个问题再精确一些，假设有2个产品，A 产品裂变周期只有1天，B 产品裂变周期是2天，30天后，A 产品的用户数会是 B 产品的几倍？</p>
-<p></p></div><a class="read-more" href="/blog/2019/05/01/2019-05-01-userGrow-2/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/">ggplot系列之：boxplot</a></h2><div class="post-info"><a></a>2019-04-15</div><div class="post-content"><img src="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/plot_2.png" class="" title="各大俱乐部的工资结构">
+<section id="writing">
+  <span class="h1"><a href="/blog/archives">文章</a></span>
+  
+  <ul class="post-list">
+    
+    
+      
+    
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2020-01-17T07:06:33.000Z" itemprop="datePublished">2020-01-17</time>
+        
+      
+    </div>
 
-<p>数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。</p>
-<p>这时我们可以使用 boxplot。</p>
-<p>这里使用了 <a href="https://www.kaggle.com/karangadiya/fifa19/data" target="_blank" rel="noopener">FIFA 的球员数据集</a>。</p></div><a class="read-more" href="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/">more&hellip; </a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a class="post-title-link no-barba" href="/blog/2019/04/05/2019-04-05-RorPython/">数据科学：用 R 还是 Python?</a></h2><div class="post-info"><a></a>2019-04-05</div><div class="post-content"><img src="/blog/2019/04/05/2019-04-05-RorPython/RorPython.png" class="" title="R or Python">
+
+        <span>
+    
+        <a class="" href="/blog/2020/01/17/decision-tree-entropy/">决策树模型里的 Entropy</a>
+    
 
 
-<p>数据科学届最常见的一个争论是：R 和 Python，哪个更好呢？</p>
-<p>我不太喜欢这个问题，因为“好”的标准实在太多，不同场景有不同的标准。就拿这个话题来说，初学者为了了解统计学，最合适的肯定是 R；做人工智能的团队为了使用 Tensorflow 等开源工具，最合适的肯定是 python。</p>
-<p>所以在讨论这个话题之前，我先限定好场景：<strong>一个大公司内需要进行庞大业务分析的数据团队。在这个场景内，应该使用哪个工具呢？</strong></p>
-<p>我的方案是：R 和 python 都使用，但在不同的地方使用。</p></div><a class="read-more" href="/blog/2019/04/05/2019-04-05-RorPython/">more&hellip; </a></article></li></ul></main><footer><div class="paginator"><a class="next" href="/blog/page/2/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
-    Barba.Pjax.start()
-})</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2020-01-16T12:56:06.000Z" itemprop="datePublished">2020-01-16</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2020/01/16/lm-assumptions/">线性回归的假设</a>
+    
+
+
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2020-01-16T03:46:52.000Z" itemprop="datePublished">2020-01-16</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2020/01/16/ab-test-length/">AB测试的例子：访问时长</a>
+    
+
+
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2020-01-15T14:26:03.000Z" itemprop="datePublished">2020-01-15</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2020/01/15/ab-test-ctr/">AB测试的例子：转化率</a>
+    
+
+
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2020-01-15T11:45:10.000Z" itemprop="datePublished">2020-01-15</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2020/01/15/type-one-error/">1类错误和2类错误</a>
+    
+
+
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2020-01-13T16:59:44.000Z" itemprop="datePublished">2020-01-14</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2020/01/13/r-dist-func/">R 语言里常用的分布函数</a>
+    
+
+
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2019-05-06T17:15:47.000Z" itemprop="datePublished">2019-05-07</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2019/05/06/2019-05-07-userGrow-3/">增长黑客系列之3：增长的三驾马车</a>
+    
+
+
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2019-05-01T09:39:14.000Z" itemprop="datePublished">2019-05-01</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2019/05/01/2019-05-01-userGrow-2/">增长黑客系列之2：升级版裂变模型</a>
+    
+
+
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2019-04-15T01:07:33.000Z" itemprop="datePublished">2019-04-15</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2019/04/15/2019-04-15-ggplot%E7%B3%BB%E5%88%973/">ggplot系列之：boxplot</a>
+    
+
+
+</span>
+      </li>
+    
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2019-04-05T08:05:05.000Z" itemprop="datePublished">2019-04-05</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/blog/2019/04/05/2019-04-05-RorPython/">数据科学：用 R 还是 Python?</a>
+    
+
+
+</span>
+      </li>
+    
+  </ul>
+  
+    
+    <div class="pagination">
+        
+        <span class="page-number">第 1 页，共 2 页</span>
+        
+            <a href="/blog/page/2/"><i class="fas fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+
+  
+</section>
+
+
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Yu Qin
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/blog/">首页</a></li>
+         
+          <li><a href="/blog/about/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/blog/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/blog/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/blog/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+
+<script src="/blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,7 +1,156 @@
-<!DOCTYPE html><html lang="cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index, follow"><title>1类错误和2类错误 • 商业与数据</title><meta name="description" content="1类错误和2类错误 - Yu Qin"><link rel="icon" href="/blog/favicon.svg"><link rel="stylesheet" href="https://unpkg.com/nanoreset@3.0.1/nanoreset.min.css"><link rel="stylesheet" href="/blog/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/blog/atom.xml" title="商业与数据"><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml">
-<!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="wrap" id="barba-wrapper"><header><h1 class="branding"><a href="/blog/" title="商业与数据">商业与数据</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="/blog/archives" target="_self">ARCHIVES</a></li><li class="nav-list-item"><a class="nav-list-link no-barba" href="https://github.com/YuPototo" target="_blank">GITHUB</a></li></ul></header><div class="barba-container"><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">1类错误和2类错误</h1><div class="post-info"><a></a>2020-01-15</div><div class="post-content"><img src="/blog/2020/01/15/type-one-error/plot_0.jpg" class="" title="题图">
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="统计学里有个非常“迷人”的概念：一类错误和二类错误。这个概念的迷人之初在于，当我们理解它之后，我们不只会对假设检验有更好的了解，这个概念还能帮助我们更好地做出决策。 ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1类错误和2类错误">
+<meta property="og:url" content="http://yoursite.com/2020/01/15/type-one-error/index.html">
+<meta property="og:site_name" content="商业与数据">
+<meta property="og:description" content="统计学里有个非常“迷人”的概念：一类错误和二类错误。这个概念的迷人之初在于，当我们理解它之后，我们不只会对假设检验有更好的了解，这个概念还能帮助我们更好地做出决策。 ">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/blog/2020/01/15/type-one-error/plot_0.jpg">
+<meta property="og:image" content="http://yoursite.com/blog/2020/01/15/type-one-error/error.png">
+<meta property="article:published_time" content="2020-01-15T11:45:10.000Z">
+<meta property="article:modified_time" content="2020-01-17T10:14:59.965Z">
+<meta property="article:author" content="Yu Qin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/blog/2020/01/15/type-one-error/plot_0.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/blog/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/blog/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>1类错误和2类错误</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/blog/css/style.css">
 
-<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>统计学里有个非常“迷人”的概念：一类错误和二类错误。这个概念的迷人之初在于，当我们理解它之后，我们不只会对假设检验有更好的了解，这个概念还能帮助我们更好地做出决策。</p>
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/blog/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="商业与数据" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/blog/">首页</a></li>
+         
+          <li><a href="/blog/about/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/blog/2020/01/15/ab-test-ctr/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/blog/2020/01/13/r-dist-func/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/01/15/type-one-error/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/01/15/type-one-error/&text=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/01/15/type-one-error/&is_video=false&description=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=1类错误和2类错误&body=Check out this article: http://yoursite.com/2020/01/15/type-one-error/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/01/15/type-one-error/&name=1类错误和2类错误&description=&lt;img src=&#34;/blog/2020/01/15/type-one-error/plot_0.jpg&#34; class=&#34;&#34; title=&#34;题图&#34;&gt;
+&lt;p&gt;统计学里有个非常“迷人”的概念：一类错误和二类错误。这个概念的迷人之初在于，当我们理解它之后，我们不只会对假设检验有更好的了解，这个概念还能帮助我们更好地做出决策。&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/01/15/type-one-error/&t=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为啥不能说“接受”原假设"><span class="toc-number">2.</span> <span class="toc-text">为啥不能说“接受”原假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第1类错误和第2类错误。"><span class="toc-number">3.</span> <span class="toc-text">第1类错误和第2类错误。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子1"><span class="toc-number">4.</span> <span class="toc-text">例子1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子2"><span class="toc-number">5.</span> <span class="toc-text">例子2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实践"><span class="toc-number">6.</span> <span class="toc-text">实践</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        1类错误和2类错误
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">商业与数据</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-15T11:45:10.000Z" itemprop="datePublished">2020-01-15</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <img src="/blog/2020/01/15/type-one-error/plot_0.jpg" class="" title="题图">
+<p>统计学里有个非常“迷人”的概念：一类错误和二类错误。这个概念的迷人之初在于，当我们理解它之后，我们不只会对假设检验有更好的了解，这个概念还能帮助我们更好地做出决策。</p>
 <p><a id="more"></a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在定义这两类错误前，我们需要先复习假设检验。</p>
 <p>在检验检验里，我们定义了 null hypothesis 原假设。原假设是我们希望通过数据去“证伪”的假设。原假设常被表述为 H0。</p>
@@ -33,9 +182,7 @@
 <p>A：结论是：我们没有足够的证据做出结论。</p>
 <h2 id="第1类错误和第2类错误。"><a href="#第1类错误和第2类错误。" class="headerlink" title="第1类错误和第2类错误。"></a>第1类错误和第2类错误。</h2><p>理论部分搞清楚后，我们开始介绍第1类错误和第2类错误。</p>
 <p>第1类错误：原假设为真，但我们拒绝了原假设。这类错误叫<strong>去真</strong>，英文文献里说 false positive。<br>第2类错误：原假设为假，但我们没有拒绝原假设。这类错误叫<strong>存伪</strong>，英文文献里叫 false negative。</p>
-<p>如下图：</p>
-<img src="/blog/2020/01/15/type-one-error/error.png" class="" title="假设检验的错误">
-
+<p>如下图：<br><img src="/blog/2020/01/15/type-one-error/error.png" class="" title="假设检验的错误"></p>
 <p>犯第1类错误的概率，就是之前出现的 significance level。如果我们确定了 alpha = 0.05，那么在100次假设检验中，就会有5次出现第1类错误。</p>
 <p>犯第2类错误的概率，被称为 beta，另一个常用统计学概念 power（统计功效）就等于 1 - beta。犯第2类错误的概率越低，建设检验的 power 就越高。</p>
 <p>在这两类错误中，我们更关心哪一类呢？有的书籍会告诉我们第1类错误更重要，它们会用法庭审判的例子，说审判一个无罪的人有罪（第1类错误）是更大的风险，这其实只是个比喻，不是个好例子。下面我们看两个例子。</p>
@@ -75,6 +222,148 @@
             });
             document.body.appendChild(img);
           });
-      </script></div></article></div></main><footer><div class="paginator"><a class="prev" href="/blog/2020/01/15/ab-test-ctr/">prev</a><a class="next" href="/blog/2020/01/13/r-dist-func/">next</a></div><div class="copyright"><p>&copy; 2020 <a href="http://yoursite.com">Yu Qin</a><br>Powered by <a href="https://hexo.io/" rel="noreferrer" target="_blank">Hexo</a></p></div></footer></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js"></script><script>document.addEventListener('DOMContentLoaded', function() {
-    Barba.Pjax.start()
-})</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
+      </script>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/">首页</a></li>
+         
+          <li><a href="/blog/about/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为啥不能说“接受”原假设"><span class="toc-number">2.</span> <span class="toc-text">为啥不能说“接受”原假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第1类错误和第2类错误。"><span class="toc-number">3.</span> <span class="toc-text">第1类错误和第2类错误。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子1"><span class="toc-number">4.</span> <span class="toc-text">例子1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子2"><span class="toc-number">5.</span> <span class="toc-text">例子2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实践"><span class="toc-number">6.</span> <span class="toc-text">实践</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/01/15/type-one-error/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/01/15/type-one-error/&text=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/01/15/type-one-error/&is_video=false&description=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=1类错误和2类错误&body=Check out this article: http://yoursite.com/2020/01/15/type-one-error/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/01/15/type-one-error/&title=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/01/15/type-one-error/&name=1类错误和2类错误&description=&lt;img src=&#34;/blog/2020/01/15/type-one-error/plot_0.jpg&#34; class=&#34;&#34; title=&#34;题图&#34;&gt;
+&lt;p&gt;统计学里有个非常“迷人”的概念：一类错误和二类错误。这个概念的迷人之初在于，当我们理解它之后，我们不只会对假设检验有更好的了解，这个概念还能帮助我们更好地做出决策。&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/01/15/type-one-error/&t=1类错误和2类错误" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Yu Qin
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/blog/">首页</a></li>
+         
+          <li><a href="/blog/about/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/blog/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/blog/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/blog/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/blog/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
