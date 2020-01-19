@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="最近复习统计学，最大的感触是，没有实践场景的理论知识是没有意义的。在学校上学的时候，我们会去“记忆”每个分布的公式、期望、方差，然后考试的时候解答出来。 我们用这个方式去学习，是因为考试只能这么考，记忆好需要的东西后，考试就能通过了。但这些概率分布对社会的真正价值，其实是它们能够“解决”的问题。 分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场">
+    <meta name="description" content="最近帮游戏开发的朋友做简单的建模，算数值模型的概率，发现自己把常用离散分布忘得差不多了。在这里简单复习一下。 以前在学校学习时，会有人去记忆概率分布的函数，其实分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。 ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常用概率分布模型">
+<meta property="og:title" content="常用离散概率分布模型">
 <meta property="og:url" content="http://yoursite.com/2017/09/13/2017-09-13-distributions/index.html">
 <meta property="og:site_name" content="商业与数据">
-<meta property="og:description" content="最近复习统计学，最大的感触是，没有实践场景的理论知识是没有意义的。在学校上学的时候，我们会去“记忆”每个分布的公式、期望、方差，然后考试的时候解答出来。 我们用这个方式去学习，是因为考试只能这么考，记忆好需要的东西后，考试就能通过了。但这些概率分布对社会的真正价值，其实是它们能够“解决”的问题。 分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场">
+<meta property="og:description" content="最近帮游戏开发的朋友做简单的建模，算数值模型的概率，发现自己把常用离散分布忘得差不多了。在这里简单复习一下。 以前在学校学习时，会有人去记忆概率分布的函数，其实分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。 ">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-09-13T11:36:12.000Z">
-<meta property="article:modified_time" content="2020-01-18T13:03:36.327Z">
+<meta property="article:modified_time" content="2020-01-19T10:01:04.552Z">
 <meta property="article:author" content="Yu Qin">
 <meta name="twitter:card" content="summary">
     
@@ -36,7 +36,7 @@
         
     
     <!-- title -->
-    <title>常用概率分布模型</title>
+    <title>常用离散概率分布模型</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/blog/css/style.css">
@@ -91,25 +91,23 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/13/2017-09-13-distributions/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&text=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&is_video=false&description=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=常用概率分布模型&body=Check out this article: http://yoursite.com/2017/09/13/2017-09-13-distributions/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&name=常用概率分布模型&description=&lt;p&gt;最近复习统计学，最大的感触是，没有实践场景的理论知识是没有意义的。在学校上学的时候，我们会去“记忆”每个分布的公式、期望、方差，然后考试的时候解答出来。&lt;/p&gt;
-&lt;p&gt;我们用这个方式去学习，是因为考试只能这么考，记忆好需要的东西后，考试就能通过了。但这些概率分布对社会的真正价值，其实是它们能够“解决”的问题。&lt;/p&gt;
-&lt;p&gt;分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。&lt;/p&gt;
-&lt;p&gt;这篇文章里，我会小结常用分布及其能描述的问题。&lt;/p&gt;
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&text=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&is_video=false&description=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=常用离散概率分布模型&body=Check out this article: http://yoursite.com/2017/09/13/2017-09-13-distributions/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&name=常用离散概率分布模型&description=&lt;p&gt;最近帮游戏开发的朋友做简单的建模，算数值模型的概率，发现自己把常用离散分布忘得差不多了。在这里简单复习一下。&lt;/p&gt;
+&lt;p&gt;以前在学校学习时，会有人去记忆概率分布的函数，其实分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。&lt;/p&gt;
 &lt;p&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2017/09/13/2017-09-13-distributions/&t=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2017/09/13/2017-09-13-distributions/&t=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#伯努利分布-Bernoulli-Distribution"><span class="toc-number">1.</span> <span class="toc-text">伯努利分布 Bernoulli Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几何分布-Geometric-Distribution"><span class="toc-number">2.</span> <span class="toc-text">几何分布 Geometric Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二项分布-Binomial-Distribution"><span class="toc-number">3.</span> <span class="toc-text">二项分布 Binomial Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负二项分布-Negative-Binomial-Distribution"><span class="toc-number">4.</span> <span class="toc-text">负二项分布 Negative Binomial Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泊松分布-Poisson-distribution"><span class="toc-number">5.</span> <span class="toc-text">泊松分布 Poisson distribution</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#伯努利分布"><span class="toc-number">1.</span> <span class="toc-text">伯努利分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几何分布"><span class="toc-number">2.</span> <span class="toc-text">几何分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二项分布"><span class="toc-number">3.</span> <span class="toc-text">二项分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负二项分布"><span class="toc-number">4.</span> <span class="toc-text">负二项分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泊松分布"><span class="toc-number">5.</span> <span class="toc-text">泊松分布</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -121,7 +119,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        常用概率分布模型
+        常用离散概率分布模型
     </h1>
 
 
@@ -148,39 +146,47 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>最近复习统计学，最大的感触是，没有实践场景的理论知识是没有意义的。在学校上学的时候，我们会去“记忆”每个分布的公式、期望、方差，然后考试的时候解答出来。</p>
-<p>我们用这个方式去学习，是因为考试只能这么考，记忆好需要的东西后，考试就能通过了。但这些概率分布对社会的真正价值，其实是它们能够“解决”的问题。</p>
-<p>分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。</p>
-<p>这篇文章里，我会小结常用分布及其能描述的问题。</p>
+    <p>最近帮游戏开发的朋友做简单的建模，算数值模型的概率，发现自己把常用离散分布忘得差不多了。在这里简单复习一下。</p>
+<p>以前在学校学习时，会有人去记忆概率分布的函数，其实分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。</p>
 <p><a id="more"></a></p>
-<h2 id="伯努利分布-Bernoulli-Distribution"><a href="#伯努利分布-Bernoulli-Distribution" class="headerlink" title="伯努利分布 Bernoulli Distribution"></a>伯努利分布 Bernoulli Distribution</h2><p>符合伯努利分布的随机试验只有两种结果：1 或 0。最典型的伯努利分布是抛硬币，结果要么正面要么反面。</p>
-<p>设 1 是成功，成功率 p 就是伯努利分布的期望。</p>
-<p>游戏里的伯努利分布：</p>
-<ul>
-<li>Moba 游戏里里玩家进行一场比赛的结果，如果一名玩家是大神，可以预期他的胜率超过50%。这是胜率期望。</li>
-<li>Free to Play 游戏里玩家是否是付费用户，我们可以据此计算玩法的付费率</li>
-</ul>
+<h2 id="伯努利分布"><a href="#伯努利分布" class="headerlink" title="伯努利分布"></a>伯努利分布</h2><p>符合伯努利分布  bernoulli distribution 的随机试验只有两种结果：1 或 0。最典型的伯努利分布是抛硬币，结果要么正面要么反面。</p>
+<p>设抛到正面的概率是 p，抛到正面时的结果是 1，那么 p 就是伯努利分布的期望。</p>
 <p>伯努利分布是一个基础分布，之后的几个分布都基于伯努利试验推导出。</p>
-<h2 id="几何分布-Geometric-Distribution"><a href="#几何分布-Geometric-Distribution" class="headerlink" title="几何分布 Geometric Distribution"></a>几何分布 Geometric Distribution</h2><p>几何分布用来描述这个问题：设计一系列试验，试验只有两种结果，需要多少次试验才能观察到一个成功的试验。</p>
-<p>几何分布的例子：假设某男生追求女生的概率是10%，男生追求第5个女生时获得成功的概率是多少呢？</p>
+<h2 id="几何分布"><a href="#几何分布" class="headerlink" title="几何分布"></a>几何分布</h2><p>几何分布 geometric distribution 用来描述这个问题：设计一系列试验，试验只有两种结果，需要多少次试验才能观察到一个成功的试验。</p>
+<p>几何分布的例子：假设某男生追求女生的概率是10%，男生追求第5个女生时才获得成功的概率是多少呢？</p>
 <p>公式：p(5） = 0.9 ^ 4 * 0.1 = 6.6%</p>
-<p>当然，这不是一个那么有趣的例子，除了菠菜行业，其他互联网产品用到这个分布的机会应该不大。</p>
-<h2 id="二项分布-Binomial-Distribution"><a href="#二项分布-Binomial-Distribution" class="headerlink" title="二项分布 Binomial Distribution"></a>二项分布 Binomial Distribution</h2><p>二项分布应该是最实用的分布之一，它描述的问题是：每次试验有两个结果，成功或失败，n 次试验后成功 k 次的概率有多少？</p>
+<h2 id="二项分布"><a href="#二项分布" class="headerlink" title="二项分布"></a>二项分布</h2><p>二项分布 binomial distribution 应该是最实用的分布之一，它描述的问题是：每次试验有两个结果，成功或失败，n 次试验后成功 k 次的概率有多少？</p>
 <p>我们继续用之前的场景：男生追求女生5次，成功1次的概率有多少？</p>
 <figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbinom(<span class="number">1</span>, size=<span class="number">5</span>, prob=<span class="number">0.1</span>) </span><br></pre></td></tr></tbody></table></figure>
 <p>答案：32.8%。还是蛮高的。</p>
 <p>当然，如果我们把问题修改为“至少成功1次的概率有多少？”，公式变为：</p>
 <figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> - dbinom(<span class="number">0</span>, size=<span class="number">5</span>, prob=<span class="number">0.1</span>) </span><br></pre></td></tr></tbody></table></figure>
-<p>结果：41%。似乎花心的男性更有可能解决单身问题，即使这个男生的吸引力有限。</p>
-<h2 id="负二项分布-Negative-Binomial-Distribution"><a href="#负二项分布-Negative-Binomial-Distribution" class="headerlink" title="负二项分布 Negative Binomial Distribution"></a>负二项分布 Negative Binomial Distribution</h2><p>负二项分布描述的是：在第 x 次失败后获得第 k 次成功的概率。</p>
-<p>举个新例子，篮球运动员小明被教练要求做罚球训练，罚进3个球后就能回家。小明的罚球命中率是30%，请问小明在第3-8次罚球时刚好完成任务的概率有多高呢？这个问题可以翻译成：小明在失败0-5次后完成任务的概率有多高。</p>
+<p>结果：41%。</p>
+<p>如果把次数增加到15次呢？</p>
+<figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> - dbinom(<span class="number">0</span>, size=<span class="number">15</span>, prob=<span class="number">0.1</span>) </span><br></pre></td></tr></tbody></table></figure>
+<p>结果：79.4%。</p>
+<p>假设这个男生每个月追求一个新目标，在20个月内脱单的概率是79%，虽然这个男生每次只有10%的成功率。</p>
+<p>如果这位男生再努力一些，认真工作、好好锻炼、培养几个有趣的兴趣爱好，把自己每次成功的概率提高到20%，整体成功率会有多大的变化呢？</p>
+<figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> - dbinom(<span class="number">0</span>, size=<span class="number">15</span>, prob=<span class="number">0.1</span>) </span><br></pre></td></tr></tbody></table></figure>
+<p>结果：96.4%</p>
+<p>这说明了一个道理：<strong>在婚恋市场上，没有天生的失败者，只有懒人</strong>。概率论对每个单身青年（或任何想在其他事情上获得成功的人）的建议是：</p>
+<ul>
+<li>增加尝试次数</li>
+<li>增加基础成功率</li>
+</ul>
+<p>当然，这个例子还有一个隐藏的假设：活下去，让自己有能够持续尝试的能力。</p>
+<p>对于投资者，这意味着不要 all in。</p>
+<p>聪明的你应该看出来了，“至少成功一次”的计算不需要用到二项分布，用简单的概率论就能计算。如果你想当个花花公子，“至少成功不止一次”，二项分布会是你的动力来源。</p>
+<h2 id="负二项分布"><a href="#负二项分布" class="headerlink" title="负二项分布"></a>负二项分布</h2><p>负二项分布  negative binomial distribution 描述的是：在第 x 次失败后获得第 k 次成功的概率。</p>
+<p>一个新例子，篮球运动员小明被教练要求做罚球训练，罚进3个球后就能回家。小明的罚球命中率是30%，请问小明在第3-8次罚球时刚好完成任务的概率有多高呢？这个问题可以翻译成：小明在失败0-5次后完成任务的概率有多高。</p>
 <figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnbinom(<span class="number">0</span>:<span class="number">5</span>, <span class="number">3</span>, <span class="number">0.5</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>结果：</p>
 <div class="table-container">
 <table>
 <thead>
 <tr>
 <th style="text-align:center">罚球次数</th>
-<th style="text-align:center">任务完成率</th>
+<th style="text-align:center">任务完成概率</th>
 </tr>
 </thead>
 <tbody>
@@ -211,7 +217,8 @@
 </tbody>
 </table>
 </div>
-<h2 id="泊松分布-Poisson-distribution"><a href="#泊松分布-Poisson-distribution" class="headerlink" title="泊松分布 Poisson distribution"></a>泊松分布 Poisson distribution</h2><p>当我们知道某个相互独立事件在一段时间内的发生频率时，泊松分布可以用来描述这段时间内该事件发生次数的概率分布。</p>
+<p>小明最有可能在第4到第5次完成任务，懂行的人就可以在这里开个盘口，让大家下注啦。</p>
+<h2 id="泊松分布"><a href="#泊松分布" class="headerlink" title="泊松分布"></a>泊松分布</h2><p>当我们知道某个相互独立事件在一段时间内的发生频率时，泊松分布 poisson distribution 可以用来描述这段时间内该事件发生次数的概率分布。</p>
 <p>例子：已知平均每分钟有12量车经过一座桥，请问一分钟内有至少17量车经过这座桥的概率是多少？</p>
 <figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ppois(<span class="number">16</span>, lambda=<span class="number">12</span>, lower=<span class="literal">FALSE</span>) </span><br></pre></td></tr></tbody></table></figure>
 <p>答案：10.1%</p>
@@ -256,26 +263,24 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#伯努利分布-Bernoulli-Distribution"><span class="toc-number">1.</span> <span class="toc-text">伯努利分布 Bernoulli Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几何分布-Geometric-Distribution"><span class="toc-number">2.</span> <span class="toc-text">几何分布 Geometric Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二项分布-Binomial-Distribution"><span class="toc-number">3.</span> <span class="toc-text">二项分布 Binomial Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负二项分布-Negative-Binomial-Distribution"><span class="toc-number">4.</span> <span class="toc-text">负二项分布 Negative Binomial Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泊松分布-Poisson-distribution"><span class="toc-number">5.</span> <span class="toc-text">泊松分布 Poisson distribution</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#伯努利分布"><span class="toc-number">1.</span> <span class="toc-text">伯努利分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几何分布"><span class="toc-number">2.</span> <span class="toc-text">几何分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二项分布"><span class="toc-number">3.</span> <span class="toc-text">二项分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负二项分布"><span class="toc-number">4.</span> <span class="toc-text">负二项分布</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泊松分布"><span class="toc-number">5.</span> <span class="toc-text">泊松分布</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/13/2017-09-13-distributions/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&text=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&is_video=false&description=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=常用概率分布模型&body=Check out this article: http://yoursite.com/2017/09/13/2017-09-13-distributions/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&name=常用概率分布模型&description=&lt;p&gt;最近复习统计学，最大的感触是，没有实践场景的理论知识是没有意义的。在学校上学的时候，我们会去“记忆”每个分布的公式、期望、方差，然后考试的时候解答出来。&lt;/p&gt;
-&lt;p&gt;我们用这个方式去学习，是因为考试只能这么考，记忆好需要的东西后，考试就能通过了。但这些概率分布对社会的真正价值，其实是它们能够“解决”的问题。&lt;/p&gt;
-&lt;p&gt;分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。&lt;/p&gt;
-&lt;p&gt;这篇文章里，我会小结常用分布及其能描述的问题。&lt;/p&gt;
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&text=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&is_video=false&description=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=常用离散概率分布模型&body=Check out this article: http://yoursite.com/2017/09/13/2017-09-13-distributions/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&title=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/13/2017-09-13-distributions/&name=常用离散概率分布模型&description=&lt;p&gt;最近帮游戏开发的朋友做简单的建模，算数值模型的概率，发现自己把常用离散分布忘得差不多了。在这里简单复习一下。&lt;/p&gt;
+&lt;p&gt;以前在学校学习时，会有人去记忆概率分布的函数，其实分布的公式、期望、方差都是随便就能从网络上找到的，完全不需要记忆，真正需要记忆的是：知道该在什么场合去使用某个分布。&lt;/p&gt;
 &lt;p&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2017/09/13/2017-09-13-distributions/&t=常用概率分布模型" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2017/09/13/2017-09-13-distributions/&t=常用离散概率分布模型" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
