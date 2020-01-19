@@ -30,7 +30,7 @@ Missing curly brace""
 
 老版本的 JavaScript 不支持，但现在支持了：
 
-{% codeblock JavaScript lang:JavaScript %}
+{% codeblock JavaScript lang:js %}
 var poem = `Programming is fun
 Except for syntax errors
 Missing curly brace`;
@@ -49,7 +49,7 @@ print(f'Fifteen is {a + b} and not {2 * a + b}.')
 
 上面这个功能很实用，让代码的可读性提高了几个档次。JavaScript 也有类似的写法：
 
-{% codeblock JavaScript lang:JavaScript %}
+{% codeblock JavaScript lang:js %}
 var a = 5
 var b = 10
 console.log(`Fifteen is ${a + b} and not ${2 * a + b}.`)
@@ -66,7 +66,7 @@ x, y, z = numbers
 
 Destructuring 在某些场合有用，ES2017 里有了类似的设计：
 
-{% codeblock JavaScript lang:JavaScript %}
+{% codeblock JavaScript lang:js %}
 var numbers = [1, 2, 3]
 var [x, y, z] = numbers
 {% endcodeblock %}
@@ -82,7 +82,7 @@ first, *remaining = numbers
 
 下面是 JavaScript 的写法：
 
-{% codeblock JavaScript lang:JavaScript %}
+{% codeblock JavaScript lang:js %}
 var numbers = [1, 2, 3, 4]
 var [first, ...remaining] = numbers
 {% endcodeblock %}
@@ -126,7 +126,7 @@ list(map(lambda x: x * 2, numbers))
 
 JavaScript 里使用**箭头函数**：=>
 
-{% codeblock JavaScript lang:JavaScript %}
+{% codeblock JavaScript lang:js %}
 var numbers = [1, 2, 3, 4]
 numbers.map(v => v * 2)
 {% endcodeblock %}
@@ -148,7 +148,7 @@ class Point:
 
 在 ES2017 之前，JavaScript 的做法：
 
-{% codeblock JavaScript lang:JavaScript %}
+{% codeblock JavaScript lang:js %}
 function Point(x, y) {
   this.x = x
   this.y = y
@@ -162,7 +162,7 @@ Point.prototype.toString = function () {
 第一次看到上面这段代码时我非常费解，这是什么鬼:cold_sweat:？现在有新的写法了：
 
 
-{% codeblock JavaScript lang:JavaScript %}
+{% codeblock JavaScript lang:js %}
 class Point {
   constructor(x, y) {
     this.x = x;
@@ -181,7 +181,7 @@ class Point {
 
 在 Hacker News 上看到过一句话：
 
-> 我招人的时候从来不问对方会什么编程语言，因为只要你会一门语言，拿掌握其他语言都很容易。作为一个工程师，真正重要的不是你会什么语言或框架，而是......
+> 我招人的时候从来不问对方会什么编程语言，因为只要你会一门语言，掌握其他语言都很容易。作为一个工程师，真正重要的不是你会什么语言或框架，而是......
 
 这句话我只记得前半句，现在有点理解为什么编程语言不重要了。不过重要的到底是什么呢？虽然我不是软件工程师，不过还是对这个答案很好奇。
 

@@ -1,5 +1,5 @@
 ---
-title: python 的 generator
+title: Python 的 Generator
 date: 2020-01-17 21:52:13
 categories:
   - Coding
