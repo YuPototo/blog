@@ -1,6 +1,10 @@
 ---
 title: 机器学习 vs. 统计学
 date: 2020-01-18 15:47:56
+categories:
+  - 数据实践
+tags:
+  - 机器学习
 ---
 
 {% asset_img statistic-ml.jpeg "线性回归" %}

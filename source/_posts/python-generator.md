@@ -1,6 +1,10 @@
 ---
 title: python 的 generator
 date: 2020-01-17 21:52:13
+categories:
+  - Coding
+tags:
+  - Python
 ---
 
 问题：x 是一个由数字组成的 list，我们想求出每个元素的平方。

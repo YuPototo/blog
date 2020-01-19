@@ -1,6 +1,8 @@
 ---
 title: 为什么数据团队应该做 reproducible research
 date: 2020-01-19 18:07:01
+categories:
+  - 数据实践
 ---
 
 {% asset_img plot.jpg "plot" %}

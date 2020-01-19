@@ -93,9 +93,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: cactus
-theme_config:
-  colorscheme: white
+theme: material-x
 
 
 # Deployment

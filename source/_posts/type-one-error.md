@@ -1,6 +1,8 @@
 ---
 title: 1类错误和2类错误
 date: 2020-01-15 19:45:10
+categories:
+  - 统计理论
 ---
 
 {% asset_img plot_0.jpg "题图" %}

@@ -1,6 +1,8 @@
 ---
 title: 决策树模型里的 Entropy
 date: 2020-01-17 15:06:33
+categories:
+  - 统计理论
 ---
 
 {% asset_img decision-tree.png "决策树" %}

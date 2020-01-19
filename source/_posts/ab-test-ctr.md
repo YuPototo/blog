@@ -1,6 +1,10 @@
 ---
 title: AB测试的例子：转化率
 date: 2020-01-15 22:26:03
+categories:
+  - 增长黑客
+tags:
+  - R
 ---
 
 {% asset_img abtest.jpeg "题图" %}

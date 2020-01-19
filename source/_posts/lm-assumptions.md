@@ -1,6 +1,10 @@
 ---
 title: 线性回归的假设
 date: 2020-01-16 20:56:06
+categories:
+  - 统计理论
+tags:
+  - R
 ---
 
 {% asset_img assumption.png  "假设" %}

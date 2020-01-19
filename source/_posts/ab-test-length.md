@@ -1,6 +1,10 @@
 ---
 title: AB测试的例子：访问时长
 date: 2020-01-16 11:46:52
+categories:
+  - 增长黑客
+tags:
+  - R
 ---
 
 {% asset_img abtest.jpeg "题图" %}
