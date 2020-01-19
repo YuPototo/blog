@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>机器学习 vs. 统计学 | 商业与数据</title>
+  <title>理解 JavaScript 的 this | 商业与数据</title>
   
   
 
@@ -256,8 +256,8 @@
         
   
     <h1 class="title">
-      <a href="/blog/2020/01/18/statistics-ml/">
-        机器学习 vs. 统计学
+      <a href="/blog/2020/01/19/js-this/">
+        理解 JavaScript 的 this
       </a>
     </h1>
   
@@ -272,7 +272,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-18</p>
+    <p>2020-01-20</p>
   </a>
 </div>
 
@@ -282,9 +282,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/blog/categories/%E6%95%B0%E6%8D%AE%E5%AE%9E%E8%B7%B5/' rel="nofollow">
+    <a href='/blog/categories/Coding/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>数据实践</p>
+      <p>Coding</p>
     </a>
   </div>
 
@@ -312,58 +312,37 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <img src="/blog/2020/01/18/statistics-ml/statistic-ml.jpeg" class="" title="线性回归">
-<p>机器学习和统计学不是一回事，可是机器学习里和统计学里又有很多交集，比如线性回归。两者都使用了相同的理论框架，但强调的东西完全不一样。</p>
-<p>在具体的公司业务场景中，我们需要明确，自己需要的到底是统计学，还是机器学习。两者会对分析场景有不同的需求。</p>
-<p>这篇文章总结两个学科的需求。</p>
+        <figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod: <span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// undefined</span></span><br></pre></td></tr></tbody></table></figure>
+<p>上面这段代码为什么会返回<code>undefined</code>呢？因为万恶的<code>this</code>。</p>
+<img src="/blog/2020/01/19/js-this/this.jpeg" class="" title="wtf is this">
+<p>MDN 对 <strong>this</strong> 的定义是：代码运行的环境。这句话给我的最大感觉是：what the <em>**</em> is this?</p>
+<p>这里总结下 <strong>this</strong> 的几个用法。</p>
 <p><a id="more"></a></p>
-<h2 id="统计学"><a href="#统计学" class="headerlink" title="统计学"></a>统计学</h2><p>统计学至少有两个典型的使用场景：</p>
-<ul>
-<li>使用样本估计总体</li>
-<li>建立解释性模型</li>
-</ul>
-<h3 id="样本估计总体"><a href="#样本估计总体" class="headerlink" title="样本估计总体"></a>样本估计总体</h3><p>问卷调查是公司了解用户的重要手段。我最喜欢的例子是乐高。2004年时，乐高亏损严重。乐高的美国分公司老大跟《星球大战》的版权方谈妥了合作意向，于是飞到丹麦总部跟公司提出这个方案。乐高公司的高层对这个提议非常“震怒”，因为这违背了乐高一直以来“反对暴力”的理念：乐高的产品里一定不会有暴力元素，更别说要出一个名字里带“war”的产品系列了。</p>
-<p>提出这个方案的美国老大动用了一个杀手锏：要不我们对家长做个问卷调查，看看家长们是否愿意为孩子们购买星战题材的乐高。问卷调查的结果说服了保守的乐高高层。《星球大战》系列开启了乐高的新时代，乐高开始频繁与全球大IP合作，各大 IP 为乐高带来了持续十几年的高速增长。</p>
-<p>这里的问卷调查，其实就是统计学的重要应用：问卷调查的样本数据是整体市场数据的有效代表吗？把这个问题更抽象地表达：我只有 x 个样本，我是否能用这 x 个样本去有效的估计总体。</p>
-<p>商业调查可以通过花钱解决样本数量问题，毕竟一份问卷也没多贵，但在医学药物实验里，一个样本就没那么便宜了。一轮药物实验经常只有几十个样本。用这几十个样本去估计总体，难度要大得多。</p>
-<p>在互联网公司，最经常使用的统计学的场景是 A/B 测试，这里的核心问题是：A/B 测试的样本数据，是有效的总体代表吗？换句话说，我们可以通过这几千个样本，判断 A 版本比 B 版本更好吗？</p>
-<h3 id="建立解释性模型"><a href="#建立解释性模型" class="headerlink" title="建立解释性模型"></a>建立解释性模型</h3><p>社会科学的论文需要利用统计学证明自己想描述的理论关系。</p>
-<p>比如：</p>
-<ul>
-<li>收入的决定因素是什么？</li>
-<li>是否存在收入上的性别/种族歧视？</li>
-<li>R&amp;D投入和市场投入对公司长期盈利能力的影响分别有多大？</li>
-<li>……</li>
-</ul>
-<p>所有这些问题，都需要建立一个模型去描述现象，然后通过数据验证这个模型的准确性。这里既存在样本代表性的问题（样本估计总体），还有模型解释力的问题。</p>
-<p>比如在线性回归里，我们关注 R-square，一个好的模型，应该有比较好的 R-square。同时，这个模型应该是“可解释”的。相比机器学习，统计学的模型不能是个“黑箱子”。机器学习可以接受模型的“不可解释”，统计学则要求模型 make sense。</p>
-<h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><p>机器学习与统计学有两个大的区别：</p>
-<ul>
-<li>大样本</li>
-<li>以预测为目的</li>
-</ul>
-<h3 id="大样本"><a href="#大样本" class="headerlink" title="大样本"></a>大样本</h3><p>统计学里有100个样本可能就是很大了，一个 excel 表格就能轻松装下。机器学习利用了互联网时代的数据爆发，有海量的数据可供使用。实际上，机器学习已经存在了几十年，但因为没有足够“喂养”模样的数据和算力，一直没能发展，直到互联网时代。</p>
-<p>统计学需要考虑“样本少”的问题，机器学习不只不用担心样本量，有时甚至能用“总体”做计算。</p>
-<p>在大数据的前提下，很多统计学需要担心的问题不存在了。比如小样本下不适合使用某些 test。</p>
-<h3 id="以预测为目的"><a href="#以预测为目的" class="headerlink" title="以预测为目的"></a>以预测为目的</h3><p>机器学习的最核心特征，是以预测为目的，预测准确度越高越好，过程并不重要。</p>
-<p>机器学习<strong>不关心</strong>模型的解释效力。注意，这里说的是”不关心“。有的模型，比如线性回归，允许人对模型过程做解释，但另外一些模型，比如神经网络，很难解释。</p>
-<p>在应用层面，机器学习非常的“务实”：别跟我扯理论，show me the accuracy。</p>
-<p>同样是线性回归，即使用同样的数据集，我们也可能因为目标而不同而有各自的侧重。想象我们是一家连锁蛋糕公司，旗下有100家店铺。我们搜集了过去几年这些店铺的人流量、营业收入、商圈竞争对手数量等信息。我们可以：</p>
-<ul>
-<li>研究哪些因素最影响营业收入。</li>
-<li>预测这些店铺未来的收入。</li>
-</ul>
-<p>上面两个任务都是可以用线性回归来做，但前者会偏重统计学，需要解释力，后者会偏重机器学习，需要预测力。</p>
-<h2 id="如何选择技能点"><a href="#如何选择技能点" class="headerlink" title="如何选择技能点"></a>如何选择技能点</h2><p>单纯的统计学使用者，可以选择忽略机器学习。统计学使用者包括：</p>
-<ul>
-<li>社会科学领域的学者</li>
-<li>咨询公司的数据分析师</li>
-<li>大公司的用户调查团队</li>
-<li>医药学研究者</li>
-<li>…</li>
-</ul>
-<p>数据工作者成千上万，真正有机会用到机器学习解决问题的并不多。</p>
-<p>但是，在互联网公司工作的数据工作者，或者希望在互联网公司做数据工作的人，大概率有机会使用机器学习，这个时候了解机器学习就会非常必要了。从学科脉络来看，机器学习的部分理论基础就是统计学，所以搞机器学习的人，是逃不过学习统计学的。所以，如果你想再互联网公司做数据工作，统计学和机器学习都是要有所了解的。</p>
+<h2 id="Default-Binding"><a href="#Default-Binding" class="headerlink" title="Default Binding"></a>Default Binding</h2><p>在 Chrome 浏览器打开 inspector 的 console，输入如下代码：</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">5</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Func</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.count)</span><br><span class="line">}</span><br><span class="line">Func()</span><br></pre></td></tr></tbody></table></figure>
+<p>console 会显示<code>5</code>。</p>
+<p>因为我们的代码在环境下运行，this 默认绑定到了全局环境。</p>
+<p>在<code>use strict</code>模式下，默认绑定不会发生。</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">5</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Func</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="string">`use strict`</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.count)</span><br><span class="line">}</span><br><span class="line">Func()</span><br></pre></td></tr></tbody></table></figure>
+<p>此时 Chrome 会报错。</p>
+<h2 id="Implicit-Binding"><a href="#Implicit-Binding" class="headerlink" title="Implicit Binding"></a>Implicit Binding</h2><p>在 object 里创建函数时，运行函数时的<code>this</code>就是这个对象。</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anObj = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  callName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">anObj.callName()</span><br></pre></td></tr></tbody></table></figure>
+<p>此时屏幕会打印 Harry Potter。</p>
+<h2 id="Explicit-Binding"><a href="#Explicit-Binding" class="headerlink" title="Explicit Binding"></a>Explicit Binding</h2><p>如果不想在 object 创建函数，我们可以手动把函数的<code>this</code>绑定到对象上。</p>
+<p>可以使用<code>bind</code>、<code>call</code>或<code>apply</code>。</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anObj = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callName</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">callName.call(anObj) <span class="comment">// Harry Potter</span></span><br><span class="line">callName.apply(anObj) <span class="comment">// Harry Potter</span></span><br><span class="line"></span><br><span class="line">newCallname = callName.bind(anObj)</span><br><span class="line">newCallname() <span class="comment">// Harry Potte</span></span><br></pre></td></tr></tbody></table></figure>
+<p><code>call</code> 和 <code>apply</code> 可以直接以 object 作为 argument。<br><code>bind</code> 需要指向一个新的变量。</p>
+<h2 id="new-Binding"><a href="#new-Binding" class="headerlink" title="new Binding"></a><code>new</code> Binding</h2><p>创建 class 的 instance 时，<code>this</code> 会指向这个 instance</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>{</span><br><span class="line">  <span class="keyword">constructor</span>(x, y) {</span><br><span class="line">    <span class="keyword">this</span>.x = x</span><br><span class="line">    <span class="keyword">this</span>.y = y</span><br><span class="line">  }</span><br><span class="line"></span><br><span class="line">  showCoord() {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">p1 = <span class="keyword">new</span> Point(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">p1.showCoord()  <span class="comment">// 1, 2</span></span><br><span class="line"></span><br><span class="line">p2 = <span class="keyword">new</span> Point(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">p2.showCoord()  <span class="comment">// 3, 4</span></span><br></pre></td></tr></tbody></table></figure>
+<p>每个 instance 都会有自己的 context。</p>
+<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><p>箭头函数的<code>this</code>跟普通函数不一样，箭头函数会继承 parent scope 的<code>this</code>。</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'Ron Weasley'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod: <span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// Ron Weasley</span></span><br></pre></td></tr></tbody></table></figure>
+<p>在上面这段代码里，我们用箭头函数定义了 myMethod，结果屏幕打印的是 global context 里的 <code>name</code>，因为 <code>myObject</code> 位于 global context。</p>
+<p>如果是在<code>use strict</code>下，上面这段代码会打印<code>undifined</code>。</p>
+<p>所以，谨慎在箭头函数里使用<code>this</code>，非常容易出错啊。</p>
+<p>既然不能使用箭头函数，上面这段的代码要怎么写才更简洁呢？用 ES6 的函数写写法：</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod() {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// Harry Potter</span></span><br></pre></td></tr></tbody></table></figure>
+<p>搞清楚上面这些用法后，<code>this</code> 就没那么奇怪了。</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -396,7 +375,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>机器学习</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/JavaScript/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>JavaScript</p></a></div>
 
 
         
@@ -409,41 +388,17 @@
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/blog/2020/01/18/js-python/" rel="prev" title="JavaScript 其实很像 Python">
-                                
-                                    JavaScript 其实很像 Python
-                                
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/blog/tags/Python/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> Python</a> <a class="tag" href="/blog/tags/JavaScript/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> JavaScript</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
               
                   <section class="next">
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/blog/2020/01/17/python-generator/" rel="prev" title="Python 的 Generator">
+                              <a href="/blog/2020/01/19/reproducible-research/" rel="prev" title="为什么顶级的数据团队应该做 reproducible research">
                                   
-                                      Python 的 Generator
+                                      为什么顶级的数据团队应该做 reproducible research
                                   
                               </a>
                           </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/blog/tags/Python/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> Python</a>
-                              </h6>
                           
                       </span>
                   </section>
@@ -472,7 +427,7 @@
 
   <script>
     window.subData = {
-      title: '机器学习 vs. 统计学',
+      title: '理解 JavaScript 的 this',
       tools: true
     }
   </script>
@@ -506,7 +461,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#统计学"><span class="toc-text">统计学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#样本估计总体"><span class="toc-text">样本估计总体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立解释性模型"><span class="toc-text">建立解释性模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#机器学习"><span class="toc-text">机器学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大样本"><span class="toc-text">大样本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#以预测为目的"><span class="toc-text">以预测为目的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何选择技能点"><span class="toc-text">如何选择技能点</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Default-Binding"><span class="toc-text">Default Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implicit-Binding"><span class="toc-text">Implicit Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Explicit-Binding"><span class="toc-text">Explicit Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new-Binding"><span class="toc-text">new Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#箭头函数"><span class="toc-text">箭头函数</span></a></li></ol>
     </div>
   </section>
 
