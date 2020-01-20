@@ -2,7 +2,7 @@
 title: 数据科学：用 R 还是 Python?
 date: 2019-04-05 16:05:05
 categories:
-  - 数据实践
+  - 数据科学
 tags:
   - R
   - Python
