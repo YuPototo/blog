@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Python OOP 之 Property</title>
+      <link href="/blog/2020/01/20/python-property/"/>
+      <url>/blog/2020/01/20/python-property/</url>
+      
+        <content type="html"><![CDATA[<p>今天学习 Python OOP 编程的一个 interface：property。</p><p>OOP 编程有两个常用的概念：getter 和 setter。Property 装饰器是 Python 实现 getter 和 setter 的方式。</p><p>这篇文章用一个例子说明如何使用 property。</p><p><a id="more"></a></p><h2 id="业务代码-v1"><a href="#业务代码-v1" class="headerlink" title="业务代码 v1"></a>业务代码 v1</h2><p>背景：初出茅庐的你，在为公司写一个记录员工信息的系统。</p><p>第1版系统里需要记录员工的姓名和收入。</p><p>员工可以用一个 class 表示，每个 instance 都包含员工的姓名和收入。</p><p>初步掌握 OOP 编程的你，很快完成了第1版代码：</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">()</span>:</span></span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, income)</span>:</span></span><br><span class="line">    self.name = name</span><br><span class="line">    self.income = income</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">f'Person <span class="subst">{self.name}</span> with income <span class="subst">{self.income}</span>'</span></span><br><span class="line"></span><br><span class="line">Tom = Person(name = <span class="string">'Tom'</span>,</span><br><span class="line">             income = <span class="number">3000</span>)</span><br><span class="line">print(Tom) <span class="comment"># Person Tom with income 3000</span></span><br><span class="line">Tom.income = <span class="number">5000</span></span><br><span class="line">print(Tom.income)  <span class="comment"># 5000</span></span><br></pre></td></tr></tbody></table></figure><p>然后老板提出了一个需求：我们是社会主义国家的企业，为了体现社会主义的先进性，员工工资只能增加，不能减少，你要把这个特点写到系统里。</p><p>这个神奇的需求当然很容易实现，不需要修改 <code>Person</code> 这个对象的代码，只需要在客户端用 POST 方法修改工资时做一个条件判断，这个需求大概只需要3分钟完成。</p><p>可是，你仔细思考了老板的话，如果只是在 Restful API 上做检查，岂不只是“表面文章”，社会主义的先进性，难道不是应该体现在 object 层面吗？</p><p>于是，你决定实现一个功能：修改 income 时，如果 income 不增加，会报错。</p><h2 id="测试逻辑"><a href="#测试逻辑" class="headerlink" title="测试逻辑"></a>测试逻辑</h2><p>除了实现老板的需求外，你还有另一个追求：你希望 <code>Person</code> 对象的 API 不会改变，也就是说，新版本的 <code>Person</code> 对象会实现对低版本的兼容。</p><p>完成新的<code>Person</code>后，你要做两个测试。</p><p>第1个测试：</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tom = Person(name = <span class="string">'Tom'</span>,</span><br><span class="line">             income = <span class="number">3000</span>)</span><br><span class="line">print(Tom) <span class="comment"># Person Tom with income 3000</span></span><br><span class="line">Tom.income = <span class="number">5000</span></span><br><span class="line">print(Tom.income)  <span class="comment"># 5000</span></span><br></pre></td></tr></tbody></table></figure><p>上面这段代码的运行结果，要跟第1个版本一样。</p><p>第2个测试：</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Tom = Person(name = <span class="string">'Tom'</span>,</span><br><span class="line">             income = <span class="number">3000</span>)</span><br><span class="line">Tom.income = <span class="number">1000</span></span><br></pre></td></tr></tbody></table></figure><p>在运行到<code>Tom.income = 1000</code>时，会报错。</p><h2 id="业务代码-v2"><a href="#业务代码-v2" class="headerlink" title="业务代码 v2"></a>业务代码 v2</h2><p>然后，你开始研究怎么实现新的需求。聪明的你很快发现，Property 是实现上述需求的好方法。</p><p>新版本代码如下：</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, income)</span>:</span></span><br><span class="line">    self.name = name</span><br><span class="line">    self._income = income  <span class="comment">#第4行</span></span><br><span class="line">  </span><br><span class="line"><span class="meta">  @property  #第6行</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">income</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self._income</span><br><span class="line">  </span><br><span class="line"><span class="meta">  @income.setter  #第10行</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">income</span><span class="params">(self, value)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> value &lt; self.income :</span><br><span class="line">      <span class="keyword">raise</span> ValueError(<span class="string">"收入不能减少"</span>)</span><br><span class="line">    self._income = value</span><br><span class="line">    </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">f'Person <span class="subst">{self.name}</span> with incom <span class="subst">{self.income}</span>'</span></span><br></pre></td></tr></tbody></table></figure><p>我们依次查看这段代码里的新东西。</p><h3 id="第4行：self-income-income"><a href="#第4行：self-income-income" class="headerlink" title="第4行：self._income = income"></a>第4行：<code>self._income = income</code></h3><p>这里用 _ 表示 private variable。</p><p>Python 其实没有真正的 private variable。下面这段代码会正常返回 <code>_income</code>。</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, income)</span>:</span></span><br><span class="line">    self.name = name</span><br><span class="line">    self._income = income </span><br><span class="line"></span><br><span class="line">Tom = Person(name=<span class="string">'Tom'</span>, income = <span class="number">3000</span>)</span><br><span class="line">print(Tom._income) <span class="comment"># 打印出 3000</span></span><br></pre></td></tr></tbody></table></figure><p>使用 _ 表示 private variable，其实是一种约定俗成。Python 有非常多的约定俗成，比如 class 里的<code>self</code>，其实也可以用其他字段代替。</p><h3 id="第6行：-property"><a href="#第6行：-property" class="headerlink" title="第6行：@property"></a>第6行：<code>@property</code></h3><p><code>@property</code> 装饰器把 income 变成了一个 <strong>getter</strong>。</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ....省略 class 的代码</span></span><br><span class="line"></span><br><span class="line">Tom = Person(name=<span class="string">'Tom'</span>, income = <span class="number">3000</span>)</span><br><span class="line"></span><br><span class="line">print(Tom.income) <span class="comment"># 打印出 3000</span></span><br></pre></td></tr></tbody></table></figure><p>此时我们不需要使用<code>Tom._income</code>，只需要像第1版一样用<code>Tom.income</code>就能获取 <code>_income</code>的内容。</p><p>如果没有<code>@property</code>装饰器，<code>income</code>就变成了一个<strong>方法</strong>，只能用<code>Tom.income()</code>的方式调用。</p><h3 id="第10行：-income-setter"><a href="#第10行：-income-setter" class="headerlink" title="第10行：@income.setter"></a>第10行：<code>@income.setter</code></h3><p>这是 setter 装饰器，把下面的函数变成了 income 的 setter。</p><p>setter 这个名称很直观，我们会在满足条件后设置 income 的值。</p><p>在之后的函数里，我们检查了新的值是否小于原先的 income，如果不满足条件，我们就 raise 一个错误。</p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>一顿操作后，第2版的业务代码使用 property 实现了老板的需求和 API 的兼容。非常完美。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://www.geeksforgeeks.org/python-property-function/" target="_blank" rel="noopener">Geeksforgeeks: Python | property() function</a></li><li><a href="https://www.programiz.com/python-programming/property" target="_blank" rel="noopener">Programiz : Python @property</a></li></ul><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Coding </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>理解 JavaScript 的 this</title>
       <link href="/blog/2020/01/19/js-this/"/>
       <url>/blog/2020/01/19/js-this/</url>
@@ -38,7 +63,7 @@
       
       <categories>
           
-          <category> 数据实践 </category>
+          <category> 数据科学 </category>
           
       </categories>
       
@@ -84,7 +109,7 @@
       
       <categories>
           
-          <category> 数据实践 </category>
+          <category> 数据科学 </category>
           
       </categories>
       
@@ -341,7 +366,7 @@
       
       <categories>
           
-          <category> 数据实践 </category>
+          <category> 数据科学 </category>
           
       </categories>
       
@@ -418,7 +443,7 @@
       
       <categories>
           
-          <category> 数据实践 </category>
+          <category> 数据科学 </category>
           
       </categories>
       

@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>数据团队的三个角色：数据科学家、数据分析师、数据工程师 | 商业与数据</title>
+  <title>Python OOP 之 Property | 商业与数据</title>
   
   
 
@@ -256,8 +256,8 @@
         
   
     <h1 class="title">
-      <a href="/blog/2018/05/06/2018-05-07-%E6%95%B0%E6%8D%AE%E5%9B%A2%E9%98%9F/">
-        数据团队的三个角色：数据科学家、数据分析师、数据工程师
+      <a href="/blog/2020/01/20/python-property/">
+        Python OOP 之 Property
       </a>
     </h1>
   
@@ -272,7 +272,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2018-05-07</p>
+    <p>2020-01-20</p>
   </a>
 </div>
 
@@ -282,9 +282,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/' rel="nofollow">
+    <a href='/blog/categories/Coding/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>数据科学</p>
+      <p>Coding</p>
     </a>
   </div>
 
@@ -312,63 +312,47 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <img src="/blog/2018/05/06/2018-05-07-%E6%95%B0%E6%8D%AE%E5%9B%A2%E9%98%9F/data.png" class="" title="三者的区别">
-<p>一般来说，一个完整的数据团队应该由3个角色构成：</p>
-<ul>
-<li>数据分析师 data analyst</li>
-<li>数据工程师 data engineer</li>
-<li>数据科学家 data scientist</li>
+        <p>今天学习 Python OOP 编程的一个 interface：property。</p>
+<p>OOP 编程有两个常用的概念：getter 和 setter。Property 装饰器是 Python 实现 getter 和 setter 的方式。</p>
+<p>这篇文章用一个例子说明如何使用 property。</p>
+<p><a id="more"></a></p>
+<h2 id="业务代码-v1"><a href="#业务代码-v1" class="headerlink" title="业务代码 v1"></a>业务代码 v1</h2><p>背景：初出茅庐的你，在为公司写一个记录员工信息的系统。</p>
+<p>第1版系统里需要记录员工的姓名和收入。</p>
+<p>员工可以用一个 class 表示，每个 instance 都包含员工的姓名和收入。</p>
+<p>初步掌握 OOP 编程的你，很快完成了第1版代码：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">()</span>:</span></span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, income)</span>:</span></span><br><span class="line">    self.name = name</span><br><span class="line">    self.income = income</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">f'Person <span class="subst">{self.name}</span> with income <span class="subst">{self.income}</span>'</span></span><br><span class="line"></span><br><span class="line">Tom = Person(name = <span class="string">'Tom'</span>,</span><br><span class="line">             income = <span class="number">3000</span>)</span><br><span class="line">print(Tom) <span class="comment"># Person Tom with income 3000</span></span><br><span class="line">Tom.income = <span class="number">5000</span></span><br><span class="line">print(Tom.income)  <span class="comment"># 5000</span></span><br></pre></td></tr></tbody></table></figure>
+<p>然后老板提出了一个需求：我们是社会主义国家的企业，为了体现社会主义的先进性，员工工资只能增加，不能减少，你要把这个特点写到系统里。</p>
+<p>这个神奇的需求当然很容易实现，不需要修改 <code>Person</code> 这个对象的代码，只需要在客户端用 POST 方法修改工资时做一个条件判断，这个需求大概只需要3分钟完成。</p>
+<p>可是，你仔细思考了老板的话，如果只是在 Restful API 上做检查，岂不只是“表面文章”，社会主义的先进性，难道不是应该体现在 object 层面吗？</p>
+<p>于是，你决定实现一个功能：修改 income 时，如果 income 不增加，会报错。</p>
+<h2 id="测试逻辑"><a href="#测试逻辑" class="headerlink" title="测试逻辑"></a>测试逻辑</h2><p>除了实现老板的需求外，你还有另一个追求：你希望 <code>Person</code> 对象的 API 不会改变，也就是说，新版本的 <code>Person</code> 对象会实现对低版本的兼容。</p>
+<p>完成新的<code>Person</code>后，你要做两个测试。</p>
+<p>第1个测试：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tom = Person(name = <span class="string">'Tom'</span>,</span><br><span class="line">             income = <span class="number">3000</span>)</span><br><span class="line">print(Tom) <span class="comment"># Person Tom with income 3000</span></span><br><span class="line">Tom.income = <span class="number">5000</span></span><br><span class="line">print(Tom.income)  <span class="comment"># 5000</span></span><br></pre></td></tr></tbody></table></figure>
+<p>上面这段代码的运行结果，要跟第1个版本一样。</p>
+<p>第2个测试：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Tom = Person(name = <span class="string">'Tom'</span>,</span><br><span class="line">             income = <span class="number">3000</span>)</span><br><span class="line">Tom.income = <span class="number">1000</span></span><br></pre></td></tr></tbody></table></figure>
+<p>在运行到<code>Tom.income = 1000</code>时，会报错。</p>
+<h2 id="业务代码-v2"><a href="#业务代码-v2" class="headerlink" title="业务代码 v2"></a>业务代码 v2</h2><p>然后，你开始研究怎么实现新的需求。聪明的你很快发现，Property 是实现上述需求的好方法。</p>
+<p>新版本代码如下：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, income)</span>:</span></span><br><span class="line">    self.name = name</span><br><span class="line">    self._income = income  <span class="comment">#第4行</span></span><br><span class="line">  </span><br><span class="line"><span class="meta">  @property  #第6行</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">income</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self._income</span><br><span class="line">  </span><br><span class="line"><span class="meta">  @income.setter  #第10行</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">income</span><span class="params">(self, value)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> value &lt; self.income :</span><br><span class="line">      <span class="keyword">raise</span> ValueError(<span class="string">"收入不能减少"</span>)</span><br><span class="line">    self._income = value</span><br><span class="line">    </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">f'Person <span class="subst">{self.name}</span> with incom <span class="subst">{self.income}</span>'</span></span><br></pre></td></tr></tbody></table></figure>
+<p>我们依次查看这段代码里的新东西。</p>
+<h3 id="第4行：self-income-income"><a href="#第4行：self-income-income" class="headerlink" title="第4行：self._income = income"></a>第4行：<code>self._income = income</code></h3><p>这里用 _ 表示 private variable。</p>
+<p>Python 其实没有真正的 private variable。下面这段代码会正常返回 <code>_income</code>。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, income)</span>:</span></span><br><span class="line">    self.name = name</span><br><span class="line">    self._income = income </span><br><span class="line"></span><br><span class="line">Tom = Person(name=<span class="string">'Tom'</span>, income = <span class="number">3000</span>)</span><br><span class="line">print(Tom._income) <span class="comment"># 打印出 3000</span></span><br></pre></td></tr></tbody></table></figure>
+<p>使用 _ 表示 private variable，其实是一种约定俗成。Python 有非常多的约定俗成，比如 class 里的<code>self</code>，其实也可以用其他字段代替。</p>
+<h3 id="第6行：-property"><a href="#第6行：-property" class="headerlink" title="第6行：@property"></a>第6行：<code>@property</code></h3><p><code>@property</code> 装饰器把 income 变成了一个 <strong>getter</strong>。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ....省略 class 的代码</span></span><br><span class="line"></span><br><span class="line">Tom = Person(name=<span class="string">'Tom'</span>, income = <span class="number">3000</span>)</span><br><span class="line"></span><br><span class="line">print(Tom.income) <span class="comment"># 打印出 3000</span></span><br></pre></td></tr></tbody></table></figure>
+<p>此时我们不需要使用<code>Tom._income</code>，只需要像第1版一样用<code>Tom.income</code>就能获取 <code>_income</code>的内容。</p>
+<p>如果没有<code>@property</code>装饰器，<code>income</code>就变成了一个<strong>方法</strong>，只能用<code>Tom.income()</code>的方式调用。</p>
+<h3 id="第10行：-income-setter"><a href="#第10行：-income-setter" class="headerlink" title="第10行：@income.setter"></a>第10行：<code>@income.setter</code></h3><p>这是 setter 装饰器，把下面的函数变成了 income 的 setter。</p>
+<p>setter 这个名称很直观，我们会在满足条件后设置 income 的值。</p>
+<p>在之后的函数里，我们检查了新的值是否小于原先的 income，如果不满足条件，我们就 raise 一个错误。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>一顿操作后，第2版的业务代码使用 property 实现了老板的需求和 API 的兼容。非常完美。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.geeksforgeeks.org/python-property-function/" target="_blank" rel="noopener">Geeksforgeeks: Python | property() function</a></li>
+<li><a href="https://www.programiz.com/python-programming/property" target="_blank" rel="noopener">Programiz : Python @property</a></li>
 </ul>
-<p>这篇文章总结三个角色的区别，并说明何种情况下团队里应该有这些角色。</p>
-<a id="more"></a>
-<h2 id="三个角色"><a href="#三个角色" class="headerlink" title="三个角色"></a>三个角色</h2><p>三个角色的工作有时会有一定程度的交集，这里只讨论三个角色的最重要差异。</p>
-<ul>
-<li>数据分析师： 需要了解业务，使用<strong>常规的数据分析方法</strong>为日常商业决策提供依据</li>
-<li>数据工程师：创造和维护数据基础设施</li>
-<li>数据科学家：掌握机器学习算法，擅长数学、统计学和编程，可以处理大数据分析需求</li>
-</ul>
-<h3 id="数据分析师"><a href="#数据分析师" class="headerlink" title="数据分析师"></a>数据分析师</h3><p>数据分析师是最常见的角色，已经存在了很多年。早期的数据分析师只需要掌握 Excel 的使用，生成日常数据报表，做一定的数据可视化。一般情况下，数据分析师还需要懂业务，并通过数据对商业决策提供建议。</p>
-<p>稍微进阶的数据分析师，还会懂一些 inferential statistics，使用线性回归等方法做归因和预测。</p>
-<p>随着大家的学习能力越来越强，数据分析已经变成了一个基本技能。在这个环境下，数据分析师的核心价值是什么呢？我认为是“懂业务”。</p>
-<p>数据分析师需要非常了解自己业务的情况，拿游戏来举例，数据分析师应该了解自己所分析的游戏、了解游戏行业的数据特点。SLG 游戏和 ARPG 游戏就是两个完全不同的游戏类型，如果某个核心指标相同（比如7日ROI），数据分析师需要针对两种游戏做不同的判断。同时，数据分析师应该深度体验自己的游戏，并能结合游戏体验提出值得研究的问题。</p>
-<p>因为“懂业务”同时也“懂数据”，数据分析师应该是最能影响项目决策的人。</p>
-<p>数据分析师的常见学科背景：商科、经济学、统计学。</p>
-<h3 id="数据工程师"><a href="#数据工程师" class="headerlink" title="数据工程师"></a>数据工程师</h3><p>数据工程师其实是“需要做数据相关开发工作”的程序员，比如数据存储、数据计算、数据后台的搭建等等。</p>
-<p>在小一些的公司，数据工程师一般由后端开发人员兼任。大型的公司，会需要专门的数据工程师。</p>
-<p>数据工程师的常见学科背景：计算机。</p>
-<h3 id="数据科学家"><a href="#数据科学家" class="headerlink" title="数据科学家"></a>数据科学家</h3><p>数据科学家是最近几年又硅谷带动起来的新兴岗位。数据科学家最核心的特点是：能用<strong>科学的</strong>方法解决企业的数据分析问题。</p>
-<p>为什么这里提到“科学的”方法呢？有两个原因。</p>
-<p>第1，很多数据分析师的分析工作其实充满了主观判断，毫无科学性可言。举个例子，我在某上市游戏公司的数据部门上班时，发现他们的数据分析报告<strong>从来不会</strong>使用假设检验，重要决策只通过画图寻找相关性后“主观判断”。数据分析其实是个有着严格科学基础的工作，专业的数据科学家会让团队的数据决策更加准确。</p>
-<p>第2，大数据的兴起，让数据分析工作从传统的 excel 就能解决变成必须依赖高强度的编程能力和数学能力。</p>
-<p>数据科学家有如下特点：</p>
-<ul>
-<li>高学历</li>
-<li>强大的数学和统计学能力</li>
-<li>了解机器学习、NLP 等新兴数据分析领域的情况</li>
-<li>强大的（数学）编程水平</li>
-</ul>
-<p>相比于数据分析师，数据科学家可能不是那么懂业务。<br>相比于数据工程师，数据科学家又不是那么懂数据库、API。</p>
-<p></p>
-<h2 id="三个角色的需求"><a href="#三个角色的需求" class="headerlink" title="三个角色的需求"></a>三个角色的需求</h2><p>数据分析师：大中小型团队都需要的角色<br>数据工程师：大型团队需要<br>数据科学家：大型团队需要</p>
-<p>我了解的美国某著名游戏公司的情况：</p>
-<ul>
-<li>每一个项目里都有数据分析师，专门负责这个项目的分析工作和决策支持</li>
-<li>数据工程师和数据科学家，不跟随项目走，在项目需要的时候提供工程支持和理论支持</li>
-</ul>
-<p>工作场景举例：</p>
-<ul>
-<li>数据分析师：日常分析需求、数据分析报告</li>
-<li>数据工程师：分析师想要增加10个埋点，工程师满足这个需求</li>
-<li>数据科学家：审查数据分析师的分析报告是否符合科学规范</li>
-</ul>
-<p>对最顶级的公司，竞争的核心点其实是数据科学家。一个强大的数据科学家团队，可以让数据决策的精准度得到巨大提高。因为，数据科学家可以把结论用概率的形式科学的表示出来。（也许某些数据分析师也可以，但我不敢信他们啊）。</p>
-<p>如果没有数据科学家，很有可能出现两种情况：</p>
-<ul>
-<li>数据分析师给出质量无法保证的数据分析结果</li>
-<li>团队依靠“数据可视化”的图像做出“猜测”</li>
-</ul>
-<p>什么叫“团队依靠图像做出猜测”呢？举个让我印象深刻的例子吧。在游戏公司上班时，项目负责人拉数据之后画两个折线图，发现两者都有向上的趋势，于是推测出两者正相关，进而得出了一个行动依据。在懂数据分析的人看来，这大概跟“夜观天象”的靠谱程度差不多吧。一个数据科学家会在这个问题上给出严谨的数学公式、编程计算和结果报告，这就是数据科学家的价值。</p>
-<p>但是，只有在尊重科学的公司，数据科学家的声音才会被重视。这可能也是硅谷才有这么多数据科学家岗位的原因吧啊。</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -400,6 +384,9 @@
       
         
           
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/Python/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>Python</p></a></div>
+
 
         
       
@@ -411,40 +398,21 @@
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/blog/2018/07/01/2018-07-01-Async/" rel="prev" title="JavaScript：如何理解“异步”和“同步”">
-                                
-                                    JavaScript：如何理解“异步”和“同步”
-                                
+                              <a href="/blog/2020/01/19/js-this/" rel="prev" title="理解 JavaScript 的 this">
+                                  
+                                      理解 JavaScript 的 this
+                                  
                               </a>
                           </h4>
                           
                               
                               <h6 class="tags">
                                   <a class="tag" href="/blog/tags/JavaScript/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> JavaScript</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
-              
-                  <section class="next">
-                      <span class="art-item-right" aria-hidden="true">
-                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
-                          <h4>
-                              <a href="/blog/2017/09/13/2017-09-13-distributions/" rel="prev" title="常用离散概率分布模型">
-                                  
-                                      常用离散概率分布模型
-                                  
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
                               </h6>
                           
                       </span>
@@ -474,7 +442,7 @@
 
   <script>
     window.subData = {
-      title: '数据团队的三个角色：数据科学家、数据分析师、数据工程师',
+      title: 'Python OOP 之 Property',
       tools: true
     }
   </script>
@@ -508,7 +476,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#三个角色"><span class="toc-text">三个角色</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据分析师"><span class="toc-text">数据分析师</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据工程师"><span class="toc-text">数据工程师</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据科学家"><span class="toc-text">数据科学家</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三个角色的需求"><span class="toc-text">三个角色的需求</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#业务代码-v1"><span class="toc-text">业务代码 v1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试逻辑"><span class="toc-text">测试逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#业务代码-v2"><span class="toc-text">业务代码 v2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第4行：self-income-income"><span class="toc-text">第4行：self._income &#x3D; income</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第6行：-property"><span class="toc-text">第6行：@property</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第10行：-income-setter"><span class="toc-text">第10行：@income.setter</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
     </div>
   </section>
 
