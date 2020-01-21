@@ -7,6 +7,8 @@ tags:
   - R
 ---
 
+{% asset_img plot_2.png "带数字的柱状图" %}
+
 柱状图，个人认为最实用的可视化图形。这里总结如何在 ggplot2 里使用柱状图。
 
 <!-- more -->
@@ -94,6 +96,6 @@ ggplot(data=df_2, aes(x=version, y = user_num, fill = gender)) +
 
 结果如下：
 
-{% asset_img plot_2.png "分组柱状图" %}
+{% asset_img plot_2.png "带数字的柱状图" %}
 
 更多柱状图控制，可以参考 ggplot2 的文档。
