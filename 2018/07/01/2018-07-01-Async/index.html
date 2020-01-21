@@ -313,39 +313,38 @@
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
         <img src="/blog/2018/07/01/2018-07-01-Async/syncOrAsync.png" class="" title="asyncOrSync">
-<p>刚开接触 JavaScript 时，synchronous 和 asynchronous 的概念简直让我头疼。在那之前，我只跟 R 和 python，而且只做数据分析工作，完全不需要考虑“同步”和“异步”的问题（而且，鬼知道它们是什么）。</p>
-<p>开始玩前端框架后，我才意识到，这是个很重要的概念。</p>
-<p>这篇文章简单总结下 JavaScript 里的 sync 和 async。汉语里的“同步”和“异步”其实有些歧义，为了方便思考，我一般直接用 sync 和 async 来表述。</p>
+<p>怎么理解 async（异步） 和 sync（同步） 呢？</p>
 <a id="more"></a>
-<h2 id="解释和比喻"><a href="#解释和比喻" class="headerlink" title="解释和比喻"></a>解释和比喻</h2><p>解释：</p>
+<h2 id="一个比喻"><a href="#一个比喻" class="headerlink" title="一个比喻"></a>一个比喻</h2><p>解释：</p>
 <ul>
-<li>sync：指代码按照顺序执行，一段代码执行完毕后，再去执行下一段。</li>
+<li>sync：指代码按照顺序执行，一段代码执行完后，再去执行下一段。</li>
 <li>async：一行代码发出调用指令后，不去等待这段代码的执行结果，就直接去执行下一段代码。</li>
 </ul>
 <p>上面的解释可能比较抽象，我们做一个比喻：想象你在星巴克排队买咖啡。</p>
 <ul>
-<li>sync：轮到你点咖啡，你选好了咖啡，告诉咖啡师，咖啡师开始做咖啡，你在柜台前等待，不能做任何别的事情，只能静静地等咖啡师把咖啡做完。拿到咖啡后，你才能去做下一件事情，比如找到座位开始工作。</li>
-<li>async：轮到你带你咖啡，你点了咖啡，告诉咖啡师，然后你找了个座位，打开电脑开始工作，咖啡师做好咖啡后，把咖啡拿给你。</li>
+<li>sync：轮到你点咖啡，你选好了咖啡，告诉咖啡师，咖啡师开始做咖啡，你在柜台前等待，不能做任何别的事情，静静地等咖啡师把咖啡做完。拿到咖啡后，你才能去做下一件事情，比如找到座位开始工作。</li>
+<li>async：轮到你点咖啡，你选好了咖啡，告诉咖啡师，然后你找了个座位，打开电脑开始工作，咖啡师做好咖啡后，把咖啡拿给你。</li>
 </ul>
 <p>Sync 的顺序如下图：<br><img src="sync.png" alt="sync 例子"></p>
 <p>在 sync 模式下，拿到咖啡之前，我们什么也干不了，只能干等着。</p>
-<p>Async 的顺序如下图：<br><img src="async.png" alt="async 例子"><br>在 async 模式下，咖啡师在煮咖啡，我们可以先去忙别的事情，当咖啡师做完咖啡后，我们会收到咖啡。显然这种情况是更节约时间的。</p>
+<p>Async 的顺序如下图：<br><img src="async.png" alt="async 例子"></p>
+<p>在 async 模式下，咖啡师在煮咖啡，我们可以先去忙别的事情，当咖啡师做完咖啡后，我们会收到咖啡。这种模式更节约时间。</p>
 <h2 id="JavaScript-的例子"><a href="#JavaScript-的例子" class="headerlink" title="JavaScript 的例子"></a>JavaScript 的例子</h2><p>我们把上面的例子用 JavaScript 代码来执行：</p>
-<figure class="highlight javascript"><figcaption><span>Sync</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"点咖啡"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"------等待2分钟-----"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"拿到咖啡"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"找座位"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"打开电脑"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"开始工作"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//点咖啡</span></span><br><span class="line"><span class="comment">//------等待2分钟-----</span></span><br><span class="line"><span class="comment">//拿到咖啡</span></span><br><span class="line"><span class="comment">//找座位</span></span><br><span class="line"><span class="comment">//打开电脑</span></span><br><span class="line"><span class="comment">//开始工作</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight js"><figcaption><span>Sync</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"点咖啡"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"------等待2分钟-----"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"拿到咖啡"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"找座位"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"打开电脑"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"开始工作"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//点咖啡</span></span><br><span class="line"><span class="comment">//------等待2分钟-----</span></span><br><span class="line"><span class="comment">//拿到咖啡</span></span><br><span class="line"><span class="comment">//找座位</span></span><br><span class="line"><span class="comment">//打开电脑</span></span><br><span class="line"><span class="comment">//开始工作</span></span><br></pre></td></tr></tbody></table></figure>
 <p>可以看到，一切都按照顺序进行。</p>
-<p>然后是 Async 的代码<br></p><figure class="highlight javascript"><figcaption><span>Async</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"点咖啡"</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"-----2分钟过去了-----"</span>)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"拿到咖啡"</span>)</span><br><span class="line">}, <span class="number">2</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"找座位"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"打开电脑"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"开始工作"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//点咖啡</span></span><br><span class="line"><span class="comment">//找座位</span></span><br><span class="line"><span class="comment">//打开电脑</span></span><br><span class="line"><span class="comment">//开始工作</span></span><br><span class="line"><span class="comment">//-----2分钟过去了-----</span></span><br><span class="line"><span class="comment">//拿到咖啡</span></span><br></pre></td></tr></tbody></table></figure><p></p>
-<p>这里有意思的地方是， “——-2分钟过去了——-” 和 “拿到咖啡” 在顺序上是第2和第3位，但因为异步，它们在最后才被执行。换句话说，我们利用空闲的时间先处理了之后的工作。</p>
-<h2 id="什么场合使用-async-和-sync"><a href="#什么场合使用-async-和-sync" class="headerlink" title="什么场合使用 async 和 sync"></a>什么场合使用 async 和 sync</h2><p>在我们上面的例子里，咖啡师做咖啡是一件消耗时间的任务，在产品设计中也有类似的任务，比如从远在天边的数据库获取大量数据，我们不知道要等待多久，这时候就可以使用 async，让我们的计算机在获取到数据前先做一些其他工作。</p>
+<p>然后是 Async 的代码<br></p><figure class="highlight js"><figcaption><span>Async</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"点咖啡"</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"-----2分钟过去了-----"</span>)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"拿到咖啡"</span>)</span><br><span class="line">}, <span class="number">2</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"找座位"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"打开电脑"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"开始工作"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//点咖啡</span></span><br><span class="line"><span class="comment">//找座位</span></span><br><span class="line"><span class="comment">//打开电脑</span></span><br><span class="line"><span class="comment">//开始工作</span></span><br><span class="line"><span class="comment">//-----2分钟过去了-----</span></span><br><span class="line"><span class="comment">//拿到咖啡</span></span><br></pre></td></tr></tbody></table></figure><p></p>
+<p>这里有意思的地方是， “——-2分钟过去了——-” 和 “拿到咖啡” 在顺序上是第2和第3位，但因为异步，它们在最后才被执行。我们利用空闲的时间先处理了之后的工作。</p>
+<h2 id="什么场合使用-async-和-sync"><a href="#什么场合使用-async-和-sync" class="headerlink" title="什么场合使用 async 和 sync"></a>什么场合使用 async 和 sync</h2><p>咖啡师做咖啡是一件消耗时间的任务，在 app 开发时也有类似的任务，比如客户端从数据库获取数据，我们不知道要等待多久，这时候就可以使用 async，让我们的客户端在获取到数据前先做其他工作。</p>
 <p>使用 async 的典型场景：</p>
 <ul>
-<li>数据库操作（大量的读写）</li>
-<li>网络数据传输（从服务器或API获取数据）</li>
-<li>远端 API 操作（如调调用一个复杂的机器学习 API）</li>
+<li>访问 API</li>
+<li>数据库的读写</li>
+<li>调用某个第三方 JavaScript 包</li>
+<li>……</li>
 </ul>
 <p>使用 sync 的典型场景：程序操作之间有明显的顺序关系。如用户输入账号密码、校验、登陆，这是一个明显有顺序的流程。</p>
 <p>另一个思考方式是：当你不知道该用 async 还是 sync 时，就先默认用 sync 吧。</p>
-<p>如果想JS实现 async 的机制，可以参考：</p>
-<ul>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><ul>
 <li><a href="https://medium.com/better-programming/is-javascript-synchronous-or-asynchronous-what-the-hell-is-a-promise-7aa9dd8f3bfb" target="_blank" rel="noopener">Is JavaScript Synchronous or Asynchronous? What the Hell is a Promise?</a></li>
 <li><a href="https://medium.com/@siddharthac6/javascript-execution-of-synchronous-and-asynchronous-codes-40f3a199e687" target="_blank" rel="noopener">JavaScript: Execution of Synchronous and Asynchronous codes</a></li>
 <li><a href="https://fastapi.tiangolo.com/async/#concurrency-and-burgers" target="_blank" rel="noopener">FASTapi - Concurrency and async / await</a></li>
@@ -488,7 +487,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#解释和比喻"><span class="toc-text">解释和比喻</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-的例子"><span class="toc-text">JavaScript 的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么场合使用-async-和-sync"><span class="toc-text">什么场合使用 async 和 sync</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一个比喻"><span class="toc-text">一个比喻</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-的例子"><span class="toc-text">JavaScript 的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么场合使用-async-和-sync"><span class="toc-text">什么场合使用 async 和 sync</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考："><span class="toc-text">参考：</span></a></li></ol>
     </div>
   </section>
 
