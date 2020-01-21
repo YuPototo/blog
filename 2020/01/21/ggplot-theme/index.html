@@ -305,6 +305,7 @@
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
         <img src="/blog/2020/01/21/ggplot-theme/plot_all.png" class="" title="带数字的柱状图">
+<p>$\alpha$</p>
 <p>人靠衣装，图靠 theme 装。好看的数据可视化，会一眼抓住人眼球，让你的报告更有说服力。</p>
 <p>ggplot 生态提供了丰富的 theme 选择，如果你对已有的 theme 不满意，还可以自己创造 theme。</p>
 <p>这篇文章介绍几个不错的 theme。</p>
@@ -412,12 +413,13 @@
 <ul>
 <li>标题和副标题剧中</li>
 <li>标题改为红色、加粗</li>
-<li>副标题改为深绿色</li>
+<li>副标题改为深绿色p</li>
 </ul>
 <p>我们可以这样做：</p>
 <figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># p1 是最开始画的图</span></span><br><span class="line">p1 + theme(plot.title = element_text(color = <span class="string">'red'</span>,  hjust = <span class="number">0.5</span>, size = <span class="number">20</span>),</span><br><span class="line">           plot.subtitle = element_text(color = <span class="string">'darkgreen'</span>, hjust = <span class="number">0.5</span>))</span><br></pre></td></tr></tbody></table></figure>
 <p>结果如下：</p>
 <img src="/blog/2020/01/21/ggplot-theme/plot_10.png" class="" title="theme_edit">
+<p>这只是个说明性的例子，ggplot 提供了非常丰富的图片修改可能，图片上的任何“元素”都可以使用某个命令修改。</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
