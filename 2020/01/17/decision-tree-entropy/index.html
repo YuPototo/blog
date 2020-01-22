@@ -318,10 +318,10 @@
 <p>这篇文章用具体例子说明，split 如何降低 entropy。</p>
 <p><a id="more"></a></p>
 <h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><p>给定数据集中有 C 个分组，entropy 的公式如下：</p>
-<script type="math/tex; mode=display">
-E(S) = \sum_{i=1}^{c}  - p_i log_2 p_i</script><p>公式中的 pi 是第 c 类元素的出现概率。</p>
+<img src="/blog/2020/01/17/decision-tree-entropy/entropy.png" class="" title="entropy公式">
+<p>公式中的 pi 是第 c 类元素的出现概率。</p>
 <h2 id="不可知与可知"><a href="#不可知与可知" class="headerlink" title="不可知与可知"></a>不可知与可知</h2><p>想象一个世界上只有“好人”，那么好人的概率是1。因为 log_2(1) = 0，此时的 entropy = 0。</p>
-<p>想象另一个世界，只有坏人，那么好人的概率是0，这时 $ entropy = -1 <em> 0 </em> log_2(1) = 0 $。</p>
+<p>想象另一个世界，只有坏人，那么好人的概率是0，这时 entropy = -1 * 0 * log_2(1) = 0。</p>
 <p>上面两种情况，如果以 entropy 来描述，都是“可知”的，不存在任何混乱，这是个稳定的世界。</p>
 <p>想象第3个世界：好人和坏人各占一半，那么 entropy = (0.5 * log_2(0.5)) + (0.5 * log_2(0.5)) = 1。</p>
 <p>这是个极端“混乱”的世界，路上随便碰到一个人，你完全不知道他是好人还是坏人。在这里，不确定性达到最大值。</p>
@@ -741,21 +741,6 @@ E(S) = \sum_{i=1}^{c}  - p_i log_2 p_i</script><p>公式中的 pi 是第 c 类�
 
 
 
-  <script>setLoadingBarProgress(100);</script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script>setLoadingBarProgress(100);</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

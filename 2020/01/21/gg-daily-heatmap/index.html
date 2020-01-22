@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>1类错误和2类错误 | 商业与数据</title>
+  <title>gg-daily-heatmap | 商业与数据</title>
   
   
 
@@ -256,8 +256,8 @@
         
   
     <h1 class="title">
-      <a href="/blog/2020/01/15/type-one-error/">
-        1类错误和2类错误
+      <a href="/blog/2020/01/21/gg-daily-heatmap/">
+        gg-daily-heatmap
       </a>
     </h1>
   
@@ -272,7 +272,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-15</p>
+    <p>2020-01-22</p>
   </a>
 </div>
 
@@ -282,9 +282,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/' rel="nofollow">
+    <a href='/blog/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>统计理论</p>
+      <p>数据可视化</p>
     </a>
   </div>
 
@@ -312,67 +312,9 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <img src="/blog/2020/01/15/type-one-error/plot_0.jpg" class="" title="题图">
-<p>统计学里有两个基石一样的概念：一类错误和二类错误。这两个概念是统计检验的基础。</p>
+        <img src="/blog/2020/01/21/gg-daily-heatmap/daily_heatmap.png" class="" title="heatmap">
 <p><a id="more"></a></p>
-<h2 id="原假设"><a href="#原假设" class="headerlink" title="原假设"></a>原假设</h2><p>在定义这两类错误前，我们需要先复习假设检验。</p>
-<p>在检验检验里，我们定义了<strong>原假设</strong> null hypothesis。原假设是我们希望通过数据去“证伪”的假设，习惯被表述为 H0。</p>
-<p>一个典型的 H0 是：本市的人均收入大于或等于8000元。</p>
-<p>原假设的对立面，是备择假设 alternative hypothesis，习惯被表述为 Ha。</p>
-<p>上面的 H0 对应的 Ha 是：本市的人均收入小于8000元。</p>
-<p>我们对本市市民做了一次问卷调查，搜集了10000份问卷，根据数据调查结果，我们会有两种结论：</p>
-<ul>
-<li>拒绝 H0，即接受 Ha</li>
-<li>无法拒绝 H0</li>
-</ul>
-<p>在上面的表述里，我们没有说“接受 H0”。这是外行最常用错的表达。</p>
-<h2 id="为啥不能说“接受”原假设"><a href="#为啥不能说“接受”原假设" class="headerlink" title="为啥不能说“接受”原假设"></a>为啥不能说“接受”原假设</h2><p>在解答这个问题之前，我们需要先了解假设检验的方法论。</p>
-<p>对每一个研究课题，我们的工作流程是：</p>
-<ol>
-<li>确定 H0 和 Ha</li>
-<li>根据过往的研究和理论，确定要使用的假设检验方法</li>
-<li>选好一个<strong>显著性水平</strong> significance level，比如 alhpa = 0.05</li>
-<li>搜集数据，并计算 p 值</li>
-<li>如果 p 值 &lt; alpha，我们说<strong>拒绝原假设</strong>，否则，我们说<strong>无法拒绝原假设</strong></li>
-</ol>
-<p>是否拒绝原假设，受到我们选择的 significance level 影响。如果 p 值等于 0.06，而我们的 significance level 选了0.05，因为<code>0.06 &gt; 0.1</code>，这个时候我们会“无法拒绝原假设”。而如果 significance level 选了0.1，因为<code>0.06 &lt; 0.1</code>，我们就能够拒绝原假设。</p>
-<p>当我们做假设检验时，我们其实是在研究这个问题：<strong>给定原假设为真，我们有多大的可能观察到自己所搜集的数据，如果这个可能性很小，我们就拒绝原假设</strong>。当我们 p 值 &gt; alpha 时，本质上等价于：<strong>我们所搜集到的数据并没有极端到能说明原假设是错的</strong>。这里的极端程度标准，就是我们选好的 significance level。</p>
-<p>以这个 H0 为例：本市的人均收入大于或等于8000元。 </p>
-<p>我们发现调查1万人的平均收入是7990元，这个数字比8000小，看上去人均收入似乎低于8000了，但要注意，抽样调查存在随机性，这10元的差距很有可能是随机现象导致。换句话说，我们观察到的数据不足以证明原假设是错的。</p>
-<p>但我们是否能接受“人均收入大于或等于8000”的说法呢？显然不能，7990 的调查结果当然支撑不了这个说法。</p>
-<p>如果我们想要证明人均收入大于8000，我们的原假设就应该是：人均收入小于或等于8000（原假设里一定要有等号）。</p>
-<h2 id="第1类错误和第2类错误"><a href="#第1类错误和第2类错误" class="headerlink" title="第1类错误和第2类错误"></a>第1类错误和第2类错误</h2><p>理论部分搞清楚后，我们开始介绍第1类错误和第2类错误。</p>
-<p>第1类错误：原假设为真，但我们拒绝了原假设。这类错误叫<strong>去真</strong>，英文文献里说 false positive。<br>第2类错误：原假设为假，但我们没有拒绝原假设。这类错误叫<strong>存伪</strong>，英文文献里叫 false negative。</p>
-<p>如下图：<br><img src="/blog/2020/01/15/type-one-error/error.png" class="" title="假设检验的错误"></p>
-<p>犯第1类错误的概率，就是之前出现的 significance level。如果我们确定了 alpha = 0.05，那么在100次假设检验中，就会有5次出现第1类错误。</p>
-<p>犯第2类错误的概率，被称为 beta，另一个常用统计学概念 power（统计功效）就等于 1 - beta。犯第2类错误的概率越低，建设检验的 power 就越高。</p>
-<p>在这两类错误中，我们更关心哪一类呢？有的书籍会告诉我们第1类错误更重要，它们会用法庭审判的例子，说审判一个无罪的人有罪（第1类错误）是更大的风险，这其实只是个比喻，不是个好例子。下面我们看两个例子。</p>
-<h3 id="例子1"><a href="#例子1" class="headerlink" title="例子1"></a>例子1</h3><p>我们用统计学使用的最严格的场景做例子：药物效果的判断。新药上市前，要经过一系列严格的医学试验。</p>
-<p>H0：药物 A 对治疗某疾病没有帮助<br>Ha：药物 A 对治疗某疾病有帮助</p>
-<p>相关错误和结果如下：</p>
-<p>第1类错误：药物 A 是没用的，但我们拒绝了原假设，给出了药物 A 是有用的的判断。药物上市，患者购买后没有帮助，患者因为使用 A 药物可能没有使用其他有效的药物，最后可能有负面结果（甚至死亡），进一步研究发现药物 A 是无效的，公司面料患者诉讼，甚至可能破产。</p>
-<p>第2类错误：药物 A 是有用的，但我们没有拒绝原假设。结果：药物无法上市，公司损失了潜在的收入，病人失去了一种潜在的治疗方案。</p>
-<p>两种结果，作为公司管理者的你，你会更希望减少哪一种错误的概率呢？显然是第1种。</p>
-<h3 id="例子2"><a href="#例子2" class="headerlink" title="例子2"></a>例子2</h3><p>我们做疾病筛查时，H0 和 Ha 分别是：</p>
-<p>H0：病人没有疾病<br>Ha：病人有疾病</p>
-<p>相关错误如下：</p>
-<p>第1类错误：病人是没病的，被诊断为有病。病人痛哭流涕，但在之后的进一步检查中，病人发现自己并没有生病，虚惊一场，进而联想到生命的可贵，于是变成一个好父亲好丈夫。</p>
-<p>第2类错误：病人是有病的，但原假设没有被拒绝，病人不知道自己生病了，于是逍遥快活，错过了治疗时机，然后症状变严重时，才进一步检查，发现得了病。</p>
-<p>在这个例子里，你会更希望减少哪一类错误的概率呢？显然是第2种。在 HIV 检测中，false negative 确实比 false positve 更少见。</p>
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>在实际研究中，我们可以降低两类错误的概率：</p>
-<ol>
-<li>第1类错误：通过选择更低的 significant level</li>
-<li>第2类错误：通过扩大样本量或选择单侧检验</li>
-</ol>
-<p>样本量足够大的时候，我们总是能把两类错误的概率降到足够低。但在实际应用中，更大的样本意味着成本：时间成本和金钱成本。</p>
-<p>以 A/B 测试为例，只要样本量足够大，一定发现更好的方案。但产品有自己的迭代计划，每个产品有一系列的 A/B 测试需要做，不可能等每一个测试出现结果。这个时候就必须为了效率牺牲准确性。</p>
-<p>有的领域，准确性非常非常重要，比如治疗癌症的药物研究，那是人命关天的事情，而且每天都在烧钱，真的是字面意义上的烧钱。</p>
-<p>相比之下，互联网产品的容错率还是很高的。业界能够接受的标准一般是：</p>
-<ul>
-<li>5%的犯一类错误的概率</li>
-<li>20%的犯二类错误的概率</li>
-</ul>
-<p>一般的产品按照这个标准去做研究，不会有大问题。</p>
+<img src="/blog/2020/01/21/gg-daily-heatmap/gg_waterfall.png" class="" title="heatmap">
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -404,6 +346,9 @@
       
         
           
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/R/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>R</p></a></div>
+
 
         
       
@@ -415,33 +360,14 @@
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/blog/2020/01/15/ab-test-ctr/" rel="prev" title="AB测试的例子：转化率">
-                                
-                                    AB测试的例子：转化率
-                                
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
               
                   <section class="next">
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/blog/2020/01/13/r-dist-func/" rel="prev" title="R 语言里常用的分布函数">
+                              <a href="/blog/2020/01/21/gg-funnel/" rel="prev" title="ggplot 系列之：别用漏斗图">
                                   
-                                      R 语言里常用的分布函数
+                                      ggplot 系列之：别用漏斗图
                                   
                               </a>
                           </h4>
@@ -478,7 +404,7 @@
 
   <script>
     window.subData = {
-      title: '1类错误和2类错误',
+      title: 'gg-daily-heatmap',
       tools: true
     }
   </script>
@@ -502,20 +428,6 @@
           
             
               
-  <section class='widget toc-wrapper'>
-    
-<header class='pure'>
-  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
-  
-    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
-  
-</header>
-
-    <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原假设"><span class="toc-text">原假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为啥不能说“接受”原假设"><span class="toc-text">为啥不能说“接受”原假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第1类错误和第2类错误"><span class="toc-text">第1类错误和第2类错误</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#例子1"><span class="toc-text">例子1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子2"><span class="toc-text">例子2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实践"><span class="toc-text">实践</span></a></li></ol>
-    </div>
-  </section>
-
 
             
           
