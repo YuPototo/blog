@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>gg-daily-heatmap | 商业与数据</title>
+  <title>ggplot 系列之：ggTimeSeries | 商业与数据</title>
   
   
 
@@ -257,7 +257,7 @@
   
     <h1 class="title">
       <a href="/blog/2020/01/21/gg-daily-heatmap/">
-        gg-daily-heatmap
+        ggplot 系列之：ggTimeSeries
       </a>
     </h1>
   
@@ -313,8 +313,20 @@
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
         <img src="/blog/2020/01/21/gg-daily-heatmap/daily_heatmap.png" class="" title="heatmap">
+<p>今天看到一个有趣的 R pakcage：<a href="https://github.com/AtherEnergy/ggTimeSeries" target="_blank" rel="noopener">ggTimeSeries</a> 能够对时间序列数据做出有趣的图片。</p>
 <p><a id="more"></a></p>
+<h2 id="日期热点图"><a href="#日期热点图" class="headerlink" title="日期热点图"></a>日期热点图</h2><p>我最喜欢的是下面这个日期热点图，它能够展示连续变量在一年里每天的数据情况，月份在 x 轴，工作日在 y 轴，数据大小用填充色表示。</p>
+<p>我随便找了个每日温度数据，做出了最上面那个图，做图代码如下：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基本图</span></span><br><span class="line">p0 &lt;- df %&gt;%</span><br><span class="line">  ggplot_calendar_heatmap(<span class="string">'date'</span>,<span class="string">'meantemp'</span>, dayBorderColour = <span class="string">'#cccccc'</span>, monthBorderColour = <span class="string">'#777777'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加工</span></span><br><span class="line">p0 +</span><br><span class="line">  scale_fill_continuous(low = <span class="string">'green'</span>, high = <span class="string">'red'</span>) + </span><br><span class="line">  facet_wrap(~Year, ncol = <span class="number">1</span>) +</span><br><span class="line">  labs(x = <span class="literal">NULL</span>,</span><br><span class="line">       y = <span class="literal">NULL</span>,</span><br><span class="line">       fill = <span class="literal">NULL</span>,</span><br><span class="line">       title = <span class="string">'每日平均气温'</span>) +</span><br><span class="line">  theme_minimal() +</span><br><span class="line">  theme(text=element_text(family=<span class="string">"Songti TC Regular"</span>)) </span><br></pre></td></tr></tbody></table></figure>
+<p>这个展示方式很适合用来展示有工作日趋势和季度趋势的时间序列数据，比如每日销售、网站访问量。</p>
+<p>寒假和暑假经常是游戏流量的高峰，这个信息就能在这个图片上一目了然。</p>
+<p>工作日的游戏流量低于周末，也很适合在这个图表上展示。</p>
+<h2 id="waterfall-图"><a href="#waterfall-图" class="headerlink" title="waterfall 图"></a>waterfall 图</h2><p>这个 package 里还有一个我喜欢的图，waterfall 图：</p>
 <img src="/blog/2020/01/21/gg-daily-heatmap/gg_waterfall.png" class="" title="heatmap">
+<p>Waterfall 图用箭头标注了数据的每日变化，展示每天都有波动的数据很合适，比如股票价格等。</p>
+<p>上图的做图代码：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基本图</span></span><br><span class="line">df %&gt;%</span><br><span class="line">  ggplot_waterfall(<span class="string">'date'</span>,<span class="string">'meantemp'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加工</span></span><br><span class="line">p0 +</span><br><span class="line">  labs(x = <span class="literal">NULL</span>,</span><br><span class="line">       y = <span class="literal">NULL</span>,</span><br><span class="line">       color = <span class="string">'变化'</span>,</span><br><span class="line">       title = <span class="string">'每日平均气温'</span>) +</span><br><span class="line">  theme_classic(<span class="number">16</span>) +</span><br><span class="line">  theme(text=element_text(family=<span class="string">"Songti TC Regular"</span>),</span><br><span class="line">        plot.title = element_text(hjust = <span class="number">0.5</span>)) </span><br><span class="line"></span><br><span class="line">  theme(text=element_text(family=<span class="string">"Songti TC Regular"</span>)) </span><br></pre></td></tr></tbody></table></figure>
+<p>这个 package 里还有其他几个可视化方法，个人觉得不太实用，有兴趣的同学可以去看看。</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -404,7 +416,7 @@
 
   <script>
     window.subData = {
-      title: 'gg-daily-heatmap',
+      title: 'ggplot 系列之：ggTimeSeries',
       tools: true
     }
   </script>
@@ -428,6 +440,20 @@
           
             
               
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#日期热点图"><span class="toc-text">日期热点图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#waterfall-图"><span class="toc-text">waterfall 图</span></a></li></ol>
+    </div>
+  </section>
+
 
             
           
