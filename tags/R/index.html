@@ -287,6 +287,112 @@
       
         
   <h2 class="title">
+    <a href="/blog/2020/01/22/simu-clt-2/">
+      模拟“中心极限定理” - 比例篇
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-01-23</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>统计理论</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>上一篇模拟了均值的中心极限定理，这一篇再扩展一下。</p>
+<p>中心极限定理不只适用于均值，还可用于对“占比”的描述。什么是占比呢？</p>
+<p>例子：</p>
+<ul>
+<li>总统选举中候选人 A 的支持率</li>
+<li>App Store 落地页的下载转化率</li>
+<li>认为 Google 股票会上涨的股民比例</li>
+<li>…</li>
+</ul>
+<p>在互联网行业，这个指标最重要的应用应该是各种转化率。</p>
+<p>中心极限定理公诉我们，当样本足够大时，样本的比例符合正态分布。</p>
+<p>该分布的均值等于总体的分布：</p>
+<p><img src="/blog/2020/01/22/simu-clt-2/mean.png" class="" title="mean_of_sample_dist"></p>
+<p>该分布的标准差可以用如下公式计算：<br><img src="/blog/2020/01/22/simu-clt-2/se.png" class="" title="se_of_sample_dist"></p>
+<p>接下来我们模拟 proportion 的中心极限定理。</p>
+<p></p>
+      
+        <div class="readmore">
+          <a href="/blog/2020/01/22/simu-clt-2/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/blog/tags/R/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> R</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
     <a href="/blog/2020/01/22/simu-clt-1/">
       模拟“中心极限定理” - 均值篇
     </a>
@@ -1130,99 +1236,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/blog/2020/01/15/ab-test-ctr/">
-      AB测试的例子：转化率
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/blog/categories/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>增长黑客</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <img src="/blog/2020/01/15/ab-test-ctr/abtest.jpeg" class="" title="题图">
-<p>AB 测试是互联网产品优化的科学方法，甚至可能是唯一科学的方法。在这篇文章里，我用 R 语言模拟 AB 测试的流程。</p>
-<p></p>
-      
-        <div class="readmore">
-          <a href="/blog/2020/01/15/ab-test-ctr/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/blog/tags/R/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> R</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1401,7 +1414,7 @@
         
           <li><a class="flat-box" title="/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" href="/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"><div class='name'>数据科学</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/" href="/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/"><div class='name'>统计理论</div><div class='badge'>(5)</div></a></li>
+          <li><a class="flat-box" title="/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/" href="/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/"><div class='name'>统计理论</div><div class='badge'>(6)</div></a></li>
         
       </ul>
     </div>

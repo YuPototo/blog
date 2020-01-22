@@ -344,7 +344,7 @@
 <p>前一步返回了均值的 data frame，我们可以用其画出直方图，展示分布情况。<br>同时我在这一步计算了这组分布的标准差。</p>
 <h3 id="函数：汇总"><a href="#函数：汇总" class="headerlink" title="函数：汇总"></a>函数：汇总</h3><figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">simulate_and_draw &lt;- <span class="keyword">function</span>(size, n = <span class="number">10000</span>, bin_width) {</span><br><span class="line">  simulate_df(size, n) %&gt;%</span><br><span class="line">    draw_plot(size, bin_width)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 <p>把 <code>simulate_df</code> 和 <code>draw_plot</code> 两个函数结合，生成一个新的函数<code>simulate_and_draw</code>。<br>准备工作结束。</p>
-<h3 id="调用函数"><a href="#调用函数" class="headerlink" title="调用函数"></a>调用函数</h3><p>我们依次计算并画出掷骰子1次、5次、10次、20次、50次和100次的模拟结果：</p>
+<h3 id="调用函数"><a href="#调用函数" class="headerlink" title="调用函数"></a>调用函数</h3><p>我们依次计算并画出掷骰子1次、5次、10次、20次、50次和100次的模拟结果（模拟10000次实验）：</p>
 <figure class="highlight r"><figcaption><span>R代码</span></figcaption><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">p1 &lt;- simulate_and_draw(size = <span class="number">1</span>, bin_width = <span class="number">0.2</span>)</span><br><span class="line">p2 &lt;-  simulate_and_draw(size = <span class="number">5</span>, bin_width = <span class="number">0.2</span>)</span><br><span class="line">p3 &lt;- simulate_and_draw(size = <span class="number">10</span>,  bin_width = <span class="number">0.2</span>)</span><br><span class="line">p4 &lt;- simulate_and_draw(size = <span class="number">20</span>,  bin_width = <span class="number">0.15</span>)</span><br><span class="line">p5 &lt;- simulate_and_draw(size = <span class="number">50</span>,  bin_width = <span class="number">0.1</span>)</span><br><span class="line">p6 &lt;- simulate_and_draw(size = <span class="number">200</span>,  bin_width = <span class="number">0.03</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结合6个图片</span></span><br><span class="line">ggarrange(p1, p2, p3, p4, p5, p6,</span><br><span class="line">          nrow = <span class="number">3</span>, ncol = <span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
 <h2 id="模拟结果"><a href="#模拟结果" class="headerlink" title="模拟结果"></a>模拟结果</h2><p>如下图：</p>
 <p><img src="/blog/2020/01/22/simu-clt-1/plot_all.png" class="" title="plot_all"></p>
@@ -399,6 +399,25 @@
       
       
           <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/blog/2020/01/22/simu-clt-2/" rel="prev" title="模拟“中心极限定理” - 比例篇">
+                                
+                                    模拟“中心极限定理” - 比例篇
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
               
               
                   <section class="next">

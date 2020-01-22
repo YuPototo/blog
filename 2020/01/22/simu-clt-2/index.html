@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Archives: 2018/7 | 商业与数据</title>
+  <title>模拟“中心极限定理” - 比例篇 | 商业与数据</title>
   
   
 
@@ -49,7 +49,7 @@
   
   
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="cover-wrapper">
-    <cover class='cover  half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>商业与数据</h1>
@@ -242,22 +242,10 @@
   <div class="l_body">
     <div class='body-wrapper'>
       <div class='l_main'>
-	
-		
-  <section class="post-list">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
   
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
 
 
   <section class='meta'>
@@ -266,11 +254,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/blog/2018/07/01/2018-07-01-Async/">
-      JavaScript：如何理解“异步”和“同步”
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/blog/2020/01/22/simu-clt-2/">
+        模拟“中心极限定理” - 比例篇
+      </a>
+    </h1>
+  
 
 
       
@@ -282,7 +272,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2018-07-01</p>
+    <p>2020-01-23</p>
   </a>
 </div>
 
@@ -292,9 +282,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/blog/categories/Coding/' rel="nofollow">
+    <a href='/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Coding</p>
+      <p>统计理论</p>
     </a>
   </div>
 
@@ -320,44 +310,144 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <img src="/blog/2018/07/01/2018-07-01-Async/syncOrAsync.png" class="" title="asyncOrSync">
-<p>怎么理解 async（异步） 和 sync（同步） 呢？</p>
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <p>上一篇模拟了均值的中心极限定理，这一篇再扩展一下。</p>
+<p>中心极限定理不只适用于均值，还可用于对“占比”的描述。什么是占比呢？</p>
+<p>例子：</p>
+<ul>
+<li>总统选举中候选人 A 的支持率</li>
+<li>App Store 落地页的下载转化率</li>
+<li>认为 Google 股票会上涨的股民比例</li>
+<li>…</li>
+</ul>
+<p>在互联网行业，这个指标最重要的应用应该是各种转化率。</p>
+<p>中心极限定理公诉我们，当样本足够大时，样本的比例符合正态分布。</p>
+<p>该分布的均值等于总体的分布：</p>
+<p><img src="/blog/2020/01/22/simu-clt-2/mean.png" class="" title="mean_of_sample_dist"></p>
+<p>该分布的标准差可以用如下公式计算：<br><img src="/blog/2020/01/22/simu-clt-2/se.png" class="" title="se_of_sample_dist"></p>
+<p>接下来我们模拟 proportion 的中心极限定理。</p>
+<p><a id="more"></a></p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>假设某 app 有100万个用户，该 app 想上线一个新功能，但直接全量上线是不太好，风险太大。</p>
+<p>为了测试这个新功能是否受欢迎，产品经理决定先让一部分用户试用，然后再对他们做调查，提问他们是否喜欢这个功能。</p>
+<p>根据中心极限定理，样本量越大越符合正态分布，且方差越小。我们模拟不同样本量下的估计值的分布。</p>
+<h2 id="R-代码"><a href="#R-代码" class="headerlink" title="R 代码"></a>R 代码</h2><p>代码跟上一篇差不多。</p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(tidyverse)</span><br><span class="line"><span class="keyword">library</span>(ggpubr)</span><br><span class="line"></span><br><span class="line">set.seed(<span class="number">123</span>)</span><br><span class="line"></span><br><span class="line">pop_size &lt;- <span class="number">1000000</span></span><br><span class="line">pop_player &lt;- c(rep(<span class="string">"like"</span>, <span class="number">0.7</span> * pop_size), rep(<span class="string">"dislike"</span>, <span class="number">0.3</span> * pop_size))</span><br></pre></td></tr></tbody></table></figure>
+<p>准备需要的 package，并定好随机数。然后创建100万名用户，其中有70%的人会喜欢新功能，有30%的人会不喜欢。</p>
+<h3 id="函数：抽样、模拟、做图"><a href="#函数：抽样、模拟、做图" class="headerlink" title="函数：抽样、模拟、做图"></a>函数：抽样、模拟、做图</h3><p>这段代码跟上一篇差不多：</p>
+<ul>
+<li><code>sample_player</code> 进行一次抽样，可以选择抽样人数</li>
+<li><code>simulate_df</code> 模拟 n 次实验</li>
+<li><code>draw_plot</code> 对 n 次实验的结果做图</li>
+<li><code>simulate_and_draw</code> 封装了上面几个函数</li>
+</ul>
+<p>针对这篇的主题，某些地方做了调整。</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">sample_player &lt;- <span class="keyword">function</span>(size) {</span><br><span class="line">  sample_vec &lt;- sample(pop_player, size = size)</span><br><span class="line">  sum(sample_vec == <span class="string">"like"</span>) / size</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">simulate_df &lt;- <span class="keyword">function</span>(size, n) {</span><br><span class="line">  df &lt;- data.frame(sample_prop = rep(<span class="number">0</span>, n))</span><br><span class="line">  <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:n) {</span><br><span class="line">    df[i, <span class="number">1</span>] &lt;- sample_player(size)</span><br><span class="line">  }</span><br><span class="line">  df</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">draw_plot &lt;- <span class="keyword">function</span>(df, size, bin_width=<span class="number">0.1</span>) {</span><br><span class="line">  stan_dev &lt;- round(sd(df$sample_prop), <span class="number">2</span>)</span><br><span class="line">  ggplot(df, aes(x = sample_prop)) + </span><br><span class="line">    geom_histogram(binwidth = bin_width) +</span><br><span class="line">    scale_x_continuous(labels = scales::percent,</span><br><span class="line">                       limits = c(<span class="number">0</span>: <span class="number">1</span>)) +</span><br><span class="line">    labs(title = str_c(<span class="string">'调查'</span>, size, <span class="string">'个玩家'</span>),</span><br><span class="line">         subtitle = str_c(<span class="string">'点估计标准差 = '</span>, stan_dev),</span><br><span class="line">         x = <span class="string">'表示"喜欢的"玩家占比'</span>,</span><br><span class="line">         y = <span class="string">'频数'</span>) </span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">simulate_and_draw &lt;- <span class="keyword">function</span>(size, n = <span class="number">5000</span>, bin_width = <span class="number">0.1</span>) {</span><br><span class="line">  simulate_df(size, n) %&gt;%</span><br><span class="line">  draw_plot(size, bin_width)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="做图"><a href="#做图" class="headerlink" title="做图"></a>做图</h3><p>下面计算抽样5人、10人、20人、40人、100人和1000人的情况，为了节约运算时间，模拟5000轮：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p1 &lt;- simulate_and_draw(<span class="number">5</span>, bin_width = <span class="number">0.1</span>)</span><br><span class="line">p2 &lt;- simulate_and_draw(<span class="number">10</span>, bin_width = <span class="number">0.05</span>)</span><br><span class="line">p3 &lt;- simulate_and_draw(<span class="number">20</span>, bin_width = <span class="number">0.05</span>)</span><br><span class="line">p4 &lt;- simulate_and_draw(<span class="number">40</span>, bin_width = <span class="number">0.025</span>)</span><br><span class="line">p5 &lt;- simulate_and_draw(<span class="number">100</span>, bin_width = <span class="number">0.01</span>)</span><br><span class="line">p6 &lt;- simulate_and_draw(<span class="number">1000</span>, bin_width = <span class="number">0.003</span>)</span><br><span class="line"></span><br><span class="line">ggarrange(p1, p2, p3, p4, p5, p6,</span><br><span class="line">          nrow = <span class="number">3</span>, ncol = <span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>做图结果如下：</p>
+<p><img src="/blog/2020/01/22/simu-clt-2/plot_all.png" class="" title="plot_all"></p>
+<p>可以看到：</p>
+<ul>
+<li>样本数量足够大时，样本内 proportion 的分布接近正态分布</li>
+<li>样本数量越大，分布的标准差越小</li>
+</ul>
+<p>对于一个100万用户的产品，如果新功能受到70%人喜欢，调查1000个用户就足以知道新功能是否受欢迎了。</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+      </div>
       
-        <div class="readmore">
-          <a href="/blog/2018/07/01/2018-07-01-Async/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/R/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>R</p></a></div>
+
+
+        
       
     </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/blog/tags/JavaScript/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> JavaScript</a>
-        
-      </div>
-    
   </section>
-</article>
 
-          </div>
-        
+
       
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/blog/2020/01/22/simu-clt-1/" rel="prev" title="模拟“中心极限定理” - 均值篇">
+                                  
+                                      模拟“中心极限定理” - 均值篇
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
 
   
 
 
-	
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '模拟“中心极限定理” - 比例篇',
+      tools: true
+    }
+  </script>
+
+
 </div>
 <aside class='l_side'>
   
@@ -368,108 +458,6 @@
         
           
           
-            
-              <section class='widget author'>
-  <div class='content pure'>
-    
-      <div class='avatar'>
-        <img class='avatar' src='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/avatar/avatar.png'/>
-      </div>
-    
-    
-    
-  </div>
-</section>
-
-            
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-      
-        
-          
-          
-        
-          
-          
-            
-              <section class='widget plain'>
-  
-<header class='pure'>
-  <div><i class="fas fa-file fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文本部件</div>
-  
-</header>
-
-  <div class='content pure'>
-    <p>这是一段支持markdown的文本<br><img src="https://img.vim-cn.com/4e/3c87a2fd28fd0b9c2f27ce3f83f1e9275d0488.png" alt=""></p>
-
-  </div>
-</section>
-
-            
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-      
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-      
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-      
-        
-          
-          
-        
-          
-          
         
           
           
@@ -478,36 +466,17 @@
           
             
               
-  <section class='widget category'>
+  <section class='widget toc-wrapper'>
     
 <header class='pure'>
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
   
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/blog/categories/"
-    title="blog/categories/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
   
 </header>
 
     <div class='content pure'>
-      <ul class="entry">
-        
-          <li><a class="flat-box" title="/blog/categories/Coding/" href="/blog/categories/Coding/"><div class='name'>Coding</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box" title="/blog/categories/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2/" href="/blog/categories/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2/"><div class='name'>增长黑客</div><div class='badge'>(5)</div></a></li>
-        
-          <li><a class="flat-box" title="/blog/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/" href="/blog/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/"><div class='name'>数据可视化</div><div class='badge'>(10)</div></a></li>
-        
-          <li><a class="flat-box" title="/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" href="/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"><div class='name'>数据科学</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box" title="/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/" href="/blog/categories/%E7%BB%9F%E8%AE%A1%E7%90%86%E8%AE%BA/"><div class='name'>统计理论</div><div class='badge'>(6)</div></a></li>
-        
-      </ul>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景"><span class="toc-text">场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#R-代码"><span class="toc-text">R 代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数：抽样、模拟、做图"><span class="toc-text">函数：抽样、模拟、做图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#做图"><span class="toc-text">做图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果"><span class="toc-text">结果</span></a></li></ol>
     </div>
   </section>
 
@@ -518,47 +487,7 @@
           
           
         
-      
-        
           
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-        
-          
-          
-            
-              
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/blog/tags/JavaScript/" style="font-size: 17.33px; color: #828282">JavaScript</a> <a href="/blog/tags/Python/" style="font-size: 20.67px; color: #6c6c6c">Python</a> <a href="/blog/tags/R/" style="font-size: 24px; color: #555">R</a> <a href="/blog/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">机器学习</a>
-    </div>
-  </section>
-
-
-            
           
         
       
@@ -587,14 +516,6 @@
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
-
-
-
-
-	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-	
-
-	
 
 
       <script>setLoadingBarProgress(60);</script>
