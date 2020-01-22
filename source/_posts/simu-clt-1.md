@@ -121,7 +121,7 @@ simulate_and_draw <- function(size, n = 10000, bin_width) {
 准备工作结束。
 
 ### 调用函数
-我们依次计算并画出掷骰子1次、5次、10次、20次、50次和100次的模拟结果：
+我们依次计算并画出掷骰子1次、5次、10次、20次、50次和100次的模拟结果（模拟10000次实验）：
 
 {% codeblock R代码 lang:r %}
 p1 <- simulate_and_draw(size = 1, bin_width = 0.2)
