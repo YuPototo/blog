@@ -1,6 +1,10 @@
 ---
 title: ggplot系列之：theme
 date: 2020-01-21 22:21:31
+categories:
+  - 数据可视化
+tags:
+  - R
 ---
 
 {% asset_img plot_all.png "带数字的柱状图" %}
@@ -153,3 +157,15 @@ p1 + theme(plot.title = element_text(color = 'red',  hjust = 0.5, size = 20),
 {% asset_img plot_10.png "theme_edit" %}
 
 这只是个说明性的例子，ggplot 提供了非常丰富的图片修改可能，图片上的任何“元素”都可以使用某个命令修改。
+
+## bonus: theme_xkcd
+
+最近刷到一个有意思的主题：xkcd。需要安装 package xkcd。
+这是个卡通风格的主题，需要字体 xkcd，不支持中文。
+
+用 `theme_xkcd()` 做图如下：
+
+{% asset_img plot_xkcd.png "theme_xkcd" %}
+
+太可爱了 :laughing:
+
