@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>模拟“中心极限定理” - 比例篇 | 商业与数据</title>
+  <title>t-test | 商业与数据</title>
   
   
 
@@ -256,8 +256,8 @@
         
   
     <h1 class="title">
-      <a href="/blog/2020/01/22/simu-clt-2/">
-        模拟“中心极限定理” - 比例篇
+      <a href="/blog/2020/01/23/t-test/">
+        t-test
       </a>
     </h1>
   
@@ -272,7 +272,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-23</p>
+    <p>2020-01-24</p>
   </a>
 </div>
 
@@ -312,47 +312,47 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>上一篇模拟了均值的中心极限定理，这一篇再扩展一下。</p>
-<p>中心极限定理不只适用于均值，还可用于对“占比”的描述。什么是占比呢？</p>
-<p>例子：</p>
+        <p>T-test 应该是统计学里学习的第1个检验，可谓大家的统计学初恋。</p>
+<p>T-test 可以用来：</p>
 <ul>
-<li>总统选举中候选人 A 的支持率</li>
-<li>App Store 落地页的下载转化率</li>
-<li>认为 Google 股票会上涨的股民比例</li>
-<li>…</li>
+<li>比较一个总体的均值和一个常数</li>
+<li>比较两个总体的均值</li>
 </ul>
-<p>在互联网行业，这个指标最重要的应用应该是各种转化率。</p>
-<p>中心极限定理公诉我们，当样本足够大时，样本的比例符合正态分布。</p>
-<p>该分布的均值等于总体的分布：</p>
-<p><img src="/blog/2020/01/22/simu-clt-2/mean.png" class="" title="mean_of_sample_dist"></p>
-<p>该分布的标准差可以用如下公式计算：<br><img src="/blog/2020/01/22/simu-clt-2/se.png" class="" title="se_of_sample_dist"></p>
-<p>接下来我们模拟 proportion 的中心极限定理。</p>
+<p>这篇文章介绍如何用 R 做 t-test。</p>
 <p><a id="more"></a></p>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>假设某 app 有100万个用户，该 app 想上线一个新功能，但直接全量上线是不太好，风险太大。</p>
-<p>为了测试这个新功能是否受欢迎，产品经理决定先让一部分用户试用，然后再对他们做调查，提问他们是否喜欢这个功能。</p>
-<p>根据中心极限定理，样本量越大越符合正态分布，且方差越小。我们模拟不同样本量下的估计值的分布。</p>
-<h2 id="R-代码"><a href="#R-代码" class="headerlink" title="R 代码"></a>R 代码</h2><p>代码跟上一篇差不多。</p>
-<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(tidyverse)</span><br><span class="line"><span class="keyword">library</span>(ggpubr)</span><br><span class="line"></span><br><span class="line">set.seed(<span class="number">123</span>)</span><br><span class="line"></span><br><span class="line">pop_size &lt;- <span class="number">1000000</span></span><br><span class="line">pop_player &lt;- c(rep(<span class="string">"like"</span>, <span class="number">0.7</span> * pop_size), rep(<span class="string">"dislike"</span>, <span class="number">0.3</span> * pop_size))</span><br></pre></td></tr></tbody></table></figure>
-<p>准备需要的 package，并定好随机数。然后创建100万名用户，其中有70%的人会喜欢新功能，有30%的人会不喜欢。</p>
-<h3 id="函数：抽样、模拟、做图"><a href="#函数：抽样、模拟、做图" class="headerlink" title="函数：抽样、模拟、做图"></a>函数：抽样、模拟、做图</h3><p>这段代码跟上一篇差不多：</p>
-<ul>
-<li><code>sample_player</code> 进行一次抽样，可以选择抽样人数</li>
-<li><code>simulate_df</code> 模拟 n 次实验</li>
-<li><code>draw_plot</code> 对 n 次实验的结果做图</li>
-<li><code>simulate_and_draw</code> 封装了上面几个函数</li>
-</ul>
-<p>针对这篇的主题，某些地方做了调整。</p>
-<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">sample_player &lt;- <span class="keyword">function</span>(size) {</span><br><span class="line">  sample_vec &lt;- sample(pop_player, size = size)</span><br><span class="line">  sum(sample_vec == <span class="string">"like"</span>) / size</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">simulate_df &lt;- <span class="keyword">function</span>(size, n) {</span><br><span class="line">  df &lt;- data.frame(sample_prop = rep(<span class="number">0</span>, n))</span><br><span class="line">  <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:n) {</span><br><span class="line">    df[i, <span class="number">1</span>] &lt;- sample_player(size)</span><br><span class="line">  }</span><br><span class="line">  df</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">draw_plot &lt;- <span class="keyword">function</span>(df, size, bin_width=<span class="number">0.1</span>) {</span><br><span class="line">  stan_dev &lt;- round(sd(df$sample_prop), <span class="number">2</span>)</span><br><span class="line">  ggplot(df, aes(x = sample_prop)) + </span><br><span class="line">    geom_histogram(binwidth = bin_width) +</span><br><span class="line">    scale_x_continuous(labels = scales::percent,</span><br><span class="line">                       limits = c(<span class="number">0</span>: <span class="number">1</span>)) +</span><br><span class="line">    labs(title = str_c(<span class="string">'调查'</span>, size, <span class="string">'个玩家'</span>),</span><br><span class="line">         subtitle = str_c(<span class="string">'点估计标准差 = '</span>, stan_dev),</span><br><span class="line">         x = <span class="string">'表示"喜欢的"玩家占比'</span>,</span><br><span class="line">         y = <span class="string">'频数'</span>) </span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">simulate_and_draw &lt;- <span class="keyword">function</span>(size, n = <span class="number">5000</span>, bin_width = <span class="number">0.1</span>) {</span><br><span class="line">  simulate_df(size, n) %&gt;%</span><br><span class="line">  draw_plot(size, bin_width)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="做图"><a href="#做图" class="headerlink" title="做图"></a>做图</h3><p>下面计算抽样5人、10人、20人、40人、100人和1000人的情况，为了节约运算时间，模拟5000轮：</p>
-<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p1 &lt;- simulate_and_draw(<span class="number">5</span>, bin_width = <span class="number">0.1</span>)</span><br><span class="line">p2 &lt;- simulate_and_draw(<span class="number">10</span>, bin_width = <span class="number">0.05</span>)</span><br><span class="line">p3 &lt;- simulate_and_draw(<span class="number">20</span>, bin_width = <span class="number">0.05</span>)</span><br><span class="line">p4 &lt;- simulate_and_draw(<span class="number">40</span>, bin_width = <span class="number">0.025</span>)</span><br><span class="line">p5 &lt;- simulate_and_draw(<span class="number">100</span>, bin_width = <span class="number">0.01</span>)</span><br><span class="line">p6 &lt;- simulate_and_draw(<span class="number">1000</span>, bin_width = <span class="number">0.003</span>)</span><br><span class="line"></span><br><span class="line">ggarrange(p1, p2, p3, p4, p5, p6,</span><br><span class="line">          nrow = <span class="number">3</span>, ncol = <span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>做图结果如下：</p>
-<p><img src="/blog/2020/01/22/simu-clt-2/plot_all.png" class="" title="plot_all"></p>
-<p>可以看到：</p>
-<ul>
-<li>样本数量足够大时，样本内 proportion 的分布接近正态分布</li>
-<li>样本数量越大，分布的标准差越小</li>
-</ul>
-<p>对于一个100万用户的产品，如果新功能受到70%人喜欢，调查1000个用户就足以知道新功能是否受欢迎了。</p>
+<h2 id="R-函数"><a href="#R-函数" class="headerlink" title="R 函数"></a>R 函数</h2><p>R 提供了 <code>t.test</code> 函数来做 t-test，非常直观。</p>
+<h3 id="t-test-同方差"><a href="#t-test-同方差" class="headerlink" title="t-test: 同方差"></a>t-test: 同方差</h3><p>我们随机生成两个标准正态分布，然后调用 <code>t.test</code> 做个检测。</p>
+<p>原假设：两个分布的均值相等<br>备择假设：两个分布的均值不同</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- rnorm(<span class="number">50</span>)</span><br><span class="line">y &lt;- rnorm(<span class="number">30</span>)</span><br><span class="line">ts &lt;- t.test(x, y, var.equal = <span class="literal">TRUE</span>)  </span><br><span class="line">ts</span><br></pre></td></tr></tbody></table></figure>
+<p>注意 <code>t.test</code> 函数里的 <code>var.equal = TRUE</code>，我们的检测假设两个分布的方差相同。</p>
+<p>返回结果如下：<br></p><figure class="highlight r"><table><tbody><tr><td class="code"><pre><span class="line">	Two Sample t-test</span><br><span class="line"></span><br><span class="line">data:  x and y</span><br><span class="line marked">t = -<span class="number">0.83616</span>, df = <span class="number">78</span>, p-value = <span class="number">0.4056</span></span><br><span class="line">alternative hypothesis: true difference <span class="keyword">in</span> means is not equal to <span class="number">0</span></span><br><span class="line"><span class="number">95</span> percent confidence interval:</span><br><span class="line"> -<span class="number">0.5532166</span>  <span class="number">0.2259611</span></span><br><span class="line">sample estimates:</span><br><span class="line">mean of x mean of y </span><br><span class="line"><span class="number">0.1215518</span> <span class="number">0.2851795</span> </span><br></pre></td></tr></tbody></table></figure><p></p>
+<p>可以看到 p-value 很大，我们不能拒绝原假设。</p>
+<h3 id="t-test：异方差"><a href="#t-test：异方差" class="headerlink" title="t-test：异方差"></a>t-test：异方差</h3><p>上面的 t.test 假设两个分布的方差相同，我们知道这个假设成立，因为是我们自己生成的随机数。</p>
+<p>如果两个分布的方差不相同呢？</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- rnorm(<span class="number">50</span>, mean = <span class="number">0</span>, sd = <span class="number">3</span>)</span><br><span class="line">y &lt;- rnorm(<span class="number">30</span>, mean = <span class="number">0</span>, sd = <span class="number">10</span>)</span><br><span class="line">ts &lt;- t.test(x, y)  </span><br><span class="line">ts</span><br></pre></td></tr></tbody></table></figure>
+<p>我们删除了 <code>t.test</code> 里的 <code>var.equal = TRUE</code>。</p>
+<p>结果如下：<br>返回结果如下：<br></p><figure class="highlight r"><table><tbody><tr><td class="code"><pre><span class="line marked">	Welch Two Sample t-test</span><br><span class="line"></span><br><span class="line">data:  x and y</span><br><span class="line">t = <span class="number">0.8916</span>, df = <span class="number">32.443</span>, p-value = <span class="number">0.3792</span></span><br><span class="line">alternative hypothesis: true difference <span class="keyword">in</span> means is not equal to <span class="number">0</span></span><br><span class="line"><span class="number">95</span> percent confidence interval:</span><br><span class="line"> -<span class="number">1.964907</span>  <span class="number">5.027061</span></span><br><span class="line">sample estimates:</span><br><span class="line"> mean of x  mean of y </span><br><span class="line"> <span class="number">0.4192239</span> -<span class="number">1.1118530</span> </span><br></pre></td></tr></tbody></table></figure><p></p>
+<p>注意第一行的检测名称跟之前不一样了。</p>
+<p>如果想要假设两个样本的方差是否一样，可以考虑使用 F-test，在 R 里是 <code>var.test</code> 函数。</p>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>父母的学历（只算最高一方）会影响孩子的成绩吗？研究者搜集了相关数据：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">colleage_grads &lt;- c(<span class="number">485</span>, <span class="number">534</span>, <span class="number">650</span>, <span class="number">554</span>, <span class="number">550</span>, <span class="number">572</span>, <span class="number">497</span>, <span class="number">592</span>, <span class="number">487</span>, <span class="number">533</span>, <span class="number">526</span>, <span class="number">410</span>, <span class="number">515</span>, <span class="number">578</span>, <span class="number">448</span>, <span class="number">469</span>)</span><br><span class="line">high_school_grads &lt;- c(<span class="number">442</span>, <span class="number">580</span>, <span class="number">479</span>, <span class="number">486</span>, <span class="number">528</span>, <span class="number">524</span>, <span class="number">492</span>, <span class="number">478</span>, <span class="number">425</span>, <span class="number">485</span>, <span class="number">390</span>, <span class="number">535</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>注意，上面两组 vector 的长度不一样。</p>
+<p>针对研究问题，我们的原假设是：</p>
+<p>H0：父母是高中学历的学生的考试成绩均值 = 父母是大学学历的学生的考试成绩均值<br>Ha：父母是高中学历的学生的考试成绩均值 != 父母是大学学历的学生的考试成绩均值</p>
+<p>我们选定显著性水平为 5%。</p>
+<h3 id="数据可视化"><a href="#数据可视化" class="headerlink" title="数据可视化"></a>数据可视化</h3><p>在做进一步研究前，我们应该先看看两组数据的分布：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 整理做图需要的 long format</span></span><br><span class="line">df &lt;- data.frame(</span><br><span class="line">  value = c(colleage_grads, high_school_grads),</span><br><span class="line">  parent_deg = c(</span><br><span class="line">    rep(<span class="string">'大学'</span>, length(colleage_grads)),</span><br><span class="line">    rep(<span class="string">'高中'</span>, length(high_school_grads))</span><br><span class="line">  )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 ggplot2 做图</span></span><br><span class="line">ggplot(df, aes(x = parent_deg, y = value)) + </span><br><span class="line">  geom_boxplot() +</span><br><span class="line">  theme_classic(<span class="number">14</span>) + </span><br><span class="line">  labs(x = <span class="string">'父母最高学历'</span>,</span><br><span class="line">       y = <span class="string">'小孩的SAT成绩'</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>图片如下：</p>
+<p><img src="/blog/2020/01/23/t-test/boxplot.png" class="" title="boxplot"></p>
+<p>可以看到“大学”组的 box 比“高中”组更高，但这个差距是否具有统计显著性呢？</p>
+<h3 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h3><figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t.test(colleage_grads, high_school_grads)  </span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	Welch Two Sample t-test</span><br><span class="line"></span><br><span class="line">data:  colleage_grads and high_school_grads</span><br><span class="line marked">t = <span class="number">1.8038</span>, df = <span class="number">25.34</span>, p-value = <span class="number">0.08317</span></span><br><span class="line">alternative hypothesis: true difference <span class="keyword">in</span> means is not equal to <span class="number">0</span></span><br><span class="line"><span class="number">95</span> percent confidence interval:</span><br><span class="line"> -<span class="number">5.359164</span> <span class="number">81.359164</span></span><br><span class="line">sample estimates:</span><br><span class="line">mean of x mean of y </span><br><span class="line">      <span class="number">525</span>       <span class="number">487</span> </span><br></pre></td></tr></tbody></table></figure>
+<p>p-value = 0.08，大于我们商量好的显著性水平 0.05，所以我们无法拒绝原假设。</p>
+<p>虽然从图片来看，学历会对小孩成绩有影响，但数据表现出的差异并不能通过显著性检验。我们无法做出“父母学历会对小孩成绩有影响”的判断。</p>
+<p>这个例子很好，它说明了一个重要的道理：<strong>不要仅仅依靠数据可视化做判断</strong>。</p>
+<blockquote>
+<p>数据可视化代替不了统计检验。</p>
+</blockquote>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -398,33 +398,14 @@
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/blog/2020/01/23/conf-interval/" rel="prev" title="如何理解“置信区间”">
-                                
-                                    如何理解“置信区间”
-                                
-                              </a>
-                          </h4>
-                          
-                              
-                              <h6 class="tags">
-                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
-                              </h6>
-                          
-                      </span>
-                  </section>
-              
               
                   <section class="next">
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/blog/2020/01/22/simu-clt-1/" rel="prev" title="模拟“中心极限定理” - 均值篇">
+                              <a href="/blog/2020/01/23/test-two-variance/" rel="prev" title="对两个样本的方差做统计检验">
                                   
-                                      模拟“中心极限定理” - 均值篇
+                                      对两个样本的方差做统计检验
                                   
                               </a>
                           </h4>
@@ -461,7 +442,7 @@
 
   <script>
     window.subData = {
-      title: '模拟“中心极限定理” - 比例篇',
+      title: 't-test',
       tools: true
     }
   </script>
@@ -495,7 +476,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景"><span class="toc-text">场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#R-代码"><span class="toc-text">R 代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数：抽样、模拟、做图"><span class="toc-text">函数：抽样、模拟、做图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#做图"><span class="toc-text">做图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果"><span class="toc-text">结果</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#R-函数"><span class="toc-text">R 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#t-test-同方差"><span class="toc-text">t-test: 同方差</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#t-test：异方差"><span class="toc-text">t-test：异方差</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例"><span class="toc-text">案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据可视化"><span class="toc-text">数据可视化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检验"><span class="toc-text">检验</span></a></li></ol></li></ol>
     </div>
   </section>
 
