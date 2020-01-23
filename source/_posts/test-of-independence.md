@@ -1,7 +1,10 @@
 ---
-title: 独立性检验
+title: Test of Independence
 date: 2020-01-23 19:26:24
+categories:
+  - 统计理论
 tags:
+  - R
 ---
 
 在产品运营中，我们经常需要关心如下问题：
