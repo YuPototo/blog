@@ -20,7 +20,7 @@ style: pure        # pure: 导航栏和标题栏背景是白色
 ############################### 服务开关 ###############################
 scrollreveal: true
 nodewaves: true
-busuanzi: true
+busuanzi: false
 # fastclick: true
 
 
@@ -56,18 +56,14 @@ cover:
   # search_placeholder: '搜索'
   # 主页封面菜单
   features:
-    - name: 博文
-      icon: fas fa-rss
+    - name: 首页
+      icon: fas fa-home
       url: /
-    - name: 分类
-      icon: fas fa-folder-open
-      url: categories/
+    - name: 归档
+      icon: fas fa-archive
+      url: archives/
       rel: nofollow
-    - name: 标签
-      icon: fas fa-hashtag
-      url: tags/
-      rel: nofollow
-    - name: 关于
+    - name: 关于本站
       icon: fas fa-info-circle
       url: about/
       rel: nofollow
@@ -75,30 +71,22 @@ cover:
 
 # 桌面端导航栏菜单
 menu_desktop:
-  - name: 示例
-    icon: fas fa-grin
+  - name: 首页
+    icon: fas fa-home
     url: /
-  - name: 分类
-    icon: fas fa-folder-open
-    url: blog/categories/
-    rel: nofollow
-  - name: 标签
-    icon: fas fa-hashtag
-    url: blog/tags/
-    rel: nofollow
-  - name: 归档
+  - name: 文章归档
     icon: fas fa-archive
-    url: blog/archives/
+    url: archives/
     rel: nofollow
 
 # 手机端导航菜单（从右上角的按钮点击展开）
 menu_mobile:
-  - name: 近期文章
-    icon: fas fa-clock
+  - name: 首页
+    icon: fas fa-home
     url: /
   - name: 文章归档
     icon: fas fa-archive
-    url: blog/archives/
+    url: archives/
     rel: nofollow
 
 
@@ -126,24 +114,24 @@ layout:
 # 侧边栏小部件配置
 sidebar:
   - widget: author
-    avatar: https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/avatar/avatar.png
+    avatar: /images/avatar.png
     jinrishici: false
     social: false
   - widget: plain
-    icon: fas fa-file
-    title: 文本部件
-    body: '这是一段支持markdown的文本<br>![](https://img.vim-cn.com/4e/3c87a2fd28fd0b9c2f27ce3f83f1e9275d0488.png)'
+    icon: fas fa-envelope
+    title: 联系我
+    body: '邮箱：[sirius.qinyu@gmail.com](mailto:sirius.qinyu@gmail.com)'
   - widget: toc
   - widget: category
     more:
       icon: fas fa-expand-arrows-alt
-      url: blog/categories/
+      url: categories/
       rel: nofollow
   - widget: tagcloud
     icon: fas fa-tags
     more:
       icon: fas fa-expand-arrows-alt
-      url: blog/tags/
+      url: tags/
       rel: nofollow
   # - widget: related_posts # 需要安装插件  npm i -S hexo-related-popular-posts
 

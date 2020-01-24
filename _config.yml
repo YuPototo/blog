@@ -4,16 +4,20 @@
 
 # Site
 title: 商业与数据
-subtitle: ''
+subtitle: 'Yu 的博客'
 description: ''
 keywords:
 author: Yu Qin
-language: zh-CN
+language: 
+  - zh-CN
+  - en
 timezone: 'Asia/Shanghai'
+favicon: /images/favicon.ico
+
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://yupototo.github.io/blog/
 root: /blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
