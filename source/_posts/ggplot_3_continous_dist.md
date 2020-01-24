@@ -1,6 +1,6 @@
 ---
-title: ggplot系列之三：查看一组连续变量的分布
-date: 2017-04-25 17:40:26
+title: ggplot系列之3：查看一组连续变量的分布
+date: 2017-03-25 17:40:26
 categories:
   - 数据可视化
 tags:

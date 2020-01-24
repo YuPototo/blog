@@ -1,5 +1,5 @@
 ---
-title: ggplot系列之一：散点图
+title: ggplot系列之1：散点图
 date: 2017-01-05 21:52:50
 categories:
   - 数据可视化

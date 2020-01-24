@@ -1,6 +1,6 @@
 ---
-title: ggplot 系列之：饼图
-date: 2020-01-20 13:20:15
+title: ggplot系列之6：饼图
+date: 2017-06-01 13:20:15
 categories:
   - 数据可视化
 tags:

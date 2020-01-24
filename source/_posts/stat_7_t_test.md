@@ -2,9 +2,10 @@
 title: 统计推断之 t 检验
 date: 2020-01-24 00:49:49
 categories:
-  - 统计理论
+  - 统计学
 tags:
   - R
+  - Statistics
 ---
 
 T-test 应该是统计学里学习的第1个检验，可谓大家的统计推断初恋。

@@ -2,9 +2,10 @@
 title: Test of Independence
 date: 2020-01-23 19:26:24
 categories:
-  - 统计理论
+  - 统计学
 tags:
   - R
+  - Statistics
 ---
 
 在产品运营中，我们经常需要关心如下问题：

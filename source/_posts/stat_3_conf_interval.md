@@ -2,9 +2,10 @@
 title:  如何理解“置信区间”
 date: 2020-01-23 15:56:51
 categories:
-  - 统计理论
+  - 统计学
 tags:
   - R
+  - Statistics
 ---
 
 {% asset_img plot_0.png  "plot" %}

@@ -1,6 +1,6 @@
 ---
-title: ggplot系列之：theme
-date: 2020-01-21 22:21:31
+title: ggplot系列之8：theme
+date: 2017-08-10 22:21:31
 categories:
   - 数据可视化
 tags:

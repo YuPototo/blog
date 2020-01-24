@@ -1,6 +1,6 @@
 ---
-title: ggplot 系列之：别用漏斗图
-date: 2020-01-22 06:33:24
+title: ggplot系列之7：别用漏斗图
+date: 2017-07-20 06:33:24
 categories:
   - 数据可视化
 tags:

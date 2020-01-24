@@ -2,9 +2,10 @@
 title: R 语言里常用的分布函数
 date: 2020-01-14 00:59:44
 categories:
-  - Coding
+  - 统计学
 tags:
   - R
+  - Statistics
 ---
 
 这篇博文小结 R 语言里涉及概率分布的几个函数。
