@@ -19,7 +19,7 @@ tags:
 
 按照 callback 的定义，我创建并执行一个需要 callback 的 function：
 
-{% codeblock lang:JavaScript mark:5,9%}
+{% codeblock lang:JS mark:5,9%}
 function someFunc() {
   console.log('this is some func')
 }
@@ -52,7 +52,7 @@ funcWithCallback(someFunc)
 
 刚才我们首先定义了 `someFunc`，然后再在 `funcWithCallback` 里使用它。另外一个常见的做法是，在需要 callback 的地方直接定义一个函数。
 
-{% codeblock lang:JavaScript mark:9-11 %}
+{% codeblock lang:JS mark:9-11 %}
 function funcWithCallback(callback) {
   console.log('this is function funcWithCallback')
 
@@ -75,7 +75,7 @@ funcWithCallback(function() {
 
 这个做法可以用箭头函数轻易改写：
 
-{% codeblock lang:JavaScript %}
+{% codeblock lang:JS %}
 funcWithCallback(() => console.log('this is callback'))
 {% endcodeblock %}
 
@@ -85,7 +85,7 @@ JavaScript 里最经典的使用 callback 的函数是 `setTimeout(func, delay, 
 - func: callback 函数
 - delay: 推迟执行的时间
 - ...args: func 的参数
-{% codeblock lang:JavaScript %}
+{% codeblock lang:JS %}
 function sayHi(name) {
   console.log(`Hello, ${name}`)
 }
@@ -102,7 +102,7 @@ callback 主要用于异步场景。比如从某个 API 获取数据，在获取
 
 先看**伪代码**如下：
 
-{% codeblock lang:JavaScript %}
+{% codeblock lang:JS %}
 function dealWithData() {
   // some operation
 }
@@ -117,7 +117,7 @@ getData('some-url', dealWithData)
 
 不习惯异步编程的同学可能会问，为什么不写成下面的形式呢？（还是伪代码）：
 
-{% codeblock lang:JavaScript %}
+{% codeblock lang:JS %}
 function dealWithData(data) {
   // some operation
 }
@@ -138,7 +138,7 @@ dealWithData(data)
 
 可以用下面的代码模拟 http request 需要等待的特征：
 
-{% codeblock lang:JavaScript mark:8,11 %}
+{% codeblock lang:JS mark:8,11 %}
 function getData(url, callback) {
   console.log('get data from url: ' + url)
   setTimeout(callback, 1000)
