@@ -1,6 +1,6 @@
 ---
 title: 'Closure: 以 Python 和 JavaScript 为例'
-date: 2017-03-05 00:17:33
+date: 2018-08-05 00:17:33
 categories:
   - Coding
 tags:

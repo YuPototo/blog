@@ -1,6 +1,6 @@
 ---
 title: JavaScript 其实很像 Python
-date: 2020-01-18 20:21:29
+date: 2018-09-18 20:21:29
 categories:
   - Coding
 tags:

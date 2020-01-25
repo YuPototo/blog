@@ -1,6 +1,6 @@
 ---
 title: Test of Independence
-date: 2020-01-23 19:26:24
+date: 2018-11-23 19:26:24
 categories:
   - 统计学
 tags:

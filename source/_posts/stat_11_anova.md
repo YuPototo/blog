@@ -1,6 +1,6 @@
 ---
 title: 统计推断之 anova
-date: 2020-01-24 10:49:45
+date: 2019-01-01 10:49:45
 categories:
   - 统计学
 tags:

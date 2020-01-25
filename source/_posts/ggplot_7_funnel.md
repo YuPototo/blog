@@ -1,6 +1,6 @@
 ---
 title: ggplot系列之7：别用漏斗图
-date: 2017-07-20 06:33:24
+date: 2018-10-20 06:33:24
 categories:
   - 数据可视化
 tags:

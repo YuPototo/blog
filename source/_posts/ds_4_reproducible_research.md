@@ -1,6 +1,6 @@
 ---
 title: 为什么数据团队应该采用 reproducible research
-date: 2020-01-19 18:07:01
+date: 2019-05-19 18:07:01
 categories:
   - 数据科学
 ---

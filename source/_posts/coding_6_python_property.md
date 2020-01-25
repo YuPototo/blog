@@ -1,6 +1,6 @@
 ---
 title: Python OOP 之 Property
-date: 2020-01-20 09:54:12
+date: 2018-12-20 09:54:12
 categories:
   - Coding
 tags:
