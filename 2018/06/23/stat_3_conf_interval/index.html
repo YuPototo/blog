@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>如何理解“置信区间” | 写作即思考</title>
+  
+  
+
+  
+  <link rel="alternate" href="/blog/atom.xml" title="写作即思考">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="/blog/images/favicon.ico">
+  
+
+  
+    
+<link rel="stylesheet" href="/blog/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="写作即思考" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>写作即思考</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/blog/"
+            
+            
+            id="blog">
+            <i class='fas fa-home fa-fw'></i>&nbsp;首页
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/blog/archives/"
+            
+              rel="nofollow"
+            
+            
+            id="blogarchives">
+            <i class='fas fa-archive fa-fw'></i>&nbsp;归档
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/blog/about/"
+            
+              rel="nofollow"
+            
+            
+            id="blogabout">
+            <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于本站
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/blog/' >
+        
+          写作即思考
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/blog/"
+                  
+                  
+                  id="blog">
+									<i class='fas fa-home fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/blog/"
+                
+                
+                id="blog">
+								<i class='fas fa-home fa-fw'></i>&nbsp;首页
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/blog/2018/06/23/stat_3_conf_interval/">
+        如何理解“置信区间”
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2018-06-23</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/blog/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>统计学</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <p><img src="/blog/2018/06/23/stat_3_conf_interval/plot_0.png" class="" title="plot"></p>
+<p>Google Play Store 对提供了商店页 A/B 测试功能，公司使用这个功能对新版商店页做了测试。测试结果会提供一个置信区间 confidence interval，同事很难理解置信区间的概念。</p>
+<p>这篇文章尝试用普通人能理解的方式解释置信区间。</p>
+<p><a id="more"></a></p>
+<h2 id="理解“总体”和“样本”"><a href="#理解“总体”和“样本”" class="headerlink" title="理解“总体”和“样本”"></a>理解“总体”和“样本”</h2><p>先给定一个研究问题：中国人里多少人喜欢足球。</p>
+<p>这个问题里，“总体”是全体中国人，大概14亿。我们不可能调查所有中国人，所以必须用抽样调查的方法，<strong>随机抽取</strong>一定数量的人获取他们的观点。</p>
+<p>抽取到的这部分人，被称为“样本”。</p>
+<p>我们会用“样本”数据去<strong>估计</strong>总体的情况。</p>
+<h2 id="误差一定存在"><a href="#误差一定存在" class="headerlink" title="误差一定存在"></a>误差一定存在</h2><p>核心前提：<strong>即使是随机抽样，也会有误差</strong>。</p>
+<p>硬币理论上是平均的，那么我们扔10次硬币，正反面刚好55开的概率是多大呢？这是个二项分布。可以用 R 计算：</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbinom(<span class="number">5</span>, size=<span class="number">10</span>, prob=<span class="number">0.5</span>) </span><br></pre></td></tr></tbody></table></figure>
+<p>结果：24.6%。只有不到1/4的概率，我们能观测到5次正面和5次反面。所以，随机抽样无法避免误差。</p>
+<p>随机调查1000个中国人，其中有12%的人喜欢足球，这个12%很大可能不是中国人喜欢足球的真实比率。</p>
+<p>那么，我们如何根据这1000个人确定到底有多少中国人喜欢足球呢？</p>
+<h2 id="中心极限定理"><a href="#中心极限定理" class="headerlink" title="中心极限定理"></a>中心极限定理</h2><p>这时统计学就发挥作用了。根据<strong>中心极限定理</strong>，在样本量足够大且抽样随机时，点估计值符合正态分布，且我们知道这个正态分布的标准差和均值。分布的均值就是样本的估计值，标准差可以用一个公式计算。</p>
+<p>上面的表达比较抽象。更直接地说，对1000个人抽样是否喜欢足球的结果，可以让我们画出如下的正态分布图片：</p>
+<p><img src="/blog/2018/06/23/stat_3_conf_interval/plot_estimate_dist.png" class="" title="plot"></p>
+<p>这个分布的均值是0.12，标准差是0.0103（用某个公式计算出，这里不讨论）。</p>
+<h2 id="分布函数的特征"><a href="#分布函数的特征" class="headerlink" title="分布函数的特征"></a>分布函数的特征</h2><p>一旦我们有了分布函数，我们就可以计算：</p>
+<ul>
+<li>给定 x 范围，对应的概率是多少</li>
+<li>给定一个概率，以均值为中心时，x 的上限和下限各是多少</li>
+</ul>
+<h3 id="用两个例子计算"><a href="#用两个例子计算" class="headerlink" title="用两个例子计算"></a>用两个例子计算</h3><p>对标准正态分布， - 1 &lt; x &lt; 1 的概率是多少呢？</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnorm(<span class="number">1</span>) - pnorm(-<span class="number">1</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>结果：68%。</p>
+<p>对一个均值为3，标准差是0.5的正态分布，90%概率对应的上下限各是多少呢？</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">upper_x &lt;- qnorm(<span class="number">0.95</span>, <span class="number">3</span>, sd = <span class="number">0.5</span>)</span><br><span class="line">lower_x &lt;- qnorm(<span class="number">0.05</span>, <span class="number">3</span>, sd = <span class="number">0.5</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>这里计算出的结果是：3.82 和 2.71，也就是说，该分布从 x = 2.71 到 x = 3.82 的部分，概率是90%。</p>
+<h3 id="计算调查数据"><a href="#计算调查数据" class="headerlink" title="计算调查数据"></a>计算调查数据</h3><p>用这样的计算方法，我们可以计算刚才调查1000个中国人的数据。</p>
+<p>我们从刚才的正态分布里找到一个上限和一个下限，让这之间的概率是 95%。</p>
+<figure class="highlight r"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sd &lt;- sqrt(<span class="number">0.12</span> * <span class="number">0.88</span> / <span class="number">1000</span>)</span><br><span class="line">upper_x &lt;- qnorm(<span class="number">0.975</span>, <span class="number">0.12</span>, sd = sd)</span><br><span class="line">lower_x &lt;- qnorm(<span class="number">0.025</span>, <span class="number">0.12</span>, sd = sd)</span><br></pre></td></tr></tbody></table></figure>
+<p>我们得到下限是 0.1，上限是 0.14。</p>
+<p>如下图（偷懒不用 R 做图了）：</p>
+<p><img src="/blog/2018/06/23/stat_3_conf_interval/plot_estimate_dist2.png" class="" title="plot"></p>
+<p>根据这个计算，我们有95%的把握做出如下判断：10%到14%这个区间内包含中国人喜欢足球的真实比例。</p>
+<p>严格地说，我们不能这样表达：中国人喜欢足球的真实比例有95%的概率落在10%到14%之间。这是个很微妙的区别，有兴趣的同学可以<a href="https://www.graphpad.com/guides/prism/7/statistics/stat_more_about_confidence_interval.htm?toc=0&amp;printWindow" target="_blank" rel="noopener">进一步深究</a>。从业务角度来说，这个表达也是可以接受的，而且按照我个人经验，同事会更容易理解这个表达。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>那么，到底什么是置信区间呢？</p>
+<p>如果我们有一个95%的置信区间，我们可以说，有95%的把握真实值落在置信区间内。</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/R/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>R</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/Statistics/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>Statistics</p></a></div>
+
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/blog/2018/07/01/coding-1-async/" rel="prev" title="JavaScript：如何理解“异步”和“同步”">
+                                
+                                    JavaScript：如何理解“异步”和“同步”
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/blog/tags/JavaScript/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> JavaScript</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/blog/2018/06/01/ggplot_4_line/" rel="prev" title="ggplot系列之4：折线图">
+                                  
+                                      ggplot系列之4：折线图
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '如何理解“置信区间”',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#理解“总体”和“样本”"><span class="toc-text">理解“总体”和“样本”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#误差一定存在"><span class="toc-text">误差一定存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#中心极限定理"><span class="toc-text">中心极限定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分布函数的特征"><span class="toc-text">分布函数的特征</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用两个例子计算"><span class="toc-text">用两个例子计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算调查数据"><span class="toc-text">计算调查数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/blog/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/blog/js/app.js"></script>
+
+
+
+  
+<script src="/blog/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
