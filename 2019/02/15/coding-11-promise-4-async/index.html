@@ -322,7 +322,13 @@
 <p>await 可以怎么 catch reject 的原因呢？也是用 catch，但更像正常 JavaScript 的 catch error。</p>
 <figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">async</span> () =&gt; {</span><br><span class="line">  <span class="keyword">try</span> {</span><br><span class="line">    <span class="keyword">await</span> <span class="built_in">Promise</span>.reject(<span class="string">'reject reason'</span>)</span><br><span class="line">  } <span class="keyword">catch</span>(err) {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Err: '</span> + err)</span><br><span class="line">  }</span><br><span class="line">})()</span><br><span class="line"><span class="comment">// Err: reject reason</span></span><br></pre></td></tr></tbody></table></figure>
 <p>上面这段代码更像正常的 JavaScript 的 try catch。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>async/await 是 Promise 的一个语法糖，大部分情况下，它可以让代码更加清晰和简洁。</p>
+<h2 id="更多阅读"><a href="#更多阅读" class="headerlink" title="更多阅读"></a>更多阅读</h2><p>Promise 系列：</p>
+<ol>
+<li><a href="/blog/2019/01/15/coding-8-js-promise-1-why/" title="为什么需要 promise">为什么需要 promise</a> </li>
+<li><a href="/blog/2019/01/20/coding-9-promise-2-what/" title="什么是 promise">什么是 promise</a> </li>
+<li><a href="/blog/2019/01/30/coding-10-promise-3-more/" title="promise 进阶">promise 进阶</a> </li>
+<li><a href="/blog/2019/02/15/coding-11-promise-4-async/" title="async/await">async/await</a> (本篇)</li>
+</ol>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -460,7 +466,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#async"><span class="toc-text">async</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#await"><span class="toc-text">await</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#await-用法"><span class="toc-text">await 用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#await-暂停代码？"><span class="toc-text">await 暂停代码？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#await-如何改变-promise-的链式操作"><span class="toc-text">await 如何改变 promise 的链式操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何-catch-reject"><span class="toc-text">如何 catch reject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#async"><span class="toc-text">async</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#await"><span class="toc-text">await</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#await-用法"><span class="toc-text">await 用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#await-暂停代码？"><span class="toc-text">await 暂停代码？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#await-如何改变-promise-的链式操作"><span class="toc-text">await 如何改变 promise 的链式操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何-catch-reject"><span class="toc-text">如何 catch reject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更多阅读"><span class="toc-text">更多阅读</span></a></li></ol>
     </div>
   </section>
 

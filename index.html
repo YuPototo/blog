@@ -306,6 +306,8 @@
         
           
         
+          
+        
       
     
     
@@ -323,8 +325,8 @@
       
         
   <h2 class="title">
-    <a href="/blog/2019/06/29/coding-14-py-class-static-method/">
-      py-class-static-method
+    <a href="/blog/2020/01/20/ds-5-beware-of-mean/">
+      小心均值
     </a>
   </h2>
 
@@ -338,7 +340,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-06-30</p>
+    <p>2020-01-20</p>
   </a>
 </div>
 
@@ -346,6 +348,14 @@
         
           
             
+  
+  <div class='new-meta-item category'>
+    <a href='/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>数据科学</p>
+    </a>
+  </div>
+
 
           
         
@@ -370,16 +380,114 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      
+      <img src="/blog/2020/01/20/ds-5-beware-of-mean/power-law.png" class="" title="power law distribution">
+<p>在 Hacker News 看到一篇文章 <a href="https://stephen.sh/posts/beware-the-mean" target="_blank" rel="noopener">Beware the mean</a>。这篇文章的主题是：均值不是完美的指标，甚至极端一点地说，在分布符合 power-law 的情况下，均值是糟糕的指标。</p>
+<p>我在游戏公司做数据分析时就对这个问题有强烈的感触，但当时没能想到更好的指标。<a href="https://stephen.sh/posts/beware-the-mean" target="_blank" rel="noopener">Beware the mean</a> 提出了一些值得探讨的思路。</p>
       
         <div class="readmore">
-          <a href="/blog/2019/06/29/coding-14-py-class-static-method/" class="flat-box">
+          <a href="/blog/2020/01/20/ds-5-beware-of-mean/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
         </div>
       
     </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/blog/2019/08/31/ds-6-association/">
+      Association Rules：定义和指标
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-31</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>数据科学</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>Association Rules 解决的问题是：哪些商品经常被一起购买。</p>
+<p>典型例子如下图，这是 Udemy 某课程页面里的搭售信息：</p>
+<img src="/blog/2019/08/31/ds-6-association/udemy.png" class="" title="udemy">
+<p>Udemy 的推荐系统基于 association rule 判断出这两个商品经常被一起购买，所以打包推荐了这两个商品。</p>
+<p>这篇文章主要说明 association rule 里的几个定义和指标</p>
+<p></p>
+      
+        <div class="readmore">
+          <a href="/blog/2019/08/31/ds-6-association/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/blog/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> 机器学习</a>
+        
+      </div>
     
   </section>
 </article>
@@ -593,7 +701,7 @@
       
         
   <h2 class="title">
-    <a href="/blog/2019/05/19/ds_4_reproducible_research/">
+    <a href="/blog/2019/05/19/ds-4-reproducible-research/">
       为什么数据团队应该采用 reproducible research
     </a>
   </h2>
@@ -648,13 +756,13 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <img src="/blog/2019/05/19/ds_4_reproducible_research/plot.jpg" class="" title="plot">
+      <img src="/blog/2019/05/19/ds-4-reproducible-research/plot.jpg" class="" title="plot">
 <p>Reproducible research （可重复研究）是学术界的一个潮流。它的意思是，所有研究都应该是可以“复制”的。如果你给我一个研究报告，你不能只给我看结果，你还要给我看到<strong>整个分析过程</strong>，而且我能够在自己的电脑上<strong>复制</strong>出同样的结果。</p>
 <p>经历过几个公司的数据相关业务后，我深深地感觉到：这个规范不只应该用在科学研究里，它也应该用在商业公司的数据团队里。</p>
 <p></p>
       
         <div class="readmore">
-          <a href="/blog/2019/05/19/ds_4_reproducible_research/" class="flat-box">
+          <a href="/blog/2019/05/19/ds-4-reproducible-research/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1139,100 +1247,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/blog/2019/02/15/ggplot_10_boxplot/">
-      ggplot系列之10：boxplot
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-02-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/blog/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>数据可视化</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <img src="/blog/2019/02/15/ggplot_10_boxplot/plot_2.png" class="" title="各大俱乐部的工资结构">
-<p>数据可视化的常见场景之一是：展示一个 categorical variable 和一个 numeric variable 的关系。</p>
-<p>这时我们可以使用 boxplot。</p>
-<p>这里使用了 <a href="https://www.kaggle.com/karangadiya/fifa19/data" target="_blank" rel="noopener">FIFA 的球员数据集</a>。</p>
-      
-        <div class="readmore">
-          <a href="/blog/2019/02/15/ggplot_10_boxplot/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/blog/tags/R/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> R</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1407,7 +1421,7 @@
         
           <li><a class="flat-box" title="/blog/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/" href="/blog/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/"><div class='name'>数据可视化</div><div class='badge'>(10)</div></a></li>
         
-          <li><a class="flat-box" title="/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" href="/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"><div class='name'>数据科学</div><div class='badge'>(4)</div></a></li>
+          <li><a class="flat-box" title="/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" href="/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"><div class='name'>数据科学</div><div class='badge'>(6)</div></a></li>
         
           <li><a class="flat-box" title="/blog/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" href="/blog/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/"><div class='name'>统计学</div><div class='badge'>(12)</div></a></li>
         
