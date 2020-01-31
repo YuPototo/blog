@@ -114,7 +114,7 @@ layout:
 # 侧边栏小部件配置
 sidebar:
   - widget: author
-    avatar: /images/avatar.jpg
+    avatar: /images/avatar.png
     jinrishici: false
     social: false
   - widget: plain
