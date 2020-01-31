@@ -184,10 +184,8 @@ get_cycle_data <- function(customer_0, i, conv, t) {
 
 ## 更多阅读
 
-增长黑客系列文章：
-1. 基础裂变模型
-1. {% post_link 2019-05-01-userGrow-2 升级版裂变模型 %} 
-1. {% post_link 2019-05-07-userGrow-3 增长的3架马车 %} 
+1. {% post_link growth_1_base_model 基础裂变模型 %} （本文）
+1. {% post_link growth_2_model_2 升级版裂变模型 %} 
 
 
 参考：

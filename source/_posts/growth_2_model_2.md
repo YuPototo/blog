@@ -112,10 +112,9 @@ get_cust_t <- function(cust_0, i, conv, ct, t) {
 
 ## 更多阅读
 
-增长黑客系列：
-1. {% post_link 2019-03-05-userGrow-1 基础裂变模型 %} 
-1. 升级版裂变模型（本文）
-1. {% post_link 2019-05-07-userGrow-3 增长的3架马车 %} 
+1. {% post_link growth_1_base_model 基础裂变模型 %} 
+1. {% post_link growth_2_model_2 升级版裂变模型 %} （本文）
+
 
 参考：
 - [David Skok: Lessons Learned – Viral Marketing](https://www.forentrepreneurs.com/lessons-learnt-viral-marketing/)

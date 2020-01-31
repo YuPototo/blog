@@ -201,6 +201,11 @@ await 可以怎么 catch reject 的原因呢？也是用 catch，但更像正常
 上面这段代码更像正常的 JavaScript 的 try catch。
 
 
-## 小结
+## 更多阅读
 
-async/await 是 Promise 的一个语法糖，大部分情况下，它可以让代码更加清晰和简洁。
+Promise 系列：
+
+1. {% post_link coding-8-js-promise-1-why 为什么需要 promise %} 
+1. {% post_link coding-9-promise-2-what 什么是 promise %} 
+1. {% post_link coding-10-promise-3-more promise 进阶 %} 
+1. {% post_link coding-11-promise-4-async async/await %} (本篇)

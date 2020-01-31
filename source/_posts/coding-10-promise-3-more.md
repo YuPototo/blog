@@ -189,3 +189,13 @@ promise
 {% endcodeblock %}
 
 上面这段代码里，无论 promise 是 reject 还是 resolve，finally 都会打印出`finally done`。
+
+
+## 更多阅读
+
+Promise 系列：
+
+1. {% post_link coding-8-js-promise-1-why 为什么需要 promise %} 
+1. {% post_link coding-9-promise-2-what 什么是 promise %} 
+1. {% post_link coding-10-promise-3-more promise 进阶 %} (本篇)
+1. {% post_link coding-11-promise-4-async async/await %} 

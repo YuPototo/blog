@@ -251,3 +251,12 @@ const promise2 = new Promise((resolve, reject) => {
 {% endcodeblock %}
 
 前一段代码就会打印`promise reject`。
+
+## 更多阅读
+
+Promise 系列：
+
+1. {% post_link coding-8-js-promise-1-why 为什么需要 promise %} 
+1. {% post_link coding-9-promise-2-what 什么是 promise %} (本篇)
+1. {% post_link coding-10-promise-3-more promise 进阶 %}
+1. {% post_link coding-11-promise-4-async async/await %} 

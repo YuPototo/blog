@@ -94,7 +94,12 @@ prop.test(x = c(360, 410), n = c(3500, 3500), alternative = 'less')
 
 如果只看单个测试，翻倍似乎是可以接受的，但一个成熟的互联网产品可能在同时进行几十个优化测试，如果每个测试都追求极端准确性，产品的迭代速度会减少50%。对于“天下武功，唯快不破”的互联网产品，这样的效率损失是绝对不可接受的。
 
-## 参考：
+## 更多阅读
+
+1. {% post_link growth_4_ab_test_ctr AB测试之CTR %} （本文）
+1. {% post_link growth_5_ab_test_mean AB测试之均值 %} 
+
+参考：
 
 - [为什么使用单侧检验](https://www.invespcro.com/blog/one-tailed-vs-two-tailed-a-b-testing-everything-you-possibly-need-to-know/)
 - [pwr package](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html)

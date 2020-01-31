@@ -98,3 +98,13 @@ async/await 只是 promise 的语法糖，并没有引入新的东西。
 传统的 callback 代码，程序员可能需要10个小时去创造并维护；进化到 promise 后，也许只需要8个小时；再进化到 async/await，也许只需要6个小时。对全世界所有的技术项目，这都是40%的成本压缩，人们所付出的，只是熟悉新功能需要的十几个小时。
 
 这种技术进步，也可能是程序员并不会随着年龄变得更吃香的原因：年轻人一旦掌握了 async/await，写 callback 的老年程序员就变成了又贵又落后的原始产能。
+
+
+## 更多阅读
+
+Promise 系列：
+
+1. {% post_link coding-8-js-promise-1-why 为什么需要 promise %} (本篇)
+1. {% post_link coding-9-promise-2-what 什么是 promise %}
+1. {% post_link coding-10-promise-3-more promise 进阶 %}
+1. {% post_link coding-11-promise-4-async async/await %} 

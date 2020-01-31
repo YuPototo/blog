@@ -9,7 +9,7 @@ tags:
 
 {% asset_img plot_0.png "一个mosaic图" %}
 
-[上一篇文章](https://yupototo.github.io/blog/2017/01/05/2017-01-05-ggplot%E6%95%A3%E7%82%B9%E5%9B%BE/)介绍了 ggplot 的散点图。散点图太常见了，这篇文章介绍下不那么常见，但用起来很酷的 mosaic 图。
+本系列上一篇文章介绍了 ggplot 的散点图。散点图太常见了，这篇文章介绍下不那么常见，但用起来很酷的 mosaic 图。
 
 mosaic 图在如下场景使用：展示两组 categorical data 的情况。
 
