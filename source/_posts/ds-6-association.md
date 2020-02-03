@@ -19,7 +19,6 @@ Udemy 的推荐系统基于 association rule 判断出这两个商品经常被�
 
 <!-- more -->
 
-
 ## Itemset
 
 ### Antecedent 和 Consequent
