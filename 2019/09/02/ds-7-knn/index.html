@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>理解 JavaScript 的 this | 写作即思考</title>
+  <title>KNN 算法 | 写作即思考</title>
   
   
 
@@ -225,8 +225,8 @@
         
   
     <h1 class="title">
-      <a href="/blog/2018/10/19/coding-4-js-this/">
-        理解 JavaScript 的 this
+      <a href="/blog/2019/09/02/ds-7-knn/">
+        KNN 算法
       </a>
     </h1>
   
@@ -241,7 +241,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2018-10-20</p>
+    <p>2019-09-03</p>
   </a>
 </div>
 
@@ -251,9 +251,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/blog/categories/Coding/' rel="nofollow">
+    <a href='/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Coding</p>
+      <p>数据科学</p>
     </a>
   </div>
 
@@ -281,37 +281,163 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod: <span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// undefined</span></span><br></pre></td></tr></tbody></table></figure>
-<p>上面这段代码为什么会返回<code>undefined</code>呢？因为万恶的<code>this</code>。</p>
-<img src="/blog/2018/10/19/coding-4-js-this/this.jpeg" class="" title="wtf is this">
-<p>MDN 对 <strong>this</strong> 的定义是：代码运行的环境。这句话给我的最大感觉是：what the <em>**</em> is this?</p>
-<p>这里总结下 <strong>this</strong> 的几个用法。</p>
+        <img src="/blog/2019/09/02/ds-7-knn/knn.png" class="" title="knn">
+<p>K Nearest Neighbor, KNN 算法，应该是最简单的机器学习算法之一。</p>
+<p>这里用一个手算的例子说明 KNN 算法的步骤。</p>
 <p><a id="more"></a></p>
-<h2 id="Default-Binding"><a href="#Default-Binding" class="headerlink" title="Default Binding"></a>Default Binding</h2><p>在 Chrome 浏览器打开 inspector 的 console，输入如下代码：</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">5</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Func</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.count)</span><br><span class="line">}</span><br><span class="line">Func()</span><br></pre></td></tr></tbody></table></figure>
-<p>console 会显示<code>5</code>。</p>
-<p>因为我们的代码在环境下运行，this 默认绑定到了全局环境。</p>
-<p>在<code>use strict</code>模式下，默认绑定不会发生。</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">5</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Func</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="string">`use strict`</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.count)</span><br><span class="line">}</span><br><span class="line">Func()</span><br></pre></td></tr></tbody></table></figure>
-<p>此时 Chrome 会报错。</p>
-<h2 id="Implicit-Binding"><a href="#Implicit-Binding" class="headerlink" title="Implicit Binding"></a>Implicit Binding</h2><p>在 object 里创建函数时，运行函数时的<code>this</code>就是这个对象。</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anObj = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  callName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">anObj.callName()</span><br></pre></td></tr></tbody></table></figure>
-<p>此时屏幕会打印 Harry Potter。</p>
-<h2 id="Explicit-Binding"><a href="#Explicit-Binding" class="headerlink" title="Explicit Binding"></a>Explicit Binding</h2><p>如果不想在 object 创建函数，我们可以手动把函数的<code>this</code>绑定到对象上。</p>
-<p>可以使用<code>bind</code>、<code>call</code>或<code>apply</code>。</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anObj = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callName</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">callName.call(anObj) <span class="comment">// Harry Potter</span></span><br><span class="line">callName.apply(anObj) <span class="comment">// Harry Potter</span></span><br><span class="line"></span><br><span class="line">newCallname = callName.bind(anObj)</span><br><span class="line">newCallname() <span class="comment">// Harry Potte</span></span><br></pre></td></tr></tbody></table></figure>
-<p><code>call</code> 和 <code>apply</code> 可以直接以 object 作为 argument。<br><code>bind</code> 需要指向一个新的变量。</p>
-<h2 id="new-Binding"><a href="#new-Binding" class="headerlink" title="new Binding"></a><code>new</code> Binding</h2><p>创建 class 的 instance 时，<code>this</code> 会指向这个 instance</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>{</span><br><span class="line">  <span class="keyword">constructor</span>(x, y) {</span><br><span class="line">    <span class="keyword">this</span>.x = x</span><br><span class="line">    <span class="keyword">this</span>.y = y</span><br><span class="line">  }</span><br><span class="line"></span><br><span class="line">  showCoord() {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">p1 = <span class="keyword">new</span> Point(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">p1.showCoord()  <span class="comment">// 1, 2</span></span><br><span class="line"></span><br><span class="line">p2 = <span class="keyword">new</span> Point(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">p2.showCoord()  <span class="comment">// 3, 4</span></span><br></pre></td></tr></tbody></table></figure>
-<p>每个 instance 都会有自己的 context。</p>
-<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><p>箭头函数的<code>this</code>跟普通函数不一样，箭头函数会继承 parent scope 的<code>this</code>。</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'Ron Weasley'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod: <span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// Ron Weasley</span></span><br></pre></td></tr></tbody></table></figure>
-<p>在上面这段代码里，我们用箭头函数定义了 myMethod，结果屏幕打印的是 global context 里的 <code>name</code>，因为 <code>myObject</code> 位于 global context。</p>
-<p>如果是在<code>use strict</code>下，上面这段代码会打印<code>undifined</code>。</p>
-<p>所以，谨慎在箭头函数里使用<code>this</code>，非常容易出错啊。</p>
-<p>既然不能使用箭头函数，上面这段的代码要怎么写才更简洁呢？用 ES6 的函数写写法：</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod() {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// Harry Potter</span></span><br></pre></td></tr></tbody></table></figure>
-<p>搞清楚上面这些用法后，<code>this</code> 就没那么奇怪了。</p>
+<h2 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h2><p>该算法的步骤如下：</p>
+<ol>
+<li>决定参数 K，即判断分类时考虑几个“邻居”</li>
+<li>计算新的样本与训练数据集里各个观测值的<strong>距离</strong></li>
+<li>将距离由小到大排序，保留前 K 个观测值</li>
+<li>获取这 K 个观测值的 category</li>
+<li>以这 K 个观测值里占多数的 category 作为新样本的 category</li>
+</ol>
+<h2 id="手算例子"><a href="#手算例子" class="headerlink" title="手算例子"></a>手算例子</h2><p>training data set 如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">自变量1</th>
+<th style="text-align:center">自变量2</th>
+<th style="text-align:center">分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>只有2个变量，4个观测值。</p>
+<p>假设新的样本是 <strong>(3, 7)</strong>。</p>
+<h3 id="第1步：选定-K"><a href="#第1步：选定-K" class="headerlink" title="第1步：选定 K"></a>第1步：选定 K</h3><p>第1步，要决定一个参数 K。</p>
+<p>我们选定参数 k = 3。</p>
+<h3 id="第2步：计算距离"><a href="#第2步：计算距离" class="headerlink" title="第2步：计算距离"></a>第2步：计算距离</h3><p>计算新的样本与训练数据集里各个观测值的<strong>距离</strong>。距离公式采用 euclidean distance。</p>
+<img src="/blog/2019/09/02/ds-7-knn/euc_d.png" class="" title="euc_d">
+<p>按照这个公式计算(3, 7)跟各个点的距离：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">自变量1</th>
+<th style="text-align:center">自变量2</th>
+<th style="text-align:center">距离</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">16</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">25</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">9</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">13</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="第3步：排序"><a href="#第3步：排序" class="headerlink" title="第3步：排序"></a>第3步：排序</h3><p>按照距离，由小到大排序，保留前 k 个：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">自变量1</th>
+<th style="text-align:center">自变量2</th>
+<th style="text-align:center">距离</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">9</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">13</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">16</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="第4步：获取-category"><a href="#第4步：获取-category" class="headerlink" title="第4步：获取 category"></a>第4步：获取 category</h3><p>获取这几个值的 category</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">自变量1</th>
+<th style="text-align:center">自变量2</th>
+<th style="text-align:center">距离</th>
+<th style="text-align:center">分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">16</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="第5步：确定-category"><a href="#第5步：确定-category" class="headerlink" title="第5步：确定 category"></a>第5步：确定 category</h3><p>以这 K 个观测值里占多数的 category 作为新样本的 category。</p>
+<p>占多数的分类是 0，所以 (3,7) 被判断为是 0。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>KNN 算法的简单之处在于：</p>
+<ul>
+<li>没有新的概念，懂高中数学的人都能理解这个算法</li>
+<li>是<em>无参数</em>方法，不用考虑统计学公式</li>
+<li>算法步骤比较简单</li>
+</ul>
+<p>这个算法的实现可以当作一个 python 练习来做。</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -344,7 +470,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/JavaScript/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>JavaScript</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>机器学习</p></a></div>
 
 
         
@@ -361,16 +487,16 @@
                       <span class="art-item-left">
                           <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
                           <h4>
-                              <a href="/blog/2018/10/19/ggplot_7_funnel/" rel="prev" title="ggplot系列之7：别用漏斗图">
+                              <a href="/blog/2019/11/30/coding-13-deepcopy/" rel="prev" title="Shallow Copy 和 Deep Copy">
                                 
-                                    ggplot系列之7：别用漏斗图
+                                    Shallow Copy 和 Deep Copy
                                 
                               </a>
                           </h4>
                           
                               
                               <h6 class="tags">
-                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
+                                  <a class="tag" href="/blog/tags/JavaScript/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> JavaScript</a> <a class="tag" href="/blog/tags/Python/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> Python</a> <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
                               </h6>
                           
                       </span>
@@ -381,9 +507,9 @@
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/blog/2018/10/18/ds-2-ml-vs-stat/" rel="prev" title="机器学习 vs. 统计学">
+                              <a href="/blog/2019/08/31/ds-6-association/" rel="prev" title="Association Rules：定义和指标">
                                   
-                                      机器学习 vs. 统计学
+                                      Association Rules：定义和指标
                                   
                               </a>
                           </h4>
@@ -420,7 +546,7 @@
 
   <script>
     window.subData = {
-      title: '理解 JavaScript 的 this',
+      title: 'KNN 算法',
       tools: true
     }
   </script>
@@ -454,7 +580,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Default-Binding"><span class="toc-text">Default Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implicit-Binding"><span class="toc-text">Implicit Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Explicit-Binding"><span class="toc-text">Explicit Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new-Binding"><span class="toc-text">new Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#箭头函数"><span class="toc-text">箭头函数</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法步骤"><span class="toc-text">算法步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手算例子"><span class="toc-text">手算例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第1步：选定-K"><span class="toc-text">第1步：选定 K</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第2步：计算距离"><span class="toc-text">第2步：计算距离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第3步：排序"><span class="toc-text">第3步：排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第4步：获取-category"><span class="toc-text">第4步：获取 category</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第5步：确定-category"><span class="toc-text">第5步：确定 category</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
     </div>
   </section>
 

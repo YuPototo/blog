@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Association Rules：定义和指标 | 写作即思考</title>
+  <title>理解 JavaScript 的 this | 写作即思考</title>
   
   
 
@@ -225,8 +225,8 @@
         
   
     <h1 class="title">
-      <a href="/blog/2019/08/31/ds-6-association/">
-        Association Rules：定义和指标
+      <a href="/blog/2018/10/01/coding-4-js-this/">
+        理解 JavaScript 的 this
       </a>
     </h1>
   
@@ -241,7 +241,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-31</p>
+    <p>2018-10-02</p>
   </a>
 </div>
 
@@ -251,9 +251,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/blog/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/' rel="nofollow">
+    <a href='/blog/categories/Coding/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>数据科学</p>
+      <p>Coding</p>
     </a>
   </div>
 
@@ -281,125 +281,37 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>Association Rules 解决的问题是：哪些商品经常被一起购买。</p>
-<p>典型例子如下图，这是 Udemy 某课程页面里的搭售信息：</p>
-<img src="/blog/2019/08/31/ds-6-association/udemy.png" class="" title="udemy">
-<p>Udemy 的推荐系统基于 association rule 判断出这两个商品经常被一起购买，所以打包推荐了这两个商品。</p>
-<p>这篇文章主要说明 association rule 里的几个定义和指标</p>
+        <figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod: <span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// undefined</span></span><br></pre></td></tr></tbody></table></figure>
+<p>上面这段代码为什么会返回<code>undefined</code>呢？因为万恶的<code>this</code>。</p>
+<img src="/blog/2018/10/01/coding-4-js-this/this.jpeg" class="" title="wtf is this">
+<p>MDN 对 <strong>this</strong> 的定义是：代码运行的环境。这句话给我的最大感觉是：what the <em>**</em> is this?</p>
+<p>这里总结下 <strong>this</strong> 的几个用法。</p>
 <p><a id="more"></a></p>
-<h2 id="Itemset"><a href="#Itemset" class="headerlink" title="Itemset"></a>Itemset</h2><h3 id="Antecedent-和-Consequent"><a href="#Antecedent-和-Consequent" class="headerlink" title="Antecedent 和 Consequent"></a>Antecedent 和 Consequent</h3><p>关联规则的表达形式是：<em>如果 A，那么 B</em>。表示 A 和 B 两组商品会大概率一起出现。</p>
-<p>在上面的规则里，A 被称为 antecedent，是一组商品；B 被称为 consequent，是另一组商品。</p>
-<p>每一个 antecedent 和 consequent 的组合，被称为一个 <strong>itemset</strong>。</p>
-<p>例子：购买了<em>面包</em>和<em>鸡蛋</em>的用户，也会购买<em>牛奶</em>。用 antecedent、consequent 和 itemset 表示规则如下：</p>
-<ul>
-<li>antecedent：{面包, 鸡蛋}</li>
-<li>consequent: {牛奶}</li>
-<li>itemset: {面包, 鸡蛋, 牛奶}</li>
-</ul>
-<p>在文献里用 {} 表示 itemset，在 python 里，{} 刚好也是 set。</p>
-<h3 id="根据订单计算-itemsets"><a href="#根据订单计算-itemsets" class="headerlink" title="根据订单计算 itemsets"></a>根据订单计算 itemsets</h3><p>一个包含“面包，鸡蛋，牛奶”的订单，有几个 itemset 呢？</p>
-<p>所有 itemset 如下：</p>
-<ul>
-<li>面包</li>
-<li>鸡蛋</li>
-<li>牛奶</li>
-<li>面包，鸡蛋</li>
-<li>面包，牛奶</li>
-<li>鸡蛋，牛奶</li>
-<li>面包，鸡蛋，牛奶</li>
-</ul>
-<p>共7个itemset。</p>
-<p>1个商品，也算一个 itemset。</p>
-<p>根据交易历史，可以得到一个商店的 itemsets。以下面的交易记录为例（1表示购买，0表示未购买）：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">订单编号</th>
-<th style="text-align:center">鸡蛋</th>
-<th style="text-align:center">牛奶</th>
-<th style="text-align:center">咖啡</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">0</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li>{鸡蛋} x 2</li>
-<li>{牛奶} x 3</li>
-<li>{咖啡} x 2</li>
-<li>{鸡蛋，牛奶} x 2</li>
-<li>{鸡蛋，咖啡} x 1</li>
-<li>{牛奶，咖啡} x 2</li>
-<li>{鸡蛋，咖啡，牛奶} x 1</li>
-</ul>
-<p>上面的交易记录里医用有 13 个itemsets。</p>
-<h2 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h2><p>Associaition rule 的核心问题是：如何判断哪些 rule 是有价值的。</p>
-<p>几个比较重要的指标是：</p>
-<ul>
-<li>support</li>
-<li>confidence</li>
-<li>lift</li>
-</ul>
-<h3 id="Support"><a href="#Support" class="headerlink" title="Support"></a>Support</h3><p>support 的定义是：itemset 的占比。</p>
-<p>以上面的3个订单为例子，各个 itemset 的 suport 依次是：</p>
-<ul>
-<li>{鸡蛋} = 2/13 = 15.4%</li>
-<li>{牛奶} = 3/13 = 23%</li>
-<li>{咖啡} = 2/13 = 15.4%</li>
-<li>{鸡蛋，牛奶} = 2/13 = 15.4%</li>
-<li>{鸡蛋，咖啡} = 1/13 = 7.7%</li>
-<li>{牛奶，咖啡} = 2/13 = 15.4%</li>
-<li>{鸡蛋，咖啡，牛奶}  = 1/13 = 7.7%</li>
-</ul>
-<p>Support 可以用数学公式描述为：Support = P(antecedent AND consequent)</p>
-<h3 id="Confidence"><a href="#Confidence" class="headerlink" title="Confidence"></a>Confidence</h3><p>confidence 的定义是：给定 antecedent，consequent 发生的概率有多大？</p>
-<p>confidence 的数学公式是：Confidence = P(antecedent AND consequent) / P(antecedent) = P(consequent | antecedent)</p>
-<p>还是用刚才的例子：</p>
-<p>“if 牛奶，then 鸡蛋”的 confidence 是：P(牛奶 and 鸡蛋) / P(牛奶) = 15.4% / 23% = 67%</p>
-<p>“if 咖啡，then 牛奶+鸡蛋” 的 confidence 是：P(咖啡 and 牛奶 and 鸡蛋) / P(咖啡) = 7.7% / 15.4% = 50%</p>
-<p>这个指标有一定的欺骗性。如果 antecedent 和 consequent 都有很高的 support，那么相应的 confidence 必然很高，即使两者相互独立。</p>
-<p>所以我们需要第三个指标：Lift Ratio。</p>
-<h3 id="Lift-Ratio"><a href="#Lift-Ratio" class="headerlink" title="Lift Ratio"></a>Lift Ratio</h3><p>假定 antecedent 和 consequent 相互独立，我们可以计算出一个理论的 confidence 值。这个 confidence 被命名为 benchmark confidence 值。</p>
-<p>假定两者相互独立，可以有：</p>
-<p>P(antecedent AND consequent) = P(antecedent) * P(consequent)</p>
-<p>然后可以计算 benchmark confidence：</p>
-<p>Benchmark Confidence = P(antecedent) * P(consequent) / P(antecedent) = P(consequent)</p>
-<p>然后可以计算 <strong>lift ratio</strong>：</p>
-<p>lift ratio = confidence / benchmark confidence</p>
-<p>以下面几个规则为例</p>
-<p>“if 牛奶，then 鸡蛋”：</p>
-<ul>
-<li>benchmark confidence = P(consequent) = P(鸡蛋) = 23%</li>
-<li>confidence = 67%</li>
-<li>lift = 67% / 23% = 2.7</li>
-</ul>
-<p>if 咖啡，then 牛奶+鸡蛋”:</p>
-<ul>
-<li>benchmark confidence = P(牛奶 AND 鸡蛋) = 15.4%</li>
-<li>confidence = 50%</li>
-<li>lift = 50% / 15.4% = 3.25</li>
-</ul>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Association rules 的算法都基于上面几个概念和指标。理解了这些指标后，如果有必要，可以去看算法，如果对算法细节不在意，基本就可以直接去跑数据了。</p>
+<h2 id="Default-Binding"><a href="#Default-Binding" class="headerlink" title="Default Binding"></a>Default Binding</h2><p>在 Chrome 浏览器打开 inspector 的 console，输入如下代码：</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">5</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Func</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.count)</span><br><span class="line">}</span><br><span class="line">Func()</span><br></pre></td></tr></tbody></table></figure>
+<p>console 会显示<code>5</code>。</p>
+<p>因为我们的代码在环境下运行，this 默认绑定到了全局环境。</p>
+<p>在<code>use strict</code>模式下，默认绑定不会发生。</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">5</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Func</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="string">`use strict`</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.count)</span><br><span class="line">}</span><br><span class="line">Func()</span><br></pre></td></tr></tbody></table></figure>
+<p>此时 Chrome 会报错。</p>
+<h2 id="Implicit-Binding"><a href="#Implicit-Binding" class="headerlink" title="Implicit Binding"></a>Implicit Binding</h2><p>在 object 里创建函数时，运行函数时的<code>this</code>就是这个对象。</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anObj = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  callName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">anObj.callName()</span><br></pre></td></tr></tbody></table></figure>
+<p>此时屏幕会打印 Harry Potter。</p>
+<h2 id="Explicit-Binding"><a href="#Explicit-Binding" class="headerlink" title="Explicit Binding"></a>Explicit Binding</h2><p>如果不想在 object 创建函数，我们可以手动把函数的<code>this</code>绑定到对象上。</p>
+<p>可以使用<code>bind</code>、<code>call</code>或<code>apply</code>。</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anObj = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callName</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">callName.call(anObj) <span class="comment">// Harry Potter</span></span><br><span class="line">callName.apply(anObj) <span class="comment">// Harry Potter</span></span><br><span class="line"></span><br><span class="line">newCallname = callName.bind(anObj)</span><br><span class="line">newCallname() <span class="comment">// Harry Potte</span></span><br></pre></td></tr></tbody></table></figure>
+<p><code>call</code> 和 <code>apply</code> 可以直接以 object 作为 argument。<br><code>bind</code> 需要指向一个新的变量。</p>
+<h2 id="new-Binding"><a href="#new-Binding" class="headerlink" title="new Binding"></a><code>new</code> Binding</h2><p>创建 class 的 instance 时，<code>this</code> 会指向这个 instance</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>{</span><br><span class="line">  <span class="keyword">constructor</span>(x, y) {</span><br><span class="line">    <span class="keyword">this</span>.x = x</span><br><span class="line">    <span class="keyword">this</span>.y = y</span><br><span class="line">  }</span><br><span class="line"></span><br><span class="line">  showCoord() {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">p1 = <span class="keyword">new</span> Point(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">p1.showCoord()  <span class="comment">// 1, 2</span></span><br><span class="line"></span><br><span class="line">p2 = <span class="keyword">new</span> Point(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">p2.showCoord()  <span class="comment">// 3, 4</span></span><br></pre></td></tr></tbody></table></figure>
+<p>每个 instance 都会有自己的 context。</p>
+<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><p>箭头函数的<code>this</code>跟普通函数不一样，箭头函数会继承 parent scope 的<code>this</code>。</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'Ron Weasley'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod: <span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// Ron Weasley</span></span><br></pre></td></tr></tbody></table></figure>
+<p>在上面这段代码里，我们用箭头函数定义了 myMethod，结果屏幕打印的是 global context 里的 <code>name</code>，因为 <code>myObject</code> 位于 global context。</p>
+<p>如果是在<code>use strict</code>下，上面这段代码会打印<code>undifined</code>。</p>
+<p>所以，谨慎在箭头函数里使用<code>this</code>，非常容易出错啊。</p>
+<p>既然不能使用箭头函数，上面这段的代码要怎么写才更简洁呢？用 ES6 的函数写写法：</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myObject = {</span><br><span class="line">  name: <span class="string">'Harry Potter'</span>,</span><br><span class="line">  myMethod() {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">myObject.myMethod() <span class="comment">// Harry Potter</span></span><br></pre></td></tr></tbody></table></figure>
+<p>搞清楚上面这些用法后，<code>this</code> 就没那么奇怪了。</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -432,7 +344,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>机器学习</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/JavaScript/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>JavaScript</p></a></div>
 
 
         
@@ -449,9 +361,9 @@
                       <span class="art-item-left">
                           <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
                           <h4>
-                              <a href="/blog/2019/09/02/ds-7-knn/" rel="prev" title="KNN 算法">
+                              <a href="/blog/2018/10/18/ds-2-ml-vs-stat/" rel="prev" title="机器学习 vs. 统计学">
                                 
-                                    KNN 算法
+                                    机器学习 vs. 统计学
                                 
                               </a>
                           </h4>
@@ -469,16 +381,16 @@
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/blog/2019/06/16/growth_5_ab_test_mean/" rel="prev" title="AB测试的例子：访问时长">
+                              <a href="/blog/2018/09/23/stat_7_t_test/" rel="prev" title="统计推断之 t 检验">
                                   
-                                      AB测试的例子：访问时长
+                                      统计推断之 t 检验
                                   
                               </a>
                           </h4>
                           
                               
                               <h6 class="tags">
-                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a>
+                                  <a class="tag" href="/blog/tags/R/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> R</a> <a class="tag" href="/blog/tags/Statistics/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> Statistics</a>
                               </h6>
                           
                       </span>
@@ -508,7 +420,7 @@
 
   <script>
     window.subData = {
-      title: 'Association Rules：定义和指标',
+      title: '理解 JavaScript 的 this',
       tools: true
     }
   </script>
@@ -542,7 +454,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Itemset"><span class="toc-text">Itemset</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Antecedent-和-Consequent"><span class="toc-text">Antecedent 和 Consequent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#根据订单计算-itemsets"><span class="toc-text">根据订单计算 itemsets</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指标"><span class="toc-text">指标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Support"><span class="toc-text">Support</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Confidence"><span class="toc-text">Confidence</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lift-Ratio"><span class="toc-text">Lift Ratio</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Default-Binding"><span class="toc-text">Default Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implicit-Binding"><span class="toc-text">Implicit Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Explicit-Binding"><span class="toc-text">Explicit Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new-Binding"><span class="toc-text">new Binding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#箭头函数"><span class="toc-text">箭头函数</span></a></li></ol>
     </div>
   </section>
 
