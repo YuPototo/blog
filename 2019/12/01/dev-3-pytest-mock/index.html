@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>在 pytest 里使用 mock | 写作即思考</title>
+  
+  
+
+  
+  <link rel="alternate" href="/blog/atom.xml" title="写作即思考">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="/blog/images/favicon.ico">
+  
+
+  
+    
+<link rel="stylesheet" href="/blog/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="写作即思考" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>写作即思考</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/blog/"
+            
+            
+            id="blog">
+            <i class='fas fa-home fa-fw'></i>&nbsp;首页
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/blog/archives/"
+            
+              rel="nofollow"
+            
+            
+            id="blogarchives">
+            <i class='fas fa-archive fa-fw'></i>&nbsp;归档
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/blog/about/"
+            
+              rel="nofollow"
+            
+            
+            id="blogabout">
+            <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于本站
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/blog/' >
+        
+          写作即思考
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/blog/"
+                  
+                  
+                  id="blog">
+									<i class='fas fa-home fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/blog/"
+                
+                
+                id="blog">
+								<i class='fas fa-home fa-fw'></i>&nbsp;首页
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/blog/2019/12/01/dev-3-pytest-mock/">
+        在 pytest 里使用 mock
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-12-02</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/blog/categories/%E5%BC%80%E5%8F%91/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>开发</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <p>这遍文章研究一个问题：如何在 pytest 使用 mock。</p>
+<a id="more"></a>
+<h2 id="mock-是什么"><a href="#mock-是什么" class="headerlink" title="mock 是什么"></a>mock 是什么</h2><p>首先，mock 是什么呢。Mock 是一个我们可以“替代品”，用来模仿或代替现实环境中的对象。</p>
+<p>比如，我们有一段代码需要做出 http request，成功时返回一个信息，错误时返回另一个信息。</p>
+<p>在一个单元测试里，我们不应该去真的执行这个 request，因为执行这个 request 要么成功要么失败，我们没法完全测试两种情况。而且，执行 request 存在不确定性：我们不知道需要多久才能获得 response。</p>
+<p>这个时候，就可以用一个 mock 去代替真正的 request。</p>
+<h3 id="Python-的-mock-library"><a href="#Python-的-mock-library" class="headerlink" title="Python 的 mock library"></a>Python 的 mock library</h3><p>Mock 是 unittest 里的一个 library。虽然我使用的是 pytest，但如果想要 mock，还是得使用 mock library。这一部分总结 Mock object。假定下面的代码都使用 pytest 作为 test 工具。</p>
+<p>mock 是一个能做任何事情的神奇对象。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> unittest.mock <span class="keyword">import</span> Mock</span><br><span class="line"></span><br><span class="line">mock = Mock()</span><br><span class="line">mock.name = <span class="string">'yu'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_mock</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">assert</span> mock.name == <span class="string">'yu'</span></span><br></pre></td></tr></tbody></table></figure>
+<p>我在上面的代码里做了如下事情：</p>
+<ul>
+<li>创建了一个 mock instance，将其命名为 mock</li>
+<li>让 mock 有一个 attribute <code>name</code>，且值为<code>yu</code></li>
+<li>做一个单元测试，测试 mock 确实有个 attribute <code>name</code> 且等于 <code>yu</code></li>
+<li>这个测试会通过</li>
+</ul>
+<p>上面这个例子好像比较蠢，似乎没有必要。</p>
+<p>下面给一个更真实的例子。我们写了一个函数，判断今天是不是工作日：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_weekday</span><span class="params">()</span>:</span></span><br><span class="line">    today = datetime.datetime.today()</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">0</span> &lt;= today.weekday() &lt; <span class="number">5</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>这个函数里用到了 datetime package 里的 today 函数。根据测试日期的不同，我们可能会得到不同的结果。这不是我们想在单元测试里看到的。</p>
+<p>这个时候就可以使用 mock，让 mock “替代” datetime。</p>
+<p>测试代码如下：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> unittest.mock <span class="keyword">import</span> Mock</span><br><span class="line"></span><br><span class="line"><span class="comment"># Save a couple of test days</span></span><br><span class="line">tuesday = datetime.datetime(year=<span class="number">2019</span>, month=<span class="number">1</span>, day=<span class="number">1</span>)</span><br><span class="line">saturday = datetime.datetime(year=<span class="number">2019</span>, month=<span class="number">1</span>, day=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">datetime = Mock()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_is_weekday</span><span class="params">()</span>:</span></span><br><span class="line">  datetime.datetime.today.return_value = tuesday</span><br><span class="line">  <span class="keyword">assert</span> is_weekday()</span><br><span class="line">  </span><br><span class="line">  datetime.datetime.today.return_value = saturday</span><br><span class="line">  <span class="keyword">assert</span> <span class="keyword">not</span> is_weekday()</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明：</p>
+<ul>
+<li>第4和第5行创建了两个用于测试的日期</li>
+<li>第7行把 <code>datetime</code> 变成了一个 mock，之后运行 <code>is_weekday()</code> 时不会再调用真正的 <code>datetime</code>，而是会调用这个 mock</li>
+<li>第10行把 <code>datetime.datetime.today()</code> 的返回值设定为之前定义的 tuesday</li>
+<li>第11行运行<code>is_weekday()</code>，这时里面的 <code>datetime.datetime.today()</code> 不会返回真的 <code>today</code>，而是会返回 tuesday</li>
+<li>第13和14行重复上面的操作，只是把 mock 返回的对象变为 saturday</li>
+</ul>
+<p>这段测试代码完美避免了 today 跟今天的具体日期相关的问题。</p>
+<h3 id="使用-patch"><a href="#使用-patch" class="headerlink" title="使用 patch"></a>使用 patch</h3><p><code>patch()</code> 是 mock library 里的一个方法，可以直接用来 mock 一个 object。</p>
+<p>可以把上面的代码用<code>patch()</code>改写：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> unittest.mock <span class="keyword">import</span> patch</span><br><span class="line"></span><br><span class="line"><span class="comment"># Save a couple of test days</span></span><br><span class="line">tuesday = datetime.datetime(year=<span class="number">2019</span>, month=<span class="number">1</span>, day=<span class="number">1</span>)</span><br><span class="line">saturday = datetime.datetime(year=<span class="number">2019</span>, month=<span class="number">1</span>, day=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_is_weekday</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">with</span> patch(<span class="string">'datetime.datetime'</span>) <span class="keyword">as</span> mock_datetime:</span><br><span class="line">    mock_datetime.today.return_value = tuesday</span><br><span class="line">    <span class="keyword">assert</span> is_weekday()</span><br><span class="line">    </span><br><span class="line">    mock_datetime.today.return_value = saturday</span><br><span class="line">    <span class="keyword">assert</span> <span class="keyword">not</span> is_weekday()</span><br></pre></td></tr></tbody></table></figure>
+<p>我们直接 patch 了整个 <code>datetime.datetime</code> 对象，然后就能在 context manager 里随意 mock 它了。</p>
+<p>如果不喜欢 context manager，还可以使用 patch 的 decorator 版本：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@patch('datetime.datetime')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_is_weekday</span><span class="params">(mock_dateimte)</span>:</span></span><br><span class="line">  mock_datetime.today.return_value = tuesday</span><br><span class="line">  <span class="keyword">assert</span> is_weekday()</span><br><span class="line">  </span><br><span class="line">  mock_datetime.today.return_value = saturday</span><br><span class="line">  <span class="keyword">assert</span> <span class="keyword">not</span> is_weekday()</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="pytest-mock"><a href="#pytest-mock" class="headerlink" title="pytest-mock"></a>pytest-mock</h2><p>pytest 有一个叫 <a href="https://github.com/pytest-dev/pytest-mock" target="_blank" rel="noopener">pytest-mock 的 plugin</a>，它是 mock package 的封装。</p>
+<p>pytest-mock 提供了一个叫 mocker 的 fixture，它有跟 mock.patch 一样的 API。</p>
+<p>如果使用 pytest-mock，上面那段关于 <code>is_weekday()</code> 的测试代码可以写作：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_is_weekday</span><span class="params">(mocker)</span>:</span></span><br><span class="line">  mock_datetime = mocker.patch(<span class="string">'datetime.datetime'</span>)</span><br><span class="line">  mock_datetime.today.return_value = tuesday</span><br><span class="line">  <span class="keyword">assert</span> is_weekday()</span><br><span class="line"></span><br><span class="line">  mock_datetime.today.return_value = saturday</span><br><span class="line">  <span class="keyword">assert</span> <span class="keyword">not</span> is_weekday()</span><br></pre></td></tr></tbody></table></figure>
+<p>只要安装了 pytest-mock，就可以无需引用直接使用 mocker 对象。</p>
+<h3 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h3><p>假设我们有如下两个函数：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># arithmetic.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func_a</span><span class="params">(arg)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> arg * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func_b</span><span class="params">(arg)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> func_a(arg) - <span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
+<p>其中 func_b 调用了 func_a。</p>
+<p>单元测试里，我们希望每次只测试这个函数自身，也就是说，我们在测试 func_b 时，不希望 func_b 受到 func_a 的影响，我们最好能够假定 func_a 是正常运行的。</p>
+<p>这时就可以使用 patch</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test_arithmetic.py</span></span><br><span class="line"><span class="keyword">import</span> arithmetic </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func_a</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">assert</span> arithmetic.func_a(<span class="number">2</span>) == <span class="number">4</span></span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func_b_unit</span><span class="params">(mocker)</span>:</span></span><br><span class="line">  mock_func_a = mocker.patch(<span class="string">'arithmetic.func_a'</span>)</span><br><span class="line">  mock_func_a.return_value = <span class="number">4</span></span><br><span class="line">  result = arithmetic.func_b(<span class="number">2</span>)</span><br><span class="line">  expected = <span class="number">3</span></span><br><span class="line">  mock_func_a.assert_called_with(<span class="number">2</span>) </span><br><span class="line">  <span class="keyword">assert</span> result == expected</span><br></pre></td></tr></tbody></table></figure>
+<p>第12行能证明 func_a 被成功“调用”，且参数是 2。但我们并没有真正使用 func_a。这里的关键点是，需要 <code>import arithmetic</code>，不能<code>from arithmetic import *</code>。原因嘛，估计跟 patch 的 API 有关，我先不管了。</p>
+<p>如果不喜欢使用 pytest-mocker，可以用 <code>mock.patch</code> 来写测试：<br></p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@patch('arithmetic.func_a')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func_b_unit</span><span class="params">(mock_func_a)</span>:</span></span><br><span class="line">  mock_func_a.return_value = <span class="number">4</span></span><br><span class="line">  result = arithmetic.func_b(<span class="number">2</span>)</span><br><span class="line">  expected = <span class="number">3</span></span><br><span class="line">  <span class="keyword">assert</span> result == expected</span><br><span class="line">  mock_func_a.assert_called_with(<span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure><p></p>
+<p>上面这个测试真正的单元测试。下面是一个虚假的单元测试，因为 func_b 的测试结果依赖于 func_a。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> arithmetic </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func_a</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">assert</span> arithmetic.func_a(<span class="number">2</span>) == <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func_b</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">assert</span> arithmetic.func_b(<span class="number">2</span>) == <span class="number">3</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="更多阅读"><a href="#更多阅读" class="headerlink" title="更多阅读"></a>更多阅读</h2><ul>
+<li><a href="https://docs.python.org/3/library/unittest.mock.html" target="_blank" rel="noopener">unittest.mock — mock object library</a></li>
+<li><a href="https://realpython.com/python-mock-library/" target="_blank" rel="noopener">Understanding the Python Mock Object Library</a></li>
+<li><a href="https://github.com/pytest-dev/pytest-mock" target="_blank" rel="noopener">pytest-mock</a></li>
+</ul>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/Python/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>Python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/blog/tags/TDD/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>TDD</p></a></div>
+
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/blog/2020/01/20/ds-5-beware-of-mean/" rel="prev" title="小心均值">
+                                
+                                    小心均值
+                                
+                              </a>
+                          </h4>
+                          
+                      </span>
+                  </section>
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/blog/2019/11/30/dev-2-pytest-1/" rel="prev" title="Pytest 的项目结构">
+                                  
+                                      Pytest 的项目结构
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/blog/tags/Python/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> Python</a> <a class="tag" href="/blog/tags/TDD/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> TDD</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '在 pytest 里使用 mock',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mock-是什么"><span class="toc-text">mock 是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python-的-mock-library"><span class="toc-text">Python 的 mock library</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-patch"><span class="toc-text">使用 patch</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pytest-mock"><span class="toc-text">pytest-mock</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一个例子"><span class="toc-text">一个例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更多阅读"><span class="toc-text">更多阅读</span></a></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/blog/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/blog/js/app.js"></script>
+
+
+
+  
+<script src="/blog/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
