@@ -14,7 +14,6 @@ tags:
 - Promise 的 constructor methods
 - Promise 的 prototype methods
 
-
 <!-- more -->
 
 ## Promise 的原理
